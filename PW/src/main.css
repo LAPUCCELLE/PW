@@ -85,3 +85,7 @@ a {
 .button_span {
     padding: 2px;
 }
+
+.container {
+    position: fixed;
+}
