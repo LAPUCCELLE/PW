@@ -1,0 +1,73 @@
+/* Estilos generales */
+.carrito {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Asegura que el contenedor ocupe toda la altura de la ventana */
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  color: #333;
+}
+
+/* Encabezado */
+.carrito-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 10px;
+}
+
+.carrito-logo {
+  height: 50px;
+}
+
+.carrito-title {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+/* Contenido principal */
+.carrito-main {
+  text-align: center;
+  margin-top: 50px;
+  flex: 1; /* Hace que el contenido principal ocupe el espacio disponible */
+}
+
+.carrito-empty-title {
+  font-size: 20px;
+  color: #555;
+}
+
+.carrito-empty-text {
+  font-size: 16px;
+  color: #777;
+  margin: 10px 0;
+}
+
+.carrito-button {
+  background-color: #000;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  border-radius: 5px;
+}
+
+.carrito-button:hover {
+  background-color: #444;
+}
+
+/* Footer */
+.carrito-footer {
+  margin-top: auto; /* Empuja el pie de página hacia abajo */
+  font-size: 14px;
+  color: #999;
+  text-align: center;
+  padding-top: 20px;
+  border-top: 1px solid #ccc;
+}
+
+.carrito-path span {
+  font-weight: bold;
+}
