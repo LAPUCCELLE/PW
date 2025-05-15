@@ -30,7 +30,7 @@ html, body {
 
 .overlay_text {
     font-size: 2.70rem;
-    font-family: 'Crimson Pro' , sans-serif;
+    font-family: sans-serif;
     text-transform: uppercase;
     color: #fff;
     transform: scaleX(1.25);
