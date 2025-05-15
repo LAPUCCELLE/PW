@@ -1,8 +1,12 @@
 import React from 'react';
 import {Outlet, Link } from 'react-router-dom';
+import { useProductos } from "../hooks/useProductos";
 import "../mujer.css"
 
+
 const Mujer = () => {
+    const productos = useProductos();
+    const mujer = productos.filter(p => p.categoria === "mujer");
     return (
         <>
         <main>
@@ -25,6 +29,27 @@ const Mujer = () => {
                     <Link to="" className="link_infocard1">
                         <img id="img_infocard2" alt="Move softly" loading="lazy" width="768" height="960" decoding="async" className="section_image__EtgEj" srcSet="https://hmperu.vtexassets.com/unsafe/768x0/center/middle/https%3A%2F%2Fhmperu.vtexassets.com%2Fassets%2Fvtex.file-manager-graphql%2Fimages%2Fa8125d5a-5692-408b-94c0-4d7f4b47475f___8fd158da4df38e5bc6df051e92362659.jpg 1x,https://hmperu.vtexassets.com/unsafe/1440x0/center/middle/https%3A%2F%2Fhmperu.vtexassets.com%2Fassets%2Fvtex.file-manager-graphql%2Fimages%2Fa8125d5a-5692-408b-94c0-4d7f4b47475f___8fd158da4df38e5bc6df051e92362659.jpg 2x" src="https://hmperu.vtexassets.com/unsafe/1440x0/center/middle/https%3A%2F%2Fhmperu.vtexassets.com%2Fassets%2Fvtex.file-manager-graphql%2Fimages%2Fa8125d5a-5692-408b-94c0-4d7f4b47475f___8fd158da4df38e5bc6df051e92362659.jpg" style={{ color: "transparent" }}/>
                     </Link>
+                </div>
+            </div>
+            <div>
+                <div className="section_header_tittle">
+                    <h4 id='h4'>NOVEDADES</h4>
+                    <Link to="" className="ver_todo_button">VER TODO</Link>
+                </div>
+                <div className="section_product_shelf_container">
+                    <section className="section_product_shelf_layout">
+                        <ul className="product_grid">
+                            {mujer.map(producto => (
+                                <li key={producto.id}>
+                                    <Link to={`/producto/${producto.id}`}>
+                                        <img src={producto.imagen} alt={producto.nombre} />
+                                        <p>{producto.nombre}</p>
+                                        <span>S/ {producto.precio}</span>
+                                    </Link>
+                                </li>
+                            ))}
+                        </ul>
+                    </section>
                 </div>
             </div>
         </main>
