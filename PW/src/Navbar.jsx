@@ -18,7 +18,6 @@ const Navbar = () => {
                             <li><Link to="/hombre" className="nav_link">hombre</Link></li>
                             <li><Link to="/ninos" className="nav_link">niños</Link></li>
                             <li><Link to="/home" className="nav_link">home</Link></li>
-                            <li><Link to="/login" className="nav_link">login</Link></li>
                         </ul>
                     </div>
                     <div className="right">

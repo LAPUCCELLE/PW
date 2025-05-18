@@ -6,7 +6,7 @@ html, body {
 }
 
 #img_media {
-    width: 100%;
+    width: 100vw;
     height: auto;
     margin-top: 130px;
     display: block;
