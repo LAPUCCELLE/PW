@@ -18,6 +18,7 @@ const Navbar = () => {
                             <li><Link to="/hombre" className="nav_link">hombre</Link></li>
                             <li><Link to="/ninos" className="nav_link">niños</Link></li>
                             <li><Link to="/home" className="nav_link">home</Link></li>
+                            <li><Link to="/login" className="nav_link">login</Link></li>
                         </ul>
                     </div>
                     <div className="right">
@@ -29,15 +30,7 @@ const Navbar = () => {
                         </button>
                         <Link to="/login" id="button" className="button_container">
                             <span className="button_span">
-                                <svg
-                                role="img"
-                                aria-hidden="true"
-                                focusable="false"
-                                viewBox="0 0 24 24"
-                                xmlns="http://www.w3.org/2000/svg"
-                                height="20"
-                                width="20"
-                                >
+                                <svg role="img" aria-hidden="true"focusable="false" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" height="20"width="20">
                                     <path
                                         fillRule="evenodd"
                                         d="M16.75 6.25a4.75 4.75 0 1 1-9.5 0 4.75 4.75 0 0 1 9.5 0Z
