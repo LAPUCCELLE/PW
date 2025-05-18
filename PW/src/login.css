@@ -1,0 +1,124 @@
+.login-contenedor {
+  display: flex;
+  min-height: 100vh;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.left-login {
+  flex: 1;
+  background-color:hsl(351, 100%, 95%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.left-login img {
+  position: absolute;
+  max-width: 100%;
+  height: auto;
+  object-fit: contain;
+  margin-top: 170px;
+  margin-left: -100px;
+}
+
+.right-login {
+  flex: 1;
+  background-color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem;
+}
+
+.login-marco {
+  margin-top: 120px;
+  width: 100%;
+  max-width: 400px;
+  background: white;
+  padding: 2rem;
+  border-radius: 40px;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+  
+}
+
+.login-titulo {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.login-titulo h1 {
+  font-size: 1.8rem;
+  font-weight: 400;
+}
+.login-titulo p {
+  font-size: 0.9rem;
+  font-weight: 400;
+  margin-top: 10px;
+  color: #6b6b6b;
+}
+form input {
+  width: 100%;
+  padding: 12px;
+  margin-top: 0.5rem;
+  margin-bottom: 1.2rem;
+  border: 2px solid #e6e6e691;
+  border-radius: 10px;
+  font-size: 1rem;
+  box-sizing: border-box;
+  box-shadow: 2px 5px 4px rgba(0, 0, 0, 0.020);
+  transition: border 0.2s ease;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #343434;
+}
+input:focus {
+  transform: scale(1.01);
+  border: 2px solid #d4153567;
+  outline: none;
+}
+form button#submit {
+  width: 100%;
+  padding: 12px;
+  background-color: #d41536;
+  color: white;
+  border: none;
+  margin-top: 15px;
+  border-radius: 10px;
+  font-size: 1rem;
+  cursor: pointer;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  text-transform: none;
+}
+
+form button#submit:hover {
+  background-color: #b9122e;
+}
+
+.footer-linea {
+  border: none;
+  border-top: 1px solid #eee;
+  margin: 1.5rem 0;
+}
+
+.link-register {
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+.link-register a {
+  color: #d41536;
+  text-decoration: none;
+  font-size: 14px;
+}
+.link-password {
+  text-align: right;
+  font-size: 0.9rem;
+}
+.link-password a {
+  color: #d41536;
+  text-decoration: none;
+  font-size: 14px;
+}
+.login-marco-register{
+  margin-top:100px;
+}
