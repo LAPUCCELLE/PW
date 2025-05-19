@@ -5,8 +5,9 @@ import "../mujer.css"
 
 
 const Mujer = () => {
-    const productos = useProductos();
+    const productos = useProductos();   
     const mujer = productos.filter(p => p.categoria === "mujer");
+    console.log("IDs de productos:", productos.map(p => p.id));
     return (
         <>
         <main>

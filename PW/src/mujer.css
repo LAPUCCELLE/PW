@@ -3,10 +3,11 @@ html, body {
     width: 100%;
     margin: 0;
     padding: 0;
+    overflow-x: hidden;
 }
 
 #img_media {
-    width: 100vw;
+    width: 100%;
     height: auto;
     margin-top: 130px;
     display: block;
@@ -57,7 +58,7 @@ html, body {
 
 .section_infocard_container {
     display: flex;
-    width: 100vw;
+    width: 100%;
 }
 
 .section_infocard_container img {
