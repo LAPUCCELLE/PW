@@ -1,4 +1,4 @@
-const productos = [
+const productosMujer = [
     {
         id: "PROD-1001",
         nombre: "Camisa de satín",
@@ -110,4 +110,4 @@ const productos = [
 
 ]
 
-export default productos;
+export default productosMujer;
