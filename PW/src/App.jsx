@@ -4,7 +4,9 @@ import Layout from "./Layout";
 import Mujer from './pages/Mujer';
 import Login from './pages/Login';
 import Register from './pages/Register';
-import Carrito from './pages/Carrito'; 
+import Hombre from './pages/Hombre';
+import Ninos from "./pages/Ninos";
+
 
 const App = () => {
   return (
@@ -13,7 +15,8 @@ const App = () => {
         <Route path="mujer" element={<Mujer />} />
         <Route path="login" element={<Login />} />
         <Route path="register" element={<Register />} />
-        <Route path="carrito" element={<Carrito />} />
+        <Route path="hombre" element={<Hombre />}/>
+        <Route path="ninos" element={<Ninos />}/>
       </Route>
     </Routes>
   );
