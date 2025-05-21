@@ -1,9 +1,7 @@
 import { useEffect, useState } from "react";
 import productosMujer from "../data/productosMujer";
-import productosHombre from "../data/productosHombre";
-import productosNino from "../data/productosNino";
 
-const productosBase = [...productosMujer, ...productosHombre, ...productosNino];
+const productosBase = [...productosMujer];
 
 export function useProductos(categoria) {
     const [productos, setProductos] = useState([])
