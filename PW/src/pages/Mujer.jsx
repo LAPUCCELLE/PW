@@ -1,7 +1,7 @@
 import React from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import {Outlet, Link } from 'react-router-dom';
-import { useProductos } from "../hooks/useProductos";
+import UseProductos from "../hooks/useProductos";
 import 'swiper/css';
 import 'swiper/css/pagination';
 import "../mujer.css"
@@ -10,9 +10,10 @@ import getSwiperSettings from '../data/getSwipperSettings';
 
 const Mujer = () => {
     
-    const productos = useProductos();   
+    const productos = UseProductos();   
     const mujer = productos.filter(p => p.categoria === "mujer");
     console.log("IDs de productos:", productos.map(p => p.id));
+    if (!productos.length) return <p>Cargando productos...</p>;
     return (
         <>
         <main>
@@ -49,7 +50,7 @@ const Mujer = () => {
                                 <div className="product_grid_item">
                                     <Link to={`/producto/${producto.id}`}>
                                         <div className="image-wrapper">
-                                            <img src={producto.imagen} alt={producto.nombre} />
+                                            <img src={producto.imagenMain} alt={producto.nombre} />
                                         </div>
                                         <p>{producto.nombre}</p>
                                         <span>S/ {producto.precio}</span>

@@ -4,6 +4,7 @@ import Layout from "./Layout";
 import Mujer from './pages/Mujer';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import Producto from "./pages/Producto";
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
 
@@ -15,6 +16,7 @@ const App = () => {
         <Route path="mujer" element={<Mujer />} />
         <Route path="login" element={<Login />} />
         <Route path="register" element={<Register />} />
+        <Route path="/producto/:id" element={<Producto />} />
       </Route>
     </Routes>
   );

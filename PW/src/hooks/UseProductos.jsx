@@ -3,7 +3,7 @@ import productosMujer from "../data/productosMujer";
 
 const productosBase = [...productosMujer];
 
-export function useProductos(categoria) {
+const UseProductos = (categoria) => {
     const [productos, setProductos] = useState([])
     useEffect(() => {
         if (categoria) {
@@ -34,3 +34,5 @@ export function useProductos(categoria) {
     
     return productos;
 };
+
+export default UseProductos;
