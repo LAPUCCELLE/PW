@@ -1,0 +1,38 @@
+.admin-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 30px;
+  background-color: #ffffff;
+  border-bottom: 1px solid #ccc;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.admin-header__logo img {
+  height: 40px;
+}
+
+.admin-header__nav {
+  display: flex;
+  gap: 20px;
+}
+
+.admin-nav__link {
+  text-decoration: none;
+  color: #111;
+  font-weight: 500;
+  font-size: 16px;
+  transition: color 0.3s ease;
+  border-bottom: 2px solid transparent;
+  padding-bottom: 4px;
+}
+
+.admin-nav__link:hover {
+  color: #c60000;
+  border-bottom: 2px solid #c60000;
+}
+
+.admin-nav__link.active {
+  color: #c60000;
+  border-bottom: 2px solid #c60000;
+}
