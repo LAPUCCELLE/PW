@@ -4,7 +4,8 @@ import Layout from "./Layout";
 import Mujer from './pages/Mujer';
 import Login from './pages/Login';
 import Register from './pages/Register';
-
+import Contraseña from './pages/Contraseña';
+import Confirmacion from "./pages/Confirmacion";
 
 const App = () => {
   return (
@@ -13,6 +14,8 @@ const App = () => {
         <Route path="mujer" element={<Mujer />} />
         <Route path="login" element={<Login />} />
         <Route path="register" element={<Register />} />
+        <Route path="contraseña" element={<Contraseña />} />
+        <Route path="confirmacion" element={<Confirmacion />} />
       </Route>
     </Routes>
   );

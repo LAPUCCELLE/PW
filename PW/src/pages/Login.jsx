@@ -15,7 +15,7 @@ const Login = () => {
               </div>
                 <form>
                   <label for="email">Correo Electrónico *</label><br/>
-                  <input type="email" id="email" name="email" placeholder="correo@ejemplo.com" required /><br/>
+                  <input type="email" id="email" name="email" placeholder="correo@ejemplo.com" autoFocus required/><br/>
                   <label for="password">Contraseña *</label><br/>
                   <input type="password" id="password" name="password" placeholder="••••••••" required /><br/>
                   <div className="link-password">

@@ -16,7 +16,7 @@ const Register = () => {
                       </div>
                         <form>
                           <label for="nombre">Nombre </label><br/>
-                          <input type="nombre" id="nombre" name="nombre" placeholder="Tu nombre" required /><br/>
+                          <input type="nombre" id="nombre" name="nombre" placeholder="Tu nombre" autoFocus required /><br/>
                           <label for="email">Correo Electrónico</label><br/>
                           <input type="email" id="email" name="email" placeholder="Tu correo" required /><br/>
                           <label for="password">Contraseña</label><br/>
