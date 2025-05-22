@@ -1,18 +1,36 @@
 import { useEffect, useState } from "react";
-import productosBase from "../data/productos";
+import productosMujer from "../data/productosMujer";
 
-export function useProductos() {
+const productosBase = [...productosMujer];
+
+export function useProductos(categoria) {
     const [productos, setProductos] = useState([])
-
     useEffect(() => {
-        const datos = localStorage.getItem("productos")
+        if (categoria) {
+            localStorage.getItem("categoriaSeleccionada", categoria);
+        }
+        
+        const datos = localStorage.getItem("productos");
+        let data = productosBase;
+
         if (datos) {
-            setProductos(JSON.parse(datos))
+            const dataParseada = JSON.parse(datos);
+            const ids = new Set(dataParseada.map(p => p.id));
+            if (ids.size === productosBase.length) {
+                data = dataParseada;
+            } else {
+                localStorage.setItem("productos", JSON.stringify(productosBase));
+            } 
         } else {
             localStorage.setItem("productos", JSON.stringify(productosBase))
-            setProductos(productosBase)
         }
-    }, [])
+
+        const filtrados = categoria
+            ? data.filter(p => p.categoria === categoria)
+            : data;
+
+        setProductos(filtrados);
+    }, [categoria]);
     
-    return productos
+    return productos;
 };

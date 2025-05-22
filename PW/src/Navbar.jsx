@@ -11,13 +11,10 @@ const Navbar = () => {
                 </div>
                 <div className="navbar_content">
                     <div className="left">
-                        <img className="logo_marca" src="https://hmperu.vtexassets.com/assets/vtex.file-manager-graphql/images/d0e454f7-81d9-41e2-a306-f8f41c804a7c___d81e534ae8621b10d58c605eba2fcdf5.webp" alt="Logo de la tienda" loading="lazy"/>
+                        <Link to=""><img className="logo_marca" src="https://hmperu.vtexassets.com/assets/vtex.file-manager-graphql/images/d0e454f7-81d9-41e2-a306-f8f41c804a7c___d81e534ae8621b10d58c605eba2fcdf5.webp" alt="Logo de la tienda" loading="lazy"/></Link>
                         <ul>
                             <li><Link to="" className="nav_link">=</Link></li>
                             <li><Link to="/mujer" className="nav_link">mujer</Link></li>
-                            <li><Link to="/hombre" className="nav_link">hombre</Link></li>
-                            <li><Link to="/ninos" className="nav_link">niños</Link></li>
-                            <li><Link to="/home" className="nav_link">home</Link></li>
                         </ul>
                     </div>
                     <div className="right">
@@ -29,15 +26,7 @@ const Navbar = () => {
                         </button>
                         <Link to="/login" id="button" className="button_container">
                             <span className="button_span">
-                                <svg
-                                role="img"
-                                aria-hidden="true"
-                                focusable="false"
-                                viewBox="0 0 24 24"
-                                xmlns="http://www.w3.org/2000/svg"
-                                height="20"
-                                width="20"
-                                >
+                                <svg role="img" aria-hidden="true"focusable="false" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" height="20"width="20">
                                     <path
                                         fillRule="evenodd"
                                         d="M16.75 6.25a4.75 4.75 0 1 1-9.5 0 4.75 4.75 0 0 1 9.5 0Z

@@ -6,6 +6,9 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import Contraseña from './pages/Contraseña';
 import Confirmacion from "./pages/Confirmacion";
+import "slick-carousel/slick/slick.css"; 
+import "slick-carousel/slick/slick-theme.css";
+
 
 const App = () => {
   return (

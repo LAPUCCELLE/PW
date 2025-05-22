@@ -1,12 +1,18 @@
 import React from 'react';
+import { Swiper, SwiperSlide } from 'swiper/react';
 import {Outlet, Link } from 'react-router-dom';
 import { useProductos } from "../hooks/useProductos";
+import 'swiper/css';
+import 'swiper/css/pagination';
 import "../mujer.css"
+import getSwiperSettings from '../data/getSwipperSettings';
 
 
 const Mujer = () => {
-    const productos = useProductos();
+    
+    const productos = useProductos();   
     const mujer = productos.filter(p => p.categoria === "mujer");
+    console.log("IDs de productos:", productos.map(p => p.id));
     return (
         <>
         <main>
@@ -37,19 +43,21 @@ const Mujer = () => {
                     <Link to="" className="ver_todo_button">VER TODO</Link>
                 </div>
                 <div className="section_product_shelf_container">
-                    <section className="section_product_shelf_layout">
-                        <ul className="product_grid">
-                            {mujer.map(producto => (
-                                <li key={producto.id}>
+                    <Swiper {...getSwiperSettings()}>
+                        {mujer.map(producto => (
+                            <SwiperSlide key = {producto.id}>
+                                <div className="product_grid_item">
                                     <Link to={`/producto/${producto.id}`}>
-                                        <img src={producto.imagen} alt={producto.nombre} />
+                                        <div className="image-wrapper">
+                                            <img src={producto.imagen} alt={producto.nombre} />
+                                        </div>
                                         <p>{producto.nombre}</p>
                                         <span>S/ {producto.precio}</span>
                                     </Link>
-                                </li>
-                            ))}
-                        </ul>
-                    </section>
+                                </div>
+                            </SwiperSlide>
+                        ))}
+                    </Swiper>
                 </div>
             </div>
         </main>
