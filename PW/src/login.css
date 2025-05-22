@@ -122,3 +122,38 @@ form button#submit:hover {
 .login-marco-register{
   margin-top:100px;
 }
+
+.btn-contenedor{
+  text-align: center;
+  background-color: #353535;
+  color: rgb(255, 255, 255);
+  border-radius: 10px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.1s ease;
+  margin-top: 5px;
+  border: none;
+  padding: 12px;
+}
+
+.confirmar{
+  background-color: #d41536;
+}
+
+.confirmar:hover{
+  background-color: #b9122e;
+}
+
+.confirmar{
+  background-color: #d41536;
+}
+
+.atras:hover {
+  background-color: #222222;
+}
+
+.btn-contenedor p{
+  margin-top: -2px;
+}
+
+
