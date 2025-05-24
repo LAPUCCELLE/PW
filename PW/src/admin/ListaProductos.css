@@ -1,0 +1,43 @@
+.lista-productos {
+  padding: 2rem;
+  font-family: 'Arial', sans-serif;
+}
+
+.lista-productos h2 {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+  color: #111;
+}
+
+.lista-productos table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.lista-productos th, .lista-productos td {
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+}
+
+.lista-productos th {
+  background-color: #f6f6f6;
+  font-weight: bold;
+}
+
+.edit-btn {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  color: #333;
+  transition: color 0.3s;
+}
+
+.edit-btn:hover {
+  color: #e60023; /* rojo estilo H&M */
+}
