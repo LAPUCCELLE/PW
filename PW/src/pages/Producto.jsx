@@ -16,11 +16,16 @@ const Producto = () => {
         producto.imagen3
     ].filter(Boolean);
 
+    // 🔧 Arreglamos las tallas aquí:
+    const tallas = typeof producto.talla === 'string'
+        ? producto.talla.split(',').map(t => t.trim()).filter(Boolean)
+        : Array.isArray(producto.talla) ? producto.talla : [];
+
     return (
         <div className="producto_detalle_hm">
             <div className="galeria_columnas">
                 {imagenes.map((img, index) => (
-                <img key={index} src={img} alt={`Vista ${index + 1}`} />
+                    <img key={index} src={img} alt={`Vista ${index + 1}`} />
                 ))}
             </div>
 
@@ -40,9 +45,13 @@ const Producto = () => {
                     <div className="bloque_tallas">
                         <p className="titulo_seccion">TALLA MUJER</p>
                         <div className="tallas">
-                            {producto.talla.map((talla, idx) => (
-                                <button key={idx}>{talla}</button>
-                            ))}
+                            {tallas.length > 0 ? (
+                                tallas.map((talla, idx) => (
+                                    <button key={idx}>{talla}</button>
+                                ))
+                            ) : (
+                                <p>No hay tallas disponibles</p>
+                            )}
                         </div>
                         <p className="guia_tallas">GUÍA DE TALLAS</p>
                     </div>
@@ -54,7 +63,7 @@ const Producto = () => {
                 </div>
             </div>
         </div>
-    )
+    );
 };
 
 export default Producto;

@@ -11,6 +11,8 @@ import AdminLayout from "./admin/AdminLayout";
 import Dashboard from "./admin/Dashboard";
 import ListaProductos from "./admin/ListaProductos";
 import AgregarProducto from "./admin/AgregarProducto";
+import EditarProducto from "./admin/EditarProducto";
+import DetalleProducto from "./admin/DetalleProducto";
 import OrderList from "./admin/OrderList";
 import OrderDetail from "./admin/OrderDetail";
 import UserList from "./admin/UserList";
@@ -31,10 +33,12 @@ const App = () => {
       </Route>
 
       <Route path="/admin" element={<AdminLayout />}>
-        <Route index element={<Dashboard />} />
-        <Route path="lista" element={<ListaProductos />}>
-          <Route path="agregar" element={<AgregarProducto />} />
-        </Route>
+        <Route index element={<Dashboard/>} />
+        <Route path="lista" element={<ListaProductos />}/>
+        <Route path="agregar" element={<AgregarProducto />} />
+        <Route path="editar/:id" element={<EditarProducto/>}/>
+        <Route path="detalle/:id" element={<DetalleProducto/>}/>
+
         <Route path="orders" element={<OrderList />} />
         <Route path="orders/:id" element={<OrderDetail />} />
         <Route path="users" element={<UserList />} />
