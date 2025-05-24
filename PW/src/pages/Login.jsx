@@ -2,8 +2,29 @@
 import React from "react";
 import {Outlet, Link } from 'react-router-dom';
 import "../login.css"
+import usuarios from "../data/usuarios";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 const Login = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+
+  const manejarLogin = (e) => {
+    e.preventDefault();
+
+    const usuario = usuarios.find(
+      (u) => u.correo === email && u.password === password
+    );
+
+    if (usuario) {
+      localStorage.setItem("usuarioLogueado", "true");
+      window.location.href = "/";
+    }else {
+      alert("Correo o contraseña incorrectos");
+    }
+  };
   return (
         <div className="login-contenedor">
           <div className='left-login'>
@@ -14,11 +35,11 @@ const Login = () => {
               <div className="login-titulo">
                 <h1>Iniciar Sesión</h1>
               </div>
-                <form>
+                <form onSubmit={manejarLogin}>
                   <label for="email">Correo Electrónico *</label><br/>
-                  <input type="email" id="email" name="email" placeholder="correo@ejemplo.com" autoFocus required/><br/>
+                  <input type="email" id="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="correo@ejemplo.com" autoFocus required/><br/>
                   <label for="password">Contraseña *</label><br/>
-                  <input type="password" id="password" name="password" placeholder="••••••••" required /><br/>
+                  <input type="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="••••••••" required /><br/>
                   <div className="link-password">
                     <Link to="/contraseña">¿Has olvidado tu contraseña?</Link>
                   </div>
