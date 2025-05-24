@@ -1,34 +1,51 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Outlet } from "react-router-dom";
 import './ListaProductos.css';
 
 const ListaProductos = () => {
   const [productos, setProductos] = useState([]);
+  const [busqueda, setBusqueda] = useState('');
+  const [productosFiltrados, setProductosFiltrados] = useState([]);
 
   useEffect(() => {
     const storedProductos = localStorage.getItem('productos');
     if (storedProductos) {
-      setProductos(JSON.parse(storedProductos));
+      const data = JSON.parse(storedProductos);
+      setProductos(data);
+      setProductosFiltrados(data);
     }
   }, []);
 
   const handleEliminar = (id) => {
     const nuevosProductos = productos.filter((producto) => producto.id !== id);
     setProductos(nuevosProductos);
+    setProductosFiltrados(nuevosProductos);
     localStorage.setItem('productos', JSON.stringify(nuevosProductos));
   };
 
-  const handleEditar = (id) => {
-    // Puedes redirigir a una ruta tipo `/admin/editar/${id}`
-    // o simplemente mostrar un alert por ahora:
-    alert(`Función de editar pendiente para el producto con ID: ${id}`);
+  const handleBusqueda = (e) => {
+    const valor = e.target.value.toLowerCase();
+    setBusqueda(valor);
+
+    const filtrados = productos.filter((p) =>
+      p.nombre.toLowerCase().includes(valor) || p.id.toLowerCase().includes(valor)
+    );
+    setProductosFiltrados(filtrados);
   };
 
   return (
     <div className="lista-productos">
       <h2>Lista de Productos</h2>
-      <Link to="/admin/agregar" className="btn-agregar">Agregar Producto</Link>
+      <div className="barra-busqueda">
+        <input
+          type="text"
+          placeholder="Buscar por nombre o ID"
+          value={busqueda}
+          onChange={handleBusqueda}
+        />
+        <Link to="/admin/agregar" className="btn-agregar">Agregar Producto</Link>
+      </div>
+
       <table>
         <thead>
           <tr>
@@ -40,21 +57,24 @@ const ListaProductos = () => {
           </tr>
         </thead>
         <tbody>
-          {productos.map((producto) => (
+          {productosFiltrados.map((producto) => (
             <tr key={producto.id}>
-              <td><img src={producto.imagenMain} alt={producto.nombre} width="50" /></td>
+              <td>
+                <Link to={`/admin/detalle/${producto.id}`}>
+                  <img src={producto.imagenMain} alt={producto.nombre} width="50" />
+                </Link>
+              </td>
               <td>{producto.nombre}</td>
               <td>S/ {producto.precio}</td>
               <td>{producto.categoria}</td>
               <td>
-                <button onClick={() => handleEditar(producto.id)}>✏️</button>
-                <button onClick={() => handleEliminar(producto.id)}>🗑️</button>
+                <Link to={`/admin/editar/${producto.id}`} className="edit-btn">✏️</Link>
+                <button onClick={() => handleEliminar(producto.id)} className="edit-btn">🗑️</button>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
-      <Outlet />
     </div>
   );
 };

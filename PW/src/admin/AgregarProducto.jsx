@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Outlet } from "react-router-dom";
+import React, { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import './AgregarProducto.css';
 
 function AgregarProducto() {
@@ -19,6 +18,17 @@ function AgregarProducto() {
   });
 
   const navigate = useNavigate();
+  const { id } = useParams();
+
+  useEffect(() => {
+    if (id) {
+      const productosGuardados = JSON.parse(localStorage.getItem('productos')) || [];
+      const productoExistente = productosGuardados.find(p => p.id === id);
+      if (productoExistente) {
+        setProducto(productoExistente);
+      }
+    }
+  }, [id]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -28,14 +38,17 @@ function AgregarProducto() {
   const handleSubmit = (e) => {
     e.preventDefault();
     const productosGuardados = JSON.parse(localStorage.getItem('productos')) || [];
-    const nuevosProductos = [...productosGuardados, producto];
+
+    // Eliminar si ya existía el ID (para evitar duplicados)
+    const filtrados = productosGuardados.filter(p => p.id !== producto.id);
+    const nuevosProductos = [...filtrados, producto];
     localStorage.setItem('productos', JSON.stringify(nuevosProductos));
-    navigate('/admin'); 
+    navigate('/admin/lista');
   };
 
   return (
     <div className="form-container">
-      <h2>Agregar Producto</h2>
+      <h2>{id ? 'Editar Producto' : 'Agregar Producto'}</h2>
       <form onSubmit={handleSubmit}>
         {Object.keys(producto).map((key) => (
           <div className="form-group" key={key}>
@@ -46,14 +59,14 @@ function AgregarProducto() {
               value={producto[key]}
               onChange={handleChange}
               required
+              readOnly={key === 'id' && id}
             />
           </div>
         ))}
-        <button type="submit">Agregar</button>
+        <button type="submit">{id ? 'Guardar Cambios' : 'Agregar'}</button>
       </form>
-      <Outlet />
     </div>
   );
-};
+}
 
 export default AgregarProducto;
