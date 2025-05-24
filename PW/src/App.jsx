@@ -15,6 +15,7 @@ import OrderList from "./admin/OrderList";
 import OrderDetail from "./admin/OrderDetail";
 import UserList from "./admin/UserList";
 import UserDetail from "./admin/UserDetail";
+import Casacas from "./pages/Casacas";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
@@ -26,6 +27,7 @@ const App = () => {
         <Route path="login" element={<Login />} />
         <Route path="register" element={<Register />} />
         <Route path="/producto/:id" element={<Producto />} />
+        <Route path="/casacas" element={<Casacas />}/>
         <Route path="contraseña" element={<Contraseña />} />
         <Route path="confirmacion" element={<Confirmacion />} />
       </Route>
