@@ -16,7 +16,54 @@ const Navbar = () => {
     setUsuarioLogueado(false);
     setMenuAbierto(false); 
     };
+    const toggleMenu = () => setMenuAbierto(!menuAbierto);
+
     return (
+        <>
+            {menuAbierto && <div className="overlay" onClick={toggleMenu}></div>}
+
+            <div className={`menu_deslizante ${menuAbierto ? 'abierto' : ''}`}>
+                <div role="button" tabIndex="0" onClick={toggleMenu} className="cerrar_btn">X
+                    <div className="menu_top_links">
+                        <ul>
+                            <li><Link to="/mujer">Mujer</Link></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div className="menu_content">
+                    <div className="menu_left">
+                        <p className="menu_title">NOVEDADES<br />WINTER 2025</p>
+                        <ul>
+                            <li><Link to="/casacas">CASACAS Y ABRIGOS</Link></li>
+                            <li><Link to="/pantalones">POLOS Y CAMISAS</Link></li>
+                            <li><Link to="/zapatos">PANTALONES</Link></li>
+                            <li><Link to="/sport">ZAPATOS</Link></li>
+                        </ul>
+                    </div>
+
+                    <div className="menu_right">
+                        <div className="menu_img">
+                            <img src="https://hmperu.vtexassets.com/assets/vtex.file-manager-graphql/images/6cf023c1-d26c-47ca-b37d-18dd27a7259a___2fda5a91b1f5a348038a9e6f28179732.jpg" alt="Casacas y abrigos" width="190" height="285" loading="lazy" decoding="async" style={{ color: 'transparent' }}/>
+                            <p>CASACAS Y ABRIGOS<br /><small>VER TODO</small></p>
+                        </div>
+                        <div className="menu_img">
+                            <img alt="model-main" loading="lazy" width="190" height="285" decoding="async" src="https://hmperu.vtexassets.com/unsafe/768x0/center/middle/https%3A%2F%2Fhmperu.vtexassets.com%2Farquivos%2Fids%2F5133065%2FCamisa-denim-oversize---Negro---H-M-PE.jpg%3Fv%3D638803351379270000" srcSet="https://hmperu.vtexassets.com/unsafe/540x0/center/middle/https%3A%2F%2Fhmperu.vtexassets.com%2Farquivos%2Fids%2F5133065%2FCamisa-denim-oversize---Negro---H-M-PE.jpg%3Fv%3D638803351379270000 1x, https://hmperu.vtexassets.com/unsafe/768x0/center/middle/https%3A%2F%2Fhmperu.vtexassets.com%2Farquivos%2Fids%2F5133065%2FCamisa-denim-oversize---Negro---H-M-PE.jpg%3Fv%3D638803351379270000 2x" style={{ color: "transparent" }}/>
+                            <p>POLOS Y CAMISAS<br /><small>VER TODO</small></p>
+                        </div>
+                        <div className="menu_img">
+                            <img src="https://hmperu.vtexassets.com/assets/vtex.file-manager-graphql/images/bcc599ae-e8d9-47ff-8280-8bf7b3e5414e___3c7211ef0c52d433cda1d2f2af12ff53.jpg" alt="Pantalones" width="190" height="285" loading="lazy" decoding="async" style={{ color: 'transparent' }}/>
+                            <p>PANTALONES<br /><small>VER TODO</small></p>
+                        </div>
+                        <div className="menu_img">
+                            <img src="https://hmperu.vtexassets.com/unsafe/1440x0/center/middle/https%3A%2F%2Fhmperu.vtexassets.com%2Farquivos%2Fids%2F5177752%2FBotas-con-puntera-fina---Beige-oscuro---H-M-PE.jpg%3Fv%3D638803611956870000" srcSet=" https://hmperu.vtexassets.com/unsafe/768x0/center/middle/https%3A%2F%2Fhmperu.vtexassets.com%2Farquivos%2Fids%2F5177752%2FBotas-con-puntera-fina---Beige-oscuro---H-M-PE.jpg%3Fv%3D638803611956870000 1x https://hmperu.vtexassets.com/unsafe/1440x0/center/middle/https%3A%2F%2Fhmperu.vtexassets.com%2Farquivos%2Fids%2F5177752%2FBotas-con-puntera-fina---Beige-oscuro---H-M-PE.jpg%3Fv%3D638803611956870000 2x" width="190" height="285" alt="Zapatos"loading="lazy" decoding="async"style={{ color: "transparent" }}/>
+                            <p>ZAPATOS<br /><small>VER TODO</small></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
             <div className="nav_container">
                 <div className="section_promoBar_content">
                     <span className="section_promo_text">Hasta 60% en seleccion mujer</span>
@@ -26,7 +73,7 @@ const Navbar = () => {
                     <div className="left">
                         <Link to=""><img className="logo_marca" src="https://hmperu.vtexassets.com/assets/vtex.file-manager-graphql/images/d0e454f7-81d9-41e2-a306-f8f41c804a7c___d81e534ae8621b10d58c605eba2fcdf5.webp" alt="Logo de la tienda" loading="lazy"/></Link>
                         <ul>
-                            <li><Link to="" className="nav_link">=</Link></li>
+                            <li><button className="menu_btn" onClick={toggleMenu}>☰</button></li>
                             <li><Link to="/mujer" className="nav_link">mujer</Link></li>
                         </ul>
                     </div>
@@ -81,6 +128,8 @@ const Navbar = () => {
                     </div>
                 </div>
             </div>
+
+        </>
     )
 }
 

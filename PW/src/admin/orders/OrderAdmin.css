@@ -1,0 +1,63 @@
+/* OrderAdmin.css */
+
+.order-admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1.5rem;
+  margin-bottom: 2rem;
+  font-size: 1rem;
+}
+
+.order-admin-table th,
+.order-admin-table td {
+  border: 1px solid #e5e7eb;
+  padding: 0.75rem 2rem;
+  text-align: left;
+}
+
+.order-admin-table th {
+  background: #f1f5f9;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+.order-admin-table tr:nth-child(even) {
+  background: #f8fafc;
+}
+
+.order-detail-table tr:last-child td {
+  font-size: 1.1em;
+  color: #16a34a;
+  font-weight: bold;
+  background: #f5fff5;
+}
+
+.order-detail-container {
+  background: #fff;
+  padding: 2rem 3rem;
+  border-radius: 1rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  max-width: 550px;
+  margin: 2rem auto;
+}
+
+.order-detail-title {
+  font-size: 1.3rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.order-detail-row {
+  margin-bottom: 0.5rem;
+  
+}
+
+.order-detail-label {
+  font-weight: 600;
+  color: #22223b;
+}
+
+.order-detail-list {
+  margin: 0.5rem 0 1rem 1.5rem;
+  padding: 0;
+}

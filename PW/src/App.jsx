@@ -1,5 +1,5 @@
 import React from "react";
-import { Routes, Route} from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import Layout from "./Layout";
 import Mujer from './pages/Mujer';
 import Login from './pages/Login';
@@ -10,9 +10,16 @@ import Confirmacion from "./pages/Confirmacion";
 import AdminLayout from "./admin/AdminLayout";
 import Dashboard from "./admin/Dashboard";
 import ListaProductos from "./admin/ListaProductos";
-import "slick-carousel/slick/slick.css"; 
+import AgregarProducto from "./admin/AgregarProducto";
+import EditarProducto from "./admin/EditarProducto";
+import DetalleProducto from "./admin/DetalleProducto";
+import OrderList from "./admin/OrderList";
+import OrderDetail from "./admin/OrderDetail";
+import UserList from "./admin/UserList";
+import UserDetail from "./admin/UserDetail";
+import Casacas from "./pages/Casacas";
+import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-
 
 const App = () => {
   return (
@@ -22,16 +29,22 @@ const App = () => {
         <Route path="login" element={<Login />} />
         <Route path="register" element={<Register />} />
         <Route path="/producto/:id" element={<Producto />} />
+        <Route path="/casacas" element={<Casacas />}/>
         <Route path="contraseña" element={<Contraseña />} />
         <Route path="confirmacion" element={<Confirmacion />} />
       </Route>
 
       <Route path="/admin" element={<AdminLayout />}>
-        <Route index element = {<Dashboard />} />
-        <Route path="lista" element={<ListaProductos />} />
-        {/* Acá van los demás elementos para la parte de ADMIN*/}
+        <Route index element={<Dashboard/>} />
+        <Route path="lista" element={<ListaProductos />}/>
+        <Route path="agregar" element={<AgregarProducto />} />
+        <Route path="editar/:id" element={<EditarProducto/>}/>
+        <Route path="detalle/:id" element={<DetalleProducto/>}/>
 
-        
+        <Route path="orders" element={<OrderList />} />
+        <Route path="orders/:id" element={<OrderDetail />} />
+        <Route path="users" element={<UserList />} />
+        <Route path="users/:id" element={<UserDetail />} />
       </Route>
     </Routes>
   );

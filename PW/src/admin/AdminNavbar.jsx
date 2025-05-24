@@ -1,29 +1,29 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
-import logo from '../assets/h&m-logo.png'; 
+import { useNavigate } from 'react-router-dom';
 import './AdminNavbar.css';
+import logo from '../assets/h&m-logo.png'; 
 
 function AdminNavbar() {
+  const navigate = useNavigate();
+
   return (
-    <header className="admin-header">
-      <div className="admin-header__logo">
-        <NavLink to="/admin">
-          <img src={logo} alt="H&M Admin" />
-        </NavLink>
+    <nav className="admin-navbar">
+      <div className="logo-container" onClick={() => navigate('/admin')}>
+        <img src={logo} alt="H&M Logo" className="hm-logo" />
       </div>
-      <nav className="admin-header__nav">
-        <NavLink
-          to="/admin/lista"
-          className={({ isActive }) =>
-            isActive ? 'admin-nav__link active' : 'admin-nav__link'
-          }
-        >
+      <div className="nav-links">
+        <button onClick={() => navigate('/admin/lista')}>
           Lista de Productos
-        </NavLink>
-      </nav>
-    </header>
+        </button>
+        <button onClick={() => navigate('/admin/orders')}>
+          Lista de Órdenes
+        </button>
+        <button onClick={() => navigate('/admin/users')}>
+          Lista de Usuarios
+        </button>
+      </div>
+    </nav>
   );
 };
-
 
 export default AdminNavbar;
