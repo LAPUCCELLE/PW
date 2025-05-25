@@ -1,4 +1,5 @@
 
+
 @font-face {
     font-family: 'HM Slussen';
     src: url('./fonts/HMSlussen-Regular.woff2') format('woff2');
@@ -307,3 +308,98 @@ a {
     line-height: 1.2;
 }
 
+.cart-icon-wrapper {
+    display: inline-block;
+    position: relative;
+}
+
+.icon_button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    position: relative;
+}
+
+.carrito-contador {
+    position: absolute;
+    top: -6px;
+    right: -6px;
+    background: #ff5a36;
+    color: #fff;
+    border-radius: 50%;
+    padding: 2px 7px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.cart-popup {
+    position: absolute;
+    top: 35px;
+    right: 0;
+    z-index: 100;
+}
+
+.cart-popup-content {
+    padding: 20px;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    min-width: 320px;
+}
+
+.cart-popup-title {
+    font-weight: bold;
+    font-size: 18px;
+    margin-bottom: 8px;
+}
+
+.cart-popup-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 4px;
+}
+
+.cart-popup-total {
+    font-weight: bold;
+    margin-bottom: 16px;
+}
+
+.cart-popup-delivery {
+    color: green;
+    font-weight: bold;
+}
+
+.cart-popup-discount {
+    color: red;
+    font-weight: bold;
+}
+
+.cart-popup-btn {
+    width: 100%;
+    background: #ff5a36;
+    color: #fff;
+    border: none;
+    padding: 12px 0;
+    border-radius: 3px;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.cart-popup-empty-title {
+    text-align: center;
+    font-size: 18px;
+    margin-bottom: 16px;
+}
+
+.cart-popup-empty-btn {
+    width: 90%;
+    background: #000;
+    color: #fff;
+    border: none;
+    padding: 12px 0;
+    border-radius: 3px;
+    font-weight: bold;
+    font-size: 18px;
+    cursor: pointer;
+}
