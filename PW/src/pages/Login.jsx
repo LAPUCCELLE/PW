@@ -1,10 +1,7 @@
-
-import React from "react";
-import { Outlet, Link } from 'react-router-dom';
+import React, { useState } from "react";
+import { Link, useNavigate } from 'react-router-dom';
 import "../login.css";
 import usuariosPredefinidos from "../data/usuarios";
-import { useNavigate } from "react-router-dom";
-import { useState } from "react";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -14,8 +11,8 @@ const Login = () => {
   const manejarLogin = (e) => {
     e.preventDefault();
 
-    const usuarios = JSON.parse(localStorage.getItem("usuariosRegistrados")) || [];
-    const todosLosUsuarios = [...usuariosPredefinidos, ...usuarios];
+    const usuariosRegistrados = JSON.parse(localStorage.getItem("usuariosRegistrados")) || [];
+    const todosLosUsuarios = [...usuariosPredefinidos, ...usuariosRegistrados];
 
     const usuario = todosLosUsuarios.find(
       (u) => u.correo === email && u.password === password
@@ -52,7 +49,7 @@ const Login = () => {
   return (
     <div className="login-contenedor">
       <div className="left-login">
-        <img src='./Compras.png' width={850} />
+        <img src='./Compras.png' width={850} alt="Imagen login" />
       </div>
       <div className="right-login">
         <div className="login-marco">
@@ -61,9 +58,24 @@ const Login = () => {
           </div>
           <form onSubmit={manejarLogin}>
             <label htmlFor="email">Correo Electrónico *</label><br />
-            <input type="email" id="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="correo@ejemplo.com" autoFocus required /><br />
+            <input
+              type="email"
+              id="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="correo@ejemplo.com"
+              autoFocus
+              required
+            /><br />
             <label htmlFor="password">Contraseña *</label><br />
-            <input type="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="••••••••" required /><br />
+            <input
+              type="password"
+              id="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="••••••••"
+              required
+            /><br />
             <div className="link-password">
               <Link to="/contraseña">¿Has olvidado tu contraseña?</Link>
             </div>

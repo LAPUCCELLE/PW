@@ -1,0 +1,91 @@
+
+.contraseña_container {
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+    border-radius: 25px;
+    overflow: hidden;
+    background-color: #fff;
+}
+
+.contraseña_left {
+    width: 50%;
+    background-color: #ffe6ed;
+    background-image: url('../assets/shopping.png'); /* usa la imagen que desees */
+    background-size: cover;
+    background-position: center;
+}
+
+.contraseña_right {
+    width: 50%;
+    padding: 50px 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.contraseña_form {
+    width: 100%;
+    max-width: 400px;
+    background: white;
+    padding: 2rem;
+    border-radius: 40px;
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+}
+
+.contraseña_right h1 {
+    text-align: center;
+    font-family: "Segoe UI", sans-serif;
+    font-size: 28.8px;
+    font-weight: 400;
+    margin-bottom: 20px;
+    font-size: 28px;
+    color: #111;
+}
+
+.contraseña_right p {
+    font-family: "Segoe UI", sans-serif;
+    margin-bottom: 8px;
+}
+
+.contraseña_right input {
+    width: 100%;
+    padding: 12px;
+    margin-top: 0.5rem;
+    margin-bottom: 1.2rem;
+    border: 2px solid #e6e6e691;
+    border-radius: 10px;
+    font-size: 1rem;
+    box-sizing: border-box;
+    box-shadow: 2px 5px 4px rgba(0, 0, 0, 0.020);
+    transition: border 0.2sease;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.btn-confirmar {
+    width: 100%;
+    height: auto;
+    background-color: #c8102e;
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    display: block;
+    margin-top: 1rem;
+}
+
+.contraseña_form button:hover {
+        background-color: #a00d26;
+}
+
+.contraseña_right input:focus {
+    transform: scale(1.01);
+    border: 2px solid #d4153567;
+    outline: none;
+}
+
+
