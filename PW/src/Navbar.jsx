@@ -5,24 +5,47 @@ import "./main.css"
 
 const Navbar = () => {
 
-    const [menuAbierto, setMenuAbierto] = useState(false);
+    const [menuDeslizanteAbierto, setMenuDeslizanteAbierto] = useState(false);
+    const [loginAbierto, setLoginAbierto] = useState(false);
     const [usuarioLogueado, setUsuarioLogueado] = useState(false);
     useEffect(() => {
-        const loginGuardado = localStorage.getItem("usuarioLogueado");
-        setUsuarioLogueado(loginGuardado === "true");
+    const chequearLogin = () => {
+        const user = localStorage.getItem("usuarioLogueado");
+
+        try {
+        const parsed = JSON.parse(user);
+        if (parsed && parsed.id && parsed.nombre) {
+            setUsuarioLogueado(true);
+        } else {
+            setUsuarioLogueado(false);
+        }
+        } catch (e) {
+        setUsuarioLogueado(false);
+        }
+    };
+
+    window.addEventListener("storage", chequearLogin);
+    chequearLogin(); 
+
+    return () => window.removeEventListener("storage", chequearLogin);
     }, []);
     const cerrarSesion = () => {
     localStorage.removeItem("usuarioLogueado");
     setUsuarioLogueado(false);
-    setMenuAbierto(false); 
+    setLoginAbierto(false);
+    setMenuDeslizanteAbierto(false);
     };
-    const toggleMenu = () => setMenuAbierto(!menuAbierto);
+    const toggleMenu = () => {
+        setMenuDeslizanteAbierto(!menuDeslizanteAbierto);
+        setLoginAbierto(false);
+    }
+
 
     return (
         <>
-            {menuAbierto && <div className="overlay" onClick={toggleMenu}></div>}
+            {menuDeslizanteAbierto && <div className="overlay" onClick={toggleMenu}></div>}
 
-            <div className={`menu_deslizante ${menuAbierto ? 'abierto' : ''}`}>
+            <div className={`menu_deslizante ${menuDeslizanteAbierto ? 'abierto' : ''}`}>
                 <div role="button" tabIndex="0" onClick={toggleMenu} className="cerrar_btn">X
                     <div className="menu_top_links">
                         <ul>
@@ -85,7 +108,10 @@ const Navbar = () => {
                             </div>
                         </button>
                         <div className="login_dropdown_container">
-                            <button id="button" className="button_container" onClick={() => setMenuAbierto(!menuAbierto)}>
+                            <button id="button" className="button_container" onClick={() => {
+                                setLoginAbierto(!loginAbierto);
+                                setMenuDeslizanteAbierto(false);
+                            }}>
                             <span className="button_span">
                                 <svg role="img" aria-hidden="true" focusable="false" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" height="20" width="20">
                                 <path fillRule="evenodd" d="M16.75 6.25a4.75 4.75 0 1 1-9.5 0 4.75 4.75 0 0 1 9.5 0Z
@@ -99,16 +125,16 @@ const Navbar = () => {
                             </span>
                             </button>
 
-                            {menuAbierto && (
+                            {loginAbierto && (
                             <div className="dropdown_login">
                                 {!usuarioLogueado && (
                                 <div className='login-detalle'>
-                                    <Link to="/login" onClick={() => setMenuAbierto(false)}>Iniciar sesión</Link>
+                                    <Link to="/login" onClick={() => setLoginAbierto(false)}>Iniciar sesión</Link>
                                 </div>
                                 )}
                                 {usuarioLogueado && (
                                 <div className='login-detalle'>
-                                    <Link to="/pedidos" onClick={() => setMenuAbierto(false)}>Mis pedidos</Link>
+                                    <Link to="/pedidos" onClick={() => setLoginAbierto(false)}>Mis pedidos</Link>
                                     <button onClick={cerrarSesion} className="link-logout">Cerrar sesión</button>
                                 </div>
                                 )}  
