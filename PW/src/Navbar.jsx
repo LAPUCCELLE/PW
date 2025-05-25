@@ -135,9 +135,10 @@ const Navbar = () => {
                                 {usuarioLogueado && (
                                 <div className='login-detalle'>
                                     <Link to="/pedidos" onClick={() => setLoginAbierto(false)}>Mis pedidos</Link>
+                                    <Link to="/cambiar_contrasena" onClick={() => setLoginAbierto(false)}>Cambiar contraseña</Link>
                                     <button onClick={cerrarSesion} className="link-logout">Cerrar sesión</button>
                                 </div>
-                                )}  
+                                )} 
                             </div>
                             )}
                         </div>

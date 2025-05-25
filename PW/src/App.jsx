@@ -21,8 +21,10 @@ import Casacas from "./pages/Casacas";
 import Camisas from "./pages/Camisas";
 import Pantalones from "./pages/Pantalones";
 import Zapatos from "./pages/Zapatos";
+import Cambiar_contrasena from "./pages/Cambiar_contrasena";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import ListaCategorias from "./admin/ListaCategorias";
 
 const App = () => {
   return (
@@ -36,12 +38,14 @@ const App = () => {
         <Route path="/camisas" element={<Camisas />}/>
         <Route path="/pantalones" element={<Pantalones />}/>
         <Route path="/zapatos" element={<Zapatos />}/>
+        <Route path="/cambiar_contrasena" element={<Cambiar_contrasena/>}/>
         <Route path="contraseña" element={<Contraseña />} />
         <Route path="confirmacion" element={<Confirmacion />} />
       </Route>
 
       <Route path="/admin" element={<AdminLayout />}>
         <Route index element={<Dashboard/>} />
+        <Route path="categoria" element={<ListaCategorias />}/>
         <Route path="lista" element={<ListaProductos />}/>
         <Route path="agregar" element={<AgregarProducto />} />
         <Route path="editar/:id" element={<EditarProducto/>}/>
