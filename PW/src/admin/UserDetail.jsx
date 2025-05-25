@@ -1,56 +1,34 @@
 import { useParams, Link } from "react-router-dom";
+import usuarios from "../data/usuarios";
+import orders from "../data/orders";
 import "./users/UserAdmin.css";
-
-// Simulación de usuarios y órdenes (debería ser la misma fuente de datos que usas en otros componentes)
-const users = [
-  {
-    id: 1,
-    name: "Juan Pérez",
-    email: "juan.perez@gmail.com",
-    registered: "2025-01-20",
-    avatar: "https://randomuser.me/api/portraits/men/32.jpg",
-    orders: [101]
-  },
-  {
-    id: 2,
-    name: "Ana Gómez",
-    email: "ana.gomez@example.com",
-    registered: "2024-01-22",
-    avatar: "https://randomuser.me/api/portraits/women/44.jpg",
-    orders: [102]
-  }
-];
-
-const orders = [
-  { id: 101, date: "20/01/2025", total: 120.00 },
-  { id: 102, date: "22/01/2024", total: 85.00 },
-
-];
 
 export default function UserDetail() {
   const { id } = useParams();
-  const user = users.find(u => u.id === Number(id));
+  const user = usuarios.find(u => u.id === id);
+
   if (!user) return <p className="user-detail-container">Usuario no encontrado</p>;
 
-  // Traer las órdenes de este usuario
-  const userOrders = orders.filter(o => user.orders.includes(o.id));
+  const avatarURL = `https://randomuser.me/api/portraits/${user.genero === "mujer" ? "women" : "men"}/${parseInt(user.id) % 100}.jpg`;
+  const userOrders = orders.filter(order => order.userId === user.id);
 
   return (
     <div className="user-detail-main-container">
       <h2 className="user-detail-section-title">Detalles de usuario</h2>
       <div className="user-detail-card">
         <div className="user-detail-data">
-          <h1 className="user-detail-name">{user.name}</h1>
-          <p><b>Correo:</b> <a href={`mailto:${user.email}`}>{user.email}</a></p>
-          <p><b>Fecha de registro:</b> {new Date(user.registered).toLocaleDateString()}</p>
+          <h1 className="user-detail-name">{user.nombre}</h1>
+          <p><b>Correo:</b> <a href={`mailto:${user.correo}`}>{user.correo}</a></p>
+          <p><b>Rol:</b> {user.rol}</p>
+          <p><b>Fecha de registro:</b> {new Date(user.fechaRegistro).toLocaleDateString()}</p>
         </div>
         <div className="user-detail-avatar-container">
-          <img className="user-detail-avatar" src={user.avatar} alt={user.name} />
+          <img className="user-detail-avatar" src={avatarURL} alt={user.nombre} />
         </div>
       </div>
 
       <h3 className="user-detail-table-title">Últimas órdenes</h3>
-      <table className="user-detail-orders-table">
+      <table className="order-admin-table">
         <thead>
           <tr>
             <th>#ID</th>
@@ -60,6 +38,11 @@ export default function UserDetail() {
           </tr>
         </thead>
         <tbody>
+          {userOrders.length === 0 && (
+            <tr>
+              <td colSpan={4} style={{ textAlign: "center", color: "#888" }}>No hay órdenes recientes</td>
+            </tr>
+          )}
           {userOrders.map(order => (
             <tr key={order.id}>
               <td>
@@ -68,7 +51,7 @@ export default function UserDetail() {
                 </Link>
               </td>
               <td>{order.date}</td>
-              <td>S/.{order.total.toFixed(2)}</td>
+              <td>S/.{order.total?.toFixed(2) || "0.00"}</td>
               <td>
                 <Link
                   to={`/admin/orders/${order.id}`}
@@ -81,7 +64,6 @@ export default function UserDetail() {
           ))}
         </tbody>
       </table>
-      {/* Paginación removida por pedido */}
     </div>
   );
 }

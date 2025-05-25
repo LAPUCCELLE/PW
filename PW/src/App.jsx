@@ -11,10 +11,16 @@ import AdminLayout from "./admin/AdminLayout";
 import Dashboard from "./admin/Dashboard";
 import ListaProductos from "./admin/ListaProductos";
 import AgregarProducto from "./admin/AgregarProducto";
+import EditarProducto from "./admin/EditarProducto";
+import DetalleProducto from "./admin/DetalleProducto";
 import OrderList from "./admin/OrderList";
 import OrderDetail from "./admin/OrderDetail";
 import UserList from "./admin/UserList";
 import UserDetail from "./admin/UserDetail";
+import Casacas from "./pages/Casacas";
+import Camisas from "./pages/Camisas";
+import Pantalones from "./pages/Pantalones";
+import Zapatos from "./pages/Zapatos";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
@@ -26,15 +32,21 @@ const App = () => {
         <Route path="login" element={<Login />} />
         <Route path="register" element={<Register />} />
         <Route path="/producto/:id" element={<Producto />} />
+        <Route path="/casacas" element={<Casacas />}/>
+        <Route path="/camisas" element={<Camisas />}/>
+        <Route path="/pantalones" element={<Pantalones />}/>
+        <Route path="/zapatos" element={<Zapatos />}/>
         <Route path="contraseña" element={<Contraseña />} />
         <Route path="confirmacion" element={<Confirmacion />} />
       </Route>
 
       <Route path="/admin" element={<AdminLayout />}>
-        <Route index element={<Dashboard />} />
-        <Route path="lista" element={<ListaProductos />}>
-          <Route path="agregar" element={<AgregarProducto />} />
-        </Route>
+        <Route index element={<Dashboard/>} />
+        <Route path="lista" element={<ListaProductos />}/>
+        <Route path="agregar" element={<AgregarProducto />} />
+        <Route path="editar/:id" element={<EditarProducto/>}/>
+        <Route path="detalle/:id" element={<DetalleProducto/>}/>
+
         <Route path="orders" element={<OrderList />} />
         <Route path="orders/:id" element={<OrderDetail />} />
         <Route path="users" element={<UserList />} />

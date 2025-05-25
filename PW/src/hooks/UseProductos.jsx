@@ -4,25 +4,34 @@ import productosMujer from "../data/productosMujer";
 const productosBase = [...productosMujer];
 
 const UseProductos = (categoria) => {
-    const [productos, setProductos] = useState([])
+    const [productos, setProductos] = useState([]);
+
     useEffect(() => {
         if (categoria) {
-            localStorage.getItem("categoriaSeleccionada", categoria);
+            localStorage.setItem("categoriaSeleccionada", categoria);
         }
-        
+
+        let data = [...productosBase];
+
         const datos = localStorage.getItem("productos");
-        let data = productosBase;
 
         if (datos) {
-            const dataParseada = JSON.parse(datos);
-            const ids = new Set(dataParseada.map(p => p.id));
-            if (ids.size === productosBase.length) {
-                data = dataParseada;
-            } else {
-                localStorage.setItem("productos", JSON.stringify(productosBase));
-            } 
-        } else {
-            localStorage.setItem("productos", JSON.stringify(productosBase))
+            try {
+                const dataParseada = JSON.parse(datos);
+
+                // Solo agregar productos que tengan al menos id, nombre e imagenMain
+                const productosValidos = dataParseada.filter(p =>
+                    p.id && p.nombre && p.imagenMain
+                );
+
+                // Mezclamos: productos base + nuevos agregados que no estén repetidos
+                const idsBase = new Set(productosBase.map(p => p.id));
+                const nuevos = productosValidos.filter(p => !idsBase.has(p.id));
+
+                data = [...productosBase, ...nuevos];
+            } catch (e) {
+                console.error("Error al parsear productos de localStorage", e);
+            }
         }
 
         const filtrados = categoria
@@ -31,7 +40,7 @@ const UseProductos = (categoria) => {
 
         setProductos(filtrados);
     }, [categoria]);
-    
+
     return productos;
 };
 
