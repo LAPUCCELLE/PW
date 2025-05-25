@@ -12,11 +12,11 @@ const Navbar = () => {
     const navigate = useNavigate();
     const { carrito } = useCarrito();
 
-    // Calcular totales del carrito
+
     const totalProductos = carrito.reduce((acc, prod) => acc + (prod.cantidad || 1), 0);
     const totalPrecio = carrito.reduce((acc, prod) => acc + (prod.precio * (prod.cantidad || 1)), 0);
 
-    // Manejo de login persistente
+
     useEffect(() => {
         const chequearLogin = () => {
             const user = localStorage.getItem("usuarioLogueado");
@@ -54,10 +54,8 @@ const Navbar = () => {
 
     return (
         <>
-            {/* Overlay para menú deslizante */}
             {menuDeslizanteAbierto && <div className="overlay" onClick={toggleMenu}></div>}
 
-            {/* Menú deslizante */}
             <div className={`menu_deslizante ${menuDeslizanteAbierto ? 'abierto' : ''}`}>
                 <div role="button" tabIndex="0" onClick={toggleMenu} className="cerrar_btn">X
                     <div className="menu_top_links">
@@ -97,7 +95,7 @@ const Navbar = () => {
                 </div>
             </div>
 
-            {/* Barra de navegación principal */}
+
             <div className="nav_container">
                 <div className="section_promoBar_content">
                     <span className="section_promo_text">Hasta 60% en seleccion mujer</span>
@@ -123,7 +121,7 @@ const Navbar = () => {
                             </div>
                         </button>
 
-                        {/* Botón de login y menú de usuario */}
+
                         <div className="login_dropdown_container">
                             <button id="button" className="button_container" onClick={() => {
                                 setLoginAbierto(!loginAbierto);
@@ -137,14 +135,11 @@ const Navbar = () => {
                             </button>
                             {loginAbierto && (
                                 <div className="dropdown_login">
-                                    {!usuarioLogueado && (
-                                        <div className='login-detalle'>
-                                            <Link to="/login" onClick={() => setLoginAbierto(false)}>Iniciar sesión</Link>
-                                        </div>
-                                    )}
                                     {usuarioLogueado && (
                                         <div className='login-detalle'>
+                                            <Link to="/login" onClick={() => setLoginAbierto(false)}>Iniciar sesión</Link>
                                             <Link to="/pedidos" onClick={() => setLoginAbierto(false)}>Mis pedidos</Link>
+                                            <Link to="/cambiar_contrasena" onClick={() => setLoginAbierto(false)}>Cambiar contraseña</Link>
                                             <button onClick={cerrarSesion} className="link-logout">Cerrar sesión</button>
                                         </div>
                                     )}
@@ -152,14 +147,14 @@ const Navbar = () => {
                             )}
                         </div>
 
-                        {/* Favoritos */}
+
                         <button className="icon_button" aria-label="Favoritos">
                             <svg viewBox="0 0 24 24" height="20" width="20">
                                 <path d="M13.035 4.54a5.25 5.25 0 1 1 7.425 7.424L12 20.424l-8.46-8.459a5.25 5.25 0 0 1 7.424-7.425l1.037 1.034 1.034-1.034ZM19.4 5.6a3.75 3.75 0 0 0-5.303 0l-2.093 2.094-2.098-2.092a3.75 3.75 0 0 0-5.304 5.303l7.4 7.397 7.398-7.398a3.75 3.75 0 0 0 0-5.304Z" />
                             </svg>
                         </button>
 
-                        {/* Carrito */}
+
                         <div
                             className="cart-icon-wrapper"
                             onMouseEnter={() => setShowCartPopup(true)}
@@ -172,18 +167,9 @@ const Navbar = () => {
                                 {totalProductos > 0 && (
                                     <span className="carrito-contador">{totalProductos}</span>
                                 )}
-
-                                {usuarioLogueado && (
-                                <div className='login-detalle'>
-                                    <Link to="/pedidos" onClick={() => setLoginAbierto(false)}>Mis pedidos</Link>
-                                    <Link to="/cambiar_contrasena" onClick={() => setLoginAbierto(false)}>Cambiar contraseña</Link>
-                                    <button onClick={cerrarSesion} className="link-logout">Cerrar sesión</button>
-                                </div>
-                                )} 
-                            </div>
-                            
                             </button>
-                            {/* Popup carrito vacío */}
+
+
                             {showCartPopup && totalProductos === 0 && (
                                 <div className="cart-popup">
                                     <div className="cart-popup-content">
