@@ -6,6 +6,14 @@
     font-style: normal;
 }
 
+@font-face {
+    font-family: 'HM Slussen Variable';
+    src: url('/fonts/HMSlussen-Variable.woff2') format('woff2');
+    font-weight: 100 900;
+    font-style: normal;
+    font-display: swap;
+}
+
 * {
     margin: 0;
 }
