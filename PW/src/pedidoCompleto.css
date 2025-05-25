@@ -1,0 +1,97 @@
+.pedido-completo-main {
+  max-width: 900px;
+  margin: 40px auto;
+  background: #fff;
+  border-radius: 12px;
+  padding: 32px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+  font-family: 'HM Slussen', sans-serif;
+}
+.pedido-completo-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.pedido-completo-header h2 {
+  font-size: 2rem;
+  font-weight: bold;
+  margin: 0;
+}
+.check-icon {
+  color: #43b324;
+  font-size: 2rem;
+  vertical-align: middle;
+}
+.pedido-completo-msg {
+  font-size: 1.1rem;
+  margin-left: 24px;
+  color: #222;
+}
+.pedido-completo-content {
+  display: flex;
+  gap: 32px;
+  margin-top: 32px;
+}
+.pedido-completo-card {
+  background: #fafafa;
+  border-radius: 8px;
+  padding: 24px;
+  flex: 1;
+  min-width: 300px;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.04);
+}
+.pedido-completo-card.resumen {
+  max-width: 320px;
+}
+.pedido-completo-producto {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 18px;
+}
+.producto-nombre {
+  font-weight: bold;
+  margin: 0;
+}
+.producto-precio {
+  margin-left: auto;
+  font-weight: bold;
+}
+.resumen-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+.resumen-row.green span:last-child {
+  color: #43b324;
+  font-weight: bold;
+}
+.resumen-row.red span:last-child {
+  color: #d32f2f;
+  font-weight: bold;
+}
+.resumen-row.total {
+  font-size: 1.1rem;
+  font-weight: bold;
+  margin-top: 12px;
+}
+.direccion-envio {
+  margin-top: 18px;
+  font-size: 0.98rem;
+}
+.btn-volver-rojo {
+  margin: 32px auto 0 auto;
+  display: block;
+  background: #d32f2f;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 16px 40px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.btn-volver-rojo:hover {
+  background: #b71c1c;
+}

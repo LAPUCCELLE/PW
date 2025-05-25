@@ -1,0 +1,141 @@
+.checkout-form {
+  max-width: 500px;
+  margin: 2rem auto;
+  padding: 2rem 2.5rem;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08);
+  font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+.checkout-form h2 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  font-size: 1.8rem;
+  color: #222;
+}
+
+.form-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.form-grid-full {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.checkout-form input,
+.checkout-form select {
+  padding: 0.5rem 0.7rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+  background: #fafafa;
+}
+
+.checkout-form input:focus,
+.checkout-form select:focus {
+  border-color: #e2120b;
+  outline: none;
+  background: #fff;
+}
+
+.checkout-form .error {
+  color: #d32f2f;
+  background: #ffeaea;
+  padding: 0.6rem 1rem;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+  text-align: center;
+  font-weight: 500;
+}
+
+.checkout-summary-section {
+  margin: 3rem 0 1.5rem 0;
+  background: #f7f7fa;
+  border-radius: 8px;
+  padding: 1.2rem 1.4rem;
+  border: 1px solid #eee;
+}
+
+.checkout-summary-section h3 {
+  margin-bottom: 0.8rem;
+  font-size: 1.1rem;
+  color: #333;
+  font-weight: 600;
+}
+
+.checkout-summary-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.checkout-summary-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-direction: row;
+  padding: 0.3rem 0;
+  border-bottom: 1px solid #e0e0e0;
+  font-size: 0.98rem;
+  color: #444;
+  word-break: break-word;
+}
+
+.checkout-summary-list li span:first-child {
+  max-width: 60%;
+  display: block;
+  white-space: pre-line;
+}
+
+.checkout-summary-list li span:last-child {
+  min-width: 80px;
+  text-align: right;
+}
+
+.checkout-summary-totals p {
+  display: flex;
+  justify-content: space-between;
+  margin: 0.2rem 0;
+  font-weight: 500;
+  font-size: 1rem;
+}
+
+.checkout-summary-totals .total {
+  font-size: 1.15rem;
+  color: #e2120b;
+  font-weight: bold;
+  margin-top: 0.5rem;
+}
+
+.checkout-form button[type="submit"] {
+  width: 100%;
+  padding: 0.9rem;
+  background: #e2120b;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 1rem;
+  transition: background 0.2s ease-in-out;
+}
+
+.checkout-form button[type="submit"]:hover {
+  background: #b20e08;
+}
+
+.checkout-form button[disabled] {
+  background: #ccc;
+  color: #666;
+  cursor: not-allowed;
+}

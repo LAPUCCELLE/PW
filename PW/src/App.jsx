@@ -1,12 +1,15 @@
 import React from "react";
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route } from "react-router-dom";
 import Layout from "./Layout";
-import Mujer from './pages/Mujer';
-import Login from './pages/Login';
-import Register from './pages/Register';
+import Mujer from "./pages/Mujer";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
 import Producto from "./pages/Producto";
-import Contraseña from './pages/Contraseña';
+import Contraseña from "./pages/Contraseña";
 import Confirmacion from "./pages/Confirmacion";
+import Carrito from "./pages/Carrito";
+import Checkout from "./pages/Checkout";
+import PedidoCompleto from "./pages/PedidoCompleto";
 import AdminLayout from "./admin/AdminLayout";
 import Dashboard from "./admin/Dashboard";
 import ListaProductos from "./admin/ListaProductos";
@@ -22,41 +25,59 @@ import Camisas from "./pages/Camisas";
 import Pantalones from "./pages/Pantalones";
 import Zapatos from "./pages/Zapatos";
 import Cambiar_contrasena from "./pages/Cambiar_contrasena";
+import ListaCategorias from "./admin/ListaCategorias";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import ListaCategorias from "./admin/ListaCategorias";
+
+
+
+import { CarritoProvider } from "./components/CarritoContext";
+import Navbar from "./Navbar"; // Importa tu Navbar aquí
 
 const App = () => {
   return (
-    <Routes>
-      <Route path="/" element={<Layout />}>
-        <Route path="mujer" element={<Mujer />} />
-        <Route path="login" element={<Login />} />
-        <Route path="register" element={<Register />} />
-        <Route path="/producto/:id" element={<Producto />} />
-        <Route path="/casacas" element={<Casacas />}/>
-        <Route path="/camisas" element={<Camisas />}/>
-        <Route path="/pantalones" element={<Pantalones />}/>
-        <Route path="/zapatos" element={<Zapatos />}/>
-        <Route path="/cambiar_contrasena" element={<Cambiar_contrasena/>}/>
-        <Route path="contraseña" element={<Contraseña />} />
-        <Route path="confirmacion" element={<Confirmacion />} />
-      </Route>
+    <CarritoProvider>
+      {/* El Navbar se puede colocar aquí si quieres que esté en todas las páginas */}
+      {/* <Navbar /> */}
+      <Routes>
+        {/* Rutas del sitio público */}
+        <Route path="/" element={
+          <>
+            <Navbar />
+            <Layout />
+          </>
+        }>
+          <Route path="mujer" element={<Mujer />} />
+          <Route path="login" element={<Login />} />
+          <Route path="register" element={<Register />} />
+          <Route path="producto/:id" element={<Producto />} />
+          <Route path="cambiar_contrasena" element={<Cambiar_contrasena />} />
+          <Route path="contraseña" element={<Contraseña />} />
+          <Route path="confirmacion" element={<Confirmacion />} />
+          <Route path="carrito" element={<Carrito />} />
+          <Route path="checkout" element={<Checkout />} />
+          <Route path="pedido-completo" element={<PedidoCompleto />} />
+          <Route path="casacas" element={<Casacas />} />
+          <Route path="camisas" element={<Camisas />} />
+          <Route path="pantalones" element={<Pantalones />} />
+          <Route path="zapatos" element={<Zapatos />} />
+        </Route>
 
-      <Route path="/admin" element={<AdminLayout />}>
-        <Route index element={<Dashboard/>} />
-        <Route path="categoria" element={<ListaCategorias />}/>
-        <Route path="lista" element={<ListaProductos />}/>
-        <Route path="agregar" element={<AgregarProducto />} />
-        <Route path="editar/:id" element={<EditarProducto/>}/>
-        <Route path="detalle/:id" element={<DetalleProducto/>}/>
-
-        <Route path="orders" element={<OrderList />} />
-        <Route path="orders/:id" element={<OrderDetail />} />
-        <Route path="users" element={<UserList />} />
-        <Route path="users/:id" element={<UserDetail />} />
-      </Route>
-    </Routes>
+        {/* Rutas del panel de administración */}
+        <Route path="/admin" element={<AdminLayout />}>
+          <Route index element={<Dashboard />} />
+          <Route path="lista" element={<ListaProductos />} />
+          <Route path="categoria" element={<ListaCategorias />} />
+          <Route path="agregar" element={<AgregarProducto />} />
+          <Route path="editar/:id" element={<EditarProducto />} />
+          <Route path="detalle/:id" element={<DetalleProducto />} />
+          <Route path="orders" element={<OrderList />} />
+          <Route path="orders/:id" element={<OrderDetail />} />
+          <Route path="users" element={<UserList />} />
+          <Route path="users/:id" element={<UserDetail />} />
+        </Route>
+      </Routes>
+    </CarritoProvider>
   );
 };
 
