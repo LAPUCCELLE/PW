@@ -24,9 +24,9 @@ const Navbar = () => {
                         <p className="menu_title">NOVEDADES<br />WINTER 2025</p>
                         <ul>
                             <li><Link to="/casacas">CASACAS Y ABRIGOS</Link></li>
-                            <li><Link to="/pantalones">POLOS Y CAMISAS</Link></li>
-                            <li><Link to="/zapatos">PANTALONES</Link></li>
-                            <li><Link to="/sport">ZAPATOS</Link></li>
+                            <li><Link to="/camisas">POLOS Y CAMISAS</Link></li>
+                            <li><Link to="/pantalones">PANTALONES</Link></li>
+                            <li><Link to="/zapatos">ZAPATOS</Link></li>
                         </ul>
                     </div>
 
@@ -44,7 +44,7 @@ const Navbar = () => {
                             <p>PANTALONES<br /><small>VER TODO</small></p>
                         </div>
                         <div className="menu_img">
-                            <img src="https://hmperu.vtexassets.com/unsafe/1440x0/center/middle/https%3A%2F%2Fhmperu.vtexassets.com%2Farquivos%2Fids%2F5177752%2FBotas-con-puntera-fina---Beige-oscuro---H-M-PE.jpg%3Fv%3D638803611956870000" srcSet=" https://hmperu.vtexassets.com/unsafe/768x0/center/middle/https%3A%2F%2Fhmperu.vtexassets.com%2Farquivos%2Fids%2F5177752%2FBotas-con-puntera-fina---Beige-oscuro---H-M-PE.jpg%3Fv%3D638803611956870000 1x https://hmperu.vtexassets.com/unsafe/1440x0/center/middle/https%3A%2F%2Fhmperu.vtexassets.com%2Farquivos%2Fids%2F5177752%2FBotas-con-puntera-fina---Beige-oscuro---H-M-PE.jpg%3Fv%3D638803611956870000 2x" width="190" height="285" alt="Zapatos"loading="lazy" decoding="async"style={{ color: "transparent" }}/>
+                            <img src="https://hmperu.vtexassets.com/unsafe/1440x0/center/middle/https%3A%2F%2Fhmperu.vtexassets.com%2Farquivos%2Fids%2F5177752%2FBotas-con-puntera-fina---Beige-oscuro---H-M-PE.jpg%3Fv%3D638803611956870000" srcSet=" https://hmperu.vtexassets.com/unsafe/768x0/center/middle/https%3A%2F%2Fhmperu.vtexassets.com%2Farquivos%2Fids%2F5177752%2FBotas-con-puntera-fina---Beige-oscuro---H-M-PE.jpg%3Fv%3D638803611956870000 1x,https://hmperu.vtexassets.com/unsafe/1440x0/center/middle/https%3A%2F%2Fhmperu.vtexassets.com%2Farquivos%2Fids%2F5177752%2FBotas-con-puntera-fina---Beige-oscuro---H-M-PE.jpg%3Fv%3D638803611956870000 2x" width="190" height="285" alt="Zapatos"loading="lazy" decoding="async"style={{ color: "transparent" }}/>
                             <p>ZAPATOS<br /><small>VER TODO</small></p>
                         </div>
                     </div>

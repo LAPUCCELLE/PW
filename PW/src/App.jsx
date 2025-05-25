@@ -18,6 +18,9 @@ import OrderDetail from "./admin/OrderDetail";
 import UserList from "./admin/UserList";
 import UserDetail from "./admin/UserDetail";
 import Casacas from "./pages/Casacas";
+import Camisas from "./pages/Camisas";
+import Pantalones from "./pages/Pantalones";
+import Zapatos from "./pages/Zapatos";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
@@ -30,6 +33,9 @@ const App = () => {
         <Route path="register" element={<Register />} />
         <Route path="/producto/:id" element={<Producto />} />
         <Route path="/casacas" element={<Casacas />}/>
+        <Route path="/camisas" element={<Camisas />}/>
+        <Route path="/pantalones" element={<Pantalones />}/>
+        <Route path="/zapatos" element={<Zapatos />}/>
         <Route path="contraseña" element={<Contraseña />} />
         <Route path="confirmacion" element={<Confirmacion />} />
       </Route>
