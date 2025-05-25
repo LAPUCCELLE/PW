@@ -1,9 +1,10 @@
+
 import React, { useState, useEffect } from "react";
 import orders from "../data/orders";
 import usuarios from "../data/usuarios";
 
 const Dashboard = () => {
-  // Devuelve fecha actual en formato yyyy-mm-dd para el input
+  
   const obtenerHoyInput = () => {
     const hoy = new Date();
     const anio = hoy.getFullYear();
@@ -11,8 +12,7 @@ const Dashboard = () => {
     const dia = String(hoy.getDate()).padStart(2, '0');
     return `${anio}-${mes}-${dia}`;
   };
-
-  // Convierte yyyy-mm-dd a dd/mm/yyyy (el formato de las órdenes)
+  
   const convertirAFormatoOrden = (fechaISO) => {
     const [anio, mes, dia] = fechaISO.split('-');
     return `${dia}/${mes}/${anio}`;
@@ -23,7 +23,6 @@ const Dashboard = () => {
   const [usuariosUnicos, setUsuariosUnicos] = useState(0);
   const [montoTotal, setMontoTotal] = useState(0);
 
-  // Búsqueda sobre orders.js por fecha seleccionada
   const buscarRegistros = () => {
     const fechaBusqueda = convertirAFormatoOrden(fechaInput);
     const ordenesFiltradas = orders.filter(order => order.date === fechaBusqueda);
@@ -34,13 +33,10 @@ const Dashboard = () => {
     setMontoTotal(ordenesFiltradas.reduce((sum, o) => sum + (o.total || 0), 0));
   };
 
-  // Al cargar la página y cada vez que cambia la fechaInput
   useEffect(() => {
     buscarRegistros();
-    // eslint-disable-next-line
   }, [fechaInput]);
 
-  // Resumen global (de todos los datos)
   const totalOrdenesGlobal = orders.length;
   const userIdsUnicosGlobal = Array.from(new Set(orders.map(order => order.userId)));
   const totalUsuariosUnicosGlobal = userIdsUnicosGlobal.length;
@@ -48,6 +44,38 @@ const Dashboard = () => {
 
   return (
     <div style={{ padding: '2rem', fontFamily: 'Arial, sans-serif', maxWidth: '410px', margin: 'auto' }}>
+    
+  const buscarRegistros = () => {
+    const registros = JSON.parse(localStorage.getItem('registroDiario')) || [];
+    const fechaBusqueda = formatearFecha(fechaInput);
+    const registrosFiltrados = registros.filter(r => r.fecha === fechaBusqueda);
+
+    let totalOrdenes = 0;
+    let usuariosSet = new Set();
+    let totalMonto = 0;
+
+    registrosFiltrados.forEach(r => {
+      totalOrdenes += r.ordenes;
+      if (Array.isArray(r.usuarios)) {
+        r.usuarios.forEach(u => usuariosSet.add(u));
+      } else {
+        usuariosSet.add(r.usuarios);
+      }
+      totalMonto += r.monto;
+    });
+
+    setOrdenes(totalOrdenes);
+    setUsuariosUnicos(usuariosSet.size);
+    setMontoTotal(totalMonto);
+  };
+
+  useEffect(() => {
+    buscarRegistros();
+  }, []);
+
+  return (
+    <div style={{ padding: '2rem', fontFamily: 'Arial, sans-serif', maxWidth: '400px', margin: 'auto' }}>
+    
       <h2>Bienvenido ADMIN</h2>
       <p>Registro diario de las órdenes, usuarios y montos</p>
 
@@ -89,6 +117,7 @@ const Dashboard = () => {
         <p><strong>Órdenes totales:</strong> {totalOrdenesGlobal}</p>
         <p><strong>Usuarios únicos totales:</strong> {totalUsuariosUnicosGlobal}</p>
         <p><strong>Monto total global:</strong> <span style={{color: "#16a34a", fontWeight: 600}}>S/ {montoTotalGlobal.toFixed(2)}</span></p>
+          
       </div>
     </div>
   );

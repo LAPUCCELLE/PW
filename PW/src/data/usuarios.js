@@ -16,6 +16,7 @@ const usuarios = [
     rol: "usuario",
     genero: "mujer",
     fechaRegistro: "2025-01-14"
+    
   },
   {
     id: "3",
@@ -25,6 +26,7 @@ const usuarios = [
     rol: "usuario",
     genero: "hombre",
     fechaRegistro: "2025-02-12"
+
   },
   {
     id: "4",
@@ -67,6 +69,7 @@ const usuarios = [
     nombre: "Hilda Vega",
     correo: "hilda@correo.com",
     password: "hilda456",
+
     rol: "usuario",
     genero: "mujer",
     fechaRegistro: "2025-04-01"
@@ -76,24 +79,29 @@ const usuarios = [
     nombre: "Iván Castillo",
     correo: "ivan@correo.com",
     password: "ivan789",
+
     rol: "usuario",
     genero: "hombre",
     fechaRegistro: "2025-04-07"
+    
   },
   {
     id: "10",
     nombre: "Julia Navarro",
     correo: "julia@correo.com",
     password: "julia123",
+
     rol: "usuario",
     genero: "mujer",
     fechaRegistro: "2025-04-10"
+
   },
   {
     id: "11",
     nombre: "Kevin Díaz",
     correo: "kevin@correo.com",
     password: "kevin456",
+
     rol: "usuario",
     genero: "hombre",
     fechaRegistro: "2025-04-12"
