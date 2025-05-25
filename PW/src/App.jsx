@@ -26,6 +26,7 @@ import Pantalones from "./pages/Pantalones";
 import Zapatos from "./pages/Zapatos";
 import Cambiar_contrasena from "./pages/Cambiar_contrasena";
 import ListaCategorias from "./admin/ListaCategorias";
+import Pedidos from "./pages/Pedidos";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
@@ -55,6 +56,7 @@ const App = () => {
           <Route path="contraseña" element={<Contraseña />} />
           <Route path="confirmacion" element={<Confirmacion />} />
           <Route path="carrito" element={<Carrito />} />
+          <Route path="pedidos" element={<Pedidos />}/>
           <Route path="checkout" element={<Checkout />} />
           <Route path="pedido-completo" element={<PedidoCompleto />} />
           <Route path="casacas" element={<Casacas />} />
