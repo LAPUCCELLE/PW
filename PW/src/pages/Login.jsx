@@ -19,8 +19,17 @@ const Login = () => {
     );
 
     if (usuario) {
-      localStorage.setItem("usuarioLogueado", "true");
-      window.location.href = "/";
+      localStorage.setItem("usuarioLogueado", JSON.stringify(usuario));
+      window.dispatchEvent(new Event("storage"));
+      const lista = JSON.parse(localStorage.getItem("HistorialdeUsuarios")) || [];
+
+      const yaExiste = lista.some((u) => u.id === usuario.id);
+      if (!yaExiste) {
+        lista.push({ id: usuario.id, nombre: usuario.nombre , correo: usuario.correo, password: usuario.password, rol: usuario.rol});
+        localStorage.setItem("HistorialdeUsuarios", JSON.stringify(lista));
+      }
+
+      navigate("/");
     }else {
       alert("Correo o contraseña incorrectos");
     }
