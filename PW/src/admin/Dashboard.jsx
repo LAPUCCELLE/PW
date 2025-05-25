@@ -1,10 +1,8 @@
-
 import React, { useState, useEffect } from "react";
 import orders from "../data/orders";
 import usuarios from "../data/usuarios";
 
 const Dashboard = () => {
-  
   const obtenerHoyInput = () => {
     const hoy = new Date();
     const anio = hoy.getFullYear();
@@ -12,7 +10,7 @@ const Dashboard = () => {
     const dia = String(hoy.getDate()).padStart(2, '0');
     return `${anio}-${mes}-${dia}`;
   };
-  
+
   const convertirAFormatoOrden = (fechaISO) => {
     const [anio, mes, dia] = fechaISO.split('-');
     return `${dia}/${mes}/${anio}`;
@@ -44,38 +42,6 @@ const Dashboard = () => {
 
   return (
     <div style={{ padding: '2rem', fontFamily: 'Arial, sans-serif', maxWidth: '410px', margin: 'auto' }}>
-    
-  const buscarRegistros = () => {
-    const registros = JSON.parse(localStorage.getItem('registroDiario')) || [];
-    const fechaBusqueda = formatearFecha(fechaInput);
-    const registrosFiltrados = registros.filter(r => r.fecha === fechaBusqueda);
-
-    let totalOrdenes = 0;
-    let usuariosSet = new Set();
-    let totalMonto = 0;
-
-    registrosFiltrados.forEach(r => {
-      totalOrdenes += r.ordenes;
-      if (Array.isArray(r.usuarios)) {
-        r.usuarios.forEach(u => usuariosSet.add(u));
-      } else {
-        usuariosSet.add(r.usuarios);
-      }
-      totalMonto += r.monto;
-    });
-
-    setOrdenes(totalOrdenes);
-    setUsuariosUnicos(usuariosSet.size);
-    setMontoTotal(totalMonto);
-  };
-
-  useEffect(() => {
-    buscarRegistros();
-  }, []);
-
-  return (
-    <div style={{ padding: '2rem', fontFamily: 'Arial, sans-serif', maxWidth: '400px', margin: 'auto' }}>
-    
       <h2>Bienvenido ADMIN</h2>
       <p>Registro diario de las órdenes, usuarios y montos</p>
 
@@ -117,7 +83,6 @@ const Dashboard = () => {
         <p><strong>Órdenes totales:</strong> {totalOrdenesGlobal}</p>
         <p><strong>Usuarios únicos totales:</strong> {totalUsuariosUnicosGlobal}</p>
         <p><strong>Monto total global:</strong> <span style={{color: "#16a34a", fontWeight: 600}}>S/ {montoTotalGlobal.toFixed(2)}</span></p>
-          
       </div>
     </div>
   );
