@@ -1,35 +1,100 @@
-import React from "react";
-import "../login.css"
-import {Outlet, Link } from 'react-router-dom';
+import React, { useState } from "react";
+import "../login.css";
+import { Outlet, Link, useNavigate } from "react-router-dom";
 
 const Register = () => {
-    return (
-        <div className="login-contenedor">
-                  <div className='left-login'>
-                    <img src = './Mujer.png' width={800}/>
-                  </div>
-                  <div className='right-login'>
-                    <div className='login-marco login-marco-register'>
-                      <div className="login-titulo">
-                        <h1>Crea una cuenta</h1>
-                        <p>Empieza a disfrutar de muchos beneficios y a acumular puntos</p>
-                      </div>
-                        <form>
-                          <label for="nombre">Nombre </label><br/>
-                          <input type="nombre" id="nombre" name="nombre" placeholder="Tu nombre" autoFocus required /><br/>
-                          <label for="email">Correo Electrónico</label><br/>
-                          <input type="email" id="email" name="email" placeholder="Tu correo" required /><br/>
-                          <label for="password">Contraseña</label><br/>
-                          <input type="password" id="password" name="password" placeholder="Crea una contraseña" required /><br/>
-                          <button id="submit" type="submit">Crear cuenta</button>
-                          <hr className="footer-linea" />
-                          <div className="link-register">
-                            ¿Ya tienes una cuenta? <Link to="/login">Inicia sesión</Link>
-                          </div>
-                        </form>
-                    </div>
-                  </div>
-                </div>
-    )
-}
+  const [nombre, setNombre] = useState("");
+  const [correo, setCorreo] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+
+  const manejarRegistro = (e) => {
+    e.preventDefault();
+
+    const usuariosGuardados = JSON.parse(localStorage.getItem("usuariosRegistrados")) || [];
+
+    const yaExiste = usuariosGuardados.some((u) => u.correo === correo);
+    if (yaExiste) {
+      alert("Este correo ya está registrado.");
+      return;
+    }
+
+    const nuevoUsuario = {
+      id: `U-${Date.now()}`,
+      nombre,
+      correo,
+      password,
+      rol: "cliente"
+    };
+
+    const nuevosUsuarios = [...usuariosGuardados, nuevoUsuario];
+    localStorage.setItem("usuariosRegistrados", JSON.stringify(nuevosUsuarios));
+
+    const historial = JSON.parse(localStorage.getItem("HistorialdeUsuarios")) || [];
+    const yaEsta = historial.some((u) => u.id === nuevoUsuario.id);
+    if (!yaEsta) {
+      historial.push(nuevoUsuario); 
+      localStorage.setItem("HistorialdeUsuarios", JSON.stringify(historial));
+    }
+
+    // ✅ Redirigir a /login
+    navigate("/login");
+  };
+
+  return (
+    <div className="login-contenedor">
+      <div className="left-login">
+        <img src="./Mujer.png" width={800} />
+      </div>
+      <div className="right-login">
+        <div className="login-marco login-marco-register">
+          <div className="login-titulo">
+            <h1>Crea una cuenta</h1>
+            <p>Empieza a disfrutar de muchos beneficios y a acumular puntos</p>
+          </div>
+          <form onSubmit={manejarRegistro}>
+            <label htmlFor="nombre">Nombre </label><br />
+            <input
+              type="text"
+              id="nombre"
+              name="nombre"
+              placeholder="Tu nombre"
+              autoFocus
+              required
+              value={nombre}
+              onChange={(e) => setNombre(e.target.value)}
+            /><br />
+            <label htmlFor="email">Correo Electrónico</label><br />
+            <input
+              type="email"
+              id="email"
+              name="email"
+              placeholder="Tu correo"
+              required
+              value={correo}
+              onChange={(e) => setCorreo(e.target.value)}
+            /><br />
+            <label htmlFor="password">Contraseña</label><br />
+            <input
+              type="password"
+              id="password"
+              name="password"
+              placeholder="Crea una contraseña"
+              required
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            /><br />
+            <button id="submit" type="submit">Crear cuenta</button>
+            <hr className="footer-linea" />
+            <div className="link-register">
+              ¿Ya tienes una cuenta? <Link to="/login">Inicia sesión</Link>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 export default Register;
+
