@@ -1,9 +1,7 @@
-
-import React from "react";
-import {Outlet, Link } from 'react-router-dom';
-import "../login.css"
-import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import React, { useState } from "react";
+import { Link, useNavigate } from 'react-router-dom';
+import "../login.css";
+import usuariosPredefinidos from "../data/usuarios";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -13,48 +11,83 @@ const Login = () => {
   const manejarLogin = (e) => {
     e.preventDefault();
 
-    const lista = JSON.parse(localStorage.getItem("HistorialdeUsuarios")) || [];
+    const usuariosRegistrados = JSON.parse(localStorage.getItem("usuariosRegistrados")) || [];
+    const todosLosUsuarios = [...usuariosPredefinidos, ...usuariosRegistrados];
 
-    const usuario = lista.find(
+    const usuario = todosLosUsuarios.find(
       (u) => u.correo === email && u.password === password
     );
 
-  
     if (usuario) {
       localStorage.setItem("usuarioLogueado", JSON.stringify(usuario));
       window.dispatchEvent(new Event("storage"));
-      navigate("/");
-    }else {
+
+      const lista = JSON.parse(localStorage.getItem("HistorialdeUsuarios")) || [];
+      const yaExiste = lista.some((u) => u.id === usuario.id);
+
+      if (!yaExiste) {
+        lista.push({
+          id: usuario.id,
+          nombre: usuario.nombre,
+          correo: usuario.correo,
+          password: usuario.password,
+          rol: usuario.rol
+        });
+        localStorage.setItem("HistorialdeUsuarios", JSON.stringify(lista));
+      }
+
+      if (usuario.rol === "admin") {
+        navigate("/admin");
+      } else {
+        navigate("/");
+      }
+    } else {
       alert("Correo o contraseña incorrectos");
     }
   };
+
   return (
-        <div className="login-contenedor">
-          <div className='left-login'>
-            <img src = './Compras.png' width={850}/>
+    <div className="login-contenedor">
+      <div className="left-login">
+        <img src='./Compras.png' width={850} alt="Imagen login" />
+      </div>
+      <div className="right-login">
+        <div className="login-marco">
+          <div className="login-titulo">
+            <h1>Iniciar Sesión</h1>
           </div>
-          <div className='right-login'>
-            <div className='login-marco'>
-              <div className="login-titulo">
-                <h1>Iniciar Sesión</h1>
-              </div>
-                <form onSubmit={manejarLogin}>
-                  <label for="email">Correo Electrónico *</label><br/>
-                  <input type="email" id="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="correo@ejemplo.com" autoFocus required/><br/>
-                  <label for="password">Contraseña *</label><br/>
-                  <input type="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="••••••••" required /><br/>
-                  <div className="link-password">
-                    <Link to="/contraseña">¿Has olvidado tu contraseña?</Link>
-                  </div>
-                  <button id="submit" type="submit">Ingresar</button>
-                  <hr className="footer-linea" />
-                  <div className="link-register">
-                    ¿No tienes una cuenta? <Link to="/register">Regístrate</Link>
-                  </div>
-                </form>
+          <form onSubmit={manejarLogin}>
+            <label htmlFor="email">Correo Electrónico *</label><br />
+            <input
+              type="email"
+              id="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="correo@ejemplo.com"
+              autoFocus
+              required
+            /><br />
+            <label htmlFor="password">Contraseña *</label><br />
+            <input
+              type="password"
+              id="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="••••••••"
+              required
+            /><br />
+            <div className="link-password">
+              <Link to="/contraseña">¿Has olvidado tu contraseña?</Link>
             </div>
-          </div>
+            <button id="submit" type="submit">Ingresar</button>
+            <hr className="footer-linea" />
+            <div className="link-register">
+              ¿No tienes una cuenta? <Link to="/register">Regístrate</Link>
+            </div>
+          </form>
         </div>
+      </div>
+    </div>
   );
 };
 
