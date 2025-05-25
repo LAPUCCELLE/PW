@@ -172,6 +172,16 @@ const Navbar = () => {
                                 {totalProductos > 0 && (
                                     <span className="carrito-contador">{totalProductos}</span>
                                 )}
+
+                                {usuarioLogueado && (
+                                <div className='login-detalle'>
+                                    <Link to="/pedidos" onClick={() => setLoginAbierto(false)}>Mis pedidos</Link>
+                                    <Link to="/cambiar_contrasena" onClick={() => setLoginAbierto(false)}>Cambiar contraseña</Link>
+                                    <button onClick={cerrarSesion} className="link-logout">Cerrar sesión</button>
+                                </div>
+                                )} 
+                            </div>
+                            
                             </button>
                             {/* Popup carrito vacío */}
                             {showCartPopup && totalProductos === 0 && (

@@ -12,6 +12,9 @@ function AdminNavbar() {
         <img src={logo} alt="H&M Logo" className="hm-logo" />
       </div>
       <div className="nav-links">
+        <button onClick={() => navigate('/admin/categoria')}>
+          Lista de Categorias
+        </button>
         <button onClick={() => navigate('/admin/lista')}>
           Lista de Productos
         </button>

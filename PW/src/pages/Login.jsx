@@ -2,7 +2,6 @@
 import React from "react";
 import {Outlet, Link } from 'react-router-dom';
 import "../login.css"
-import usuarios from "../data/usuarios";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
@@ -14,21 +13,16 @@ const Login = () => {
   const manejarLogin = (e) => {
     e.preventDefault();
 
-    const usuario = usuarios.find(
+    const lista = JSON.parse(localStorage.getItem("HistorialdeUsuarios")) || [];
+
+    const usuario = lista.find(
       (u) => u.correo === email && u.password === password
     );
 
+  
     if (usuario) {
       localStorage.setItem("usuarioLogueado", JSON.stringify(usuario));
       window.dispatchEvent(new Event("storage"));
-      const lista = JSON.parse(localStorage.getItem("HistorialdeUsuarios")) || [];
-
-      const yaExiste = lista.some((u) => u.id === usuario.id);
-      if (!yaExiste) {
-        lista.push({ id: usuario.id, nombre: usuario.nombre , correo: usuario.correo, password: usuario.password, rol: usuario.rol});
-        localStorage.setItem("HistorialdeUsuarios", JSON.stringify(lista));
-      }
-
       navigate("/");
     }else {
       alert("Correo o contraseña incorrectos");

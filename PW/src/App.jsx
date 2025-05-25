@@ -1,7 +1,5 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
 import Layout from "./Layout";
 import Mujer from "./pages/Mujer";
 import Login from "./pages/Login";
@@ -26,6 +24,13 @@ import Casacas from "./pages/Casacas";
 import Camisas from "./pages/Camisas";
 import Pantalones from "./pages/Pantalones";
 import Zapatos from "./pages/Zapatos";
+import Cambiar_contrasena from "./pages/Cambiar_contrasena";
+import ListaCategorias from "./admin/ListaCategorias";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+
+
+
 import { CarritoProvider } from "./components/CarritoContext";
 import Navbar from "./Navbar"; // Importa tu Navbar aquí
 
@@ -46,6 +51,7 @@ const App = () => {
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
           <Route path="producto/:id" element={<Producto />} />
+          <Route path="cambiar_contrasena" element={<Cambiar_contrasena />} />
           <Route path="contraseña" element={<Contraseña />} />
           <Route path="confirmacion" element={<Confirmacion />} />
           <Route path="carrito" element={<Carrito />} />
@@ -61,6 +67,7 @@ const App = () => {
         <Route path="/admin" element={<AdminLayout />}>
           <Route index element={<Dashboard />} />
           <Route path="lista" element={<ListaProductos />} />
+          <Route path="categoria" element={<ListaCategorias />} />
           <Route path="agregar" element={<AgregarProducto />} />
           <Route path="editar/:id" element={<EditarProducto />} />
           <Route path="detalle/:id" element={<DetalleProducto />} />
