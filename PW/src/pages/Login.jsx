@@ -12,7 +12,23 @@ const Login = () => {
     e.preventDefault();
 
     const usuariosRegistrados = JSON.parse(localStorage.getItem("usuariosRegistrados")) || [];
-    const todosLosUsuarios = [...usuariosPredefinidos, ...usuariosRegistrados];
+    const historialUsuarios = JSON.parse(localStorage.getItem("HistorialdeUsuarios")) || [];
+
+    const mapUsuarios = new Map();
+
+      usuariosPredefinidos.forEach(u => {
+        mapUsuarios.set(u.correo, u);
+      });
+
+      usuariosRegistrados.forEach(u => {
+        mapUsuarios.set(u.correo, u);
+      });
+
+      historialUsuarios.forEach(u => {
+      mapUsuarios.set(u.correo, u);
+      });
+
+const todosLosUsuarios = Array.from(mapUsuarios.values());
 
     const usuario = todosLosUsuarios.find(
       (u) => u.correo === email && u.password === password

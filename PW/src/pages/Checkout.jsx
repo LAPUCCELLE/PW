@@ -10,14 +10,12 @@ const Checkout = () => {
   const navigate = useNavigate();
   const { carrito } = useCarrito();
 
-  // --- VERIFICACIÓN DE USUARIO LOGUEADO ---
   useEffect(() => {
     const usuario = JSON.parse(localStorage.getItem("usuarioLogueado"));
     if (!usuario) {
       navigate("/login");
     }
   }, [navigate]);
-  // ----------------------------------------
 
   const [departamentoSeleccionado, setDepartamentoSeleccionado] = useState("");
   const [provinciasFiltradas, setProvinciasFiltradas] = useState([]);
@@ -36,7 +34,8 @@ const Checkout = () => {
     name: item.nombre,
     precio: item.precio,
     cantidad: item.cantidad,
-    talla: item.tallaSeleccionada
+    talla: item.tallaSeleccionada,
+    imagen: item.imagen
   }));
 
   const subtotal = cartItems.reduce((acc, item) => acc + item.precio * item.cantidad, 0);
@@ -86,6 +85,21 @@ const Checkout = () => {
     localStorage.setItem("totalPedido", total);
     localStorage.setItem("metodoEnvio", metodoEnvio);
     localStorage.setItem("direccionEnvio", JSON.stringify(direccionEnvio));
+
+    const usuario = JSON.parse(localStorage.getItem("usuarioLogueado"));
+    if (usuario) {
+      const pedidos = JSON.parse(localStorage.getItem("pedidos")) || [];
+      const nuevoPedido = {
+        usuarioId: usuario.id,
+        fecha: new Date().toISOString(),
+        productos: cartItems,
+        total: total,
+        direccion: direccionEnvio,
+        metodoPago,
+      };
+      pedidos.push(nuevoPedido);
+      localStorage.setItem("pedidos", JSON.stringify(pedidos));
+    }
 
     navigate("/pedido-completo");
   };
