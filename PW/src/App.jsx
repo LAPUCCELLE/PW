@@ -1,5 +1,6 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import Layout from "./Layout";
 import Mujer from "./pages/Mujer";
 import Login from "./pages/Login";
@@ -48,6 +49,7 @@ const App = () => {
             <Layout />
           </>
         }>
+          <Route index element={<Navigate to="/mujer"/>}/>
           <Route path="mujer" element={<Mujer />} />
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
