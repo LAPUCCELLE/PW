@@ -1,7 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import usuariosPredefinidos from "./data/usuarios";
+import productosPredefinidos from "./data/productosMujer";
 import "./main.css";
 import { useCarrito } from './components/CarritoContext';
+
+const inicializarDatos = () => {
+    const existentes = JSON.parse(localStorage.getItem("usuariosRegistrados")) || [];
+    const nuevos = usuariosPredefinidos.filter(nuevo =>
+        !existentes.some(ex => ex.id === nuevo.id)
+    );
+    const fusionados = [...existentes, ...nuevos];
+    localStorage.setItem("usuariosRegistrados", JSON.stringify(fusionados));
+    localStorage.setItem("productos", JSON.stringify(productosPredefinidos));
+    
+    const categorias = ["casacas", "camisas", "pantalones", "zapatos"];
+    localStorage.setItem("categorias", JSON.stringify(categorias));
+
+    alert("Datos cargados: usuarios, productos y categorías.");
+};
+
 
 const Navbar = () => {
     const [menuDeslizanteAbierto, setMenuDeslizanteAbierto] = useState(false);
@@ -18,6 +36,7 @@ const Navbar = () => {
 
 
     useEffect(() => {
+        
         const chequearLogin = () => {
             const user = localStorage.getItem("usuarioLogueado");
             try {
@@ -104,7 +123,9 @@ const Navbar = () => {
                 <div className="navbar_content">
                     <div className="left">
                         <Link to="/">
-                            <img className="logo_marca" src="https://hmperu.vtexassets.com/assets/vtex.file-manager-graphql/images/d0e454f7-81d9-41e2-a306-f8f41c804a7c___d81e534ae8621b10d58c605eba2fcdf5.webp" alt="Logo de la tienda" loading="lazy"/>
+                            <button onClick={inicializarDatos} style={{background: "none", border: "none", cursor: "pointer",padding: 0}}>
+                                <img className="logo_marca" src="https://hmperu.vtexassets.com/assets/vtex.file-manager-graphql/images/d0e454f7-81d9-41e2-a306-f8f41c804a7c___d81e534ae8621b10d58c605eba2fcdf5.webp" alt="Logo de la tienda" loading="lazy"/>
+                            </button>
                         </Link>
                         <ul>
                             <li><button className="menu_btn" onClick={toggleMenu}>☰</button></li>
