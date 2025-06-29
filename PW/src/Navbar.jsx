@@ -95,11 +95,11 @@ const Navbar = () => {
                     </div>
                     <div className="menu_right">
                         <div className="menu_img">
-                            <img src="https://hmperu.vtexassets.com/assets/vtex.file-manager-graphql/images/6cf023c1-d26c-47ca-b37d-18dd27a7259a___2fda5a91b1f5a348038a9e6f28179732.jpg" alt="Casacas y abrigos" width="190" height="285" loading="lazy" decoding="async" style={{ color: 'transparent' }}/>
+                            <img src="https://hmperu.vtexassets.com/assets/vtex.file-manager-graphql/images/25b8840b-a587-4b31-aafe-16dc121f9f70___8727b01078a6ebcbfd94ec649c3ab81e.jpg" width="190" height="285" loading="lazy" decoding="async" style={{ color: 'transparent' }}/>
                             <p>CASACAS Y ABRIGOS<br /><small>VER TODO</small></p>
                         </div>
                         <div className="menu_img">
-                            <img alt="model-main" loading="lazy" width="190" height="285" decoding="async" src="https://hmperu.vtexassets.com/unsafe/768x0/center/middle/https%3A%2F%2Fhmperu.vtexassets.com%2Farquivos%2Fids%2F5133065%2FCamisa-denim-oversize---Negro---H-M-PE.jpg%3Fv%3D638803351379270000" srcSet="https://hmperu.vtexassets.com/unsafe/540x0/center/middle/https%3A%2F%2Fhmperu.vtexassets.com%2Farquivos%2Fids%2F5133065%2FCamisa-denim-oversize---Negro---H-M-PE.jpg%3Fv%3D638803351379270000 1x, https://hmperu.vtexassets.com/unsafe/768x0/center/middle/https%3A%2F%2Fhmperu.vtexassets.com%2Farquivos%2Fids%2F5133065%2FCamisa-denim-oversize---Negro---H-M-PE.jpg%3Fv%3D638803351379270000 2x" style={{ color: "transparent" }}/>
+                            <img alt="model-main" loading="lazy" width="190" height="285" decoding="async" src="https://hmperu.vtexassets.com/assets/vtex.file-manager-graphql/images/332037c9-193b-48e4-b79b-cdec2877c453___4a0d0cc5e19cc2950eaa418842194568.jpg" style={{ color: "transparent" }}/>
                             <p>POLOS Y CAMISAS<br /><small>VER TODO</small></p>
                         </div>
                         <div className="menu_img">
@@ -107,7 +107,7 @@ const Navbar = () => {
                             <p>PANTALONES<br /><small>VER TODO</small></p>
                         </div>
                         <div className="menu_img">
-                            <img src="https://hmperu.vtexassets.com/unsafe/1440x0/center/middle/https%3A%2F%2Fhmperu.vtexassets.com%2Farquivos%2Fids%2F5177752%2FBotas-con-puntera-fina---Beige-oscuro---H-M-PE.jpg%3Fv%3D638803611956870000" srcSet=" https://hmperu.vtexassets.com/unsafe/768x0/center/middle/https%3A%2F%2Fhmperu.vtexassets.com%2Farquivos%2Fids%2F5177752%2FBotas-con-puntera-fina---Beige-oscuro---H-M-PE.jpg%3Fv%3D638803611956870000 1x,https://hmperu.vtexassets.com/unsafe/1440x0/center/middle/https%3A%2F%2Fhmperu.vtexassets.com%2Farquivos%2Fids%2F5177752%2FBotas-con-puntera-fina---Beige-oscuro---H-M-PE.jpg%3Fv%3D638803611956870000 2x" width="190" height="285" alt="Zapatos" loading="lazy" decoding="async" style={{ color: "transparent" }}/>
+                            <img src="https://hmperu.vtexassets.com/unsafe/1280x0/center/middle/https%3A%2F%2Fhmperu.vtexassets.com%2Farquivos%2Fids%2F5844913%2FBotas-con-puntera-fina---Beige-oscuro---H-M-PE.jpg%3Fv%3D638860396222730000" width="190" height="285" alt="Zapatos" loading="lazy" decoding="async" style={{ color: "transparent" }}/>
                             <p>ZAPATOS<br /><small>VER TODO</small></p>
                         </div>
                     </div>

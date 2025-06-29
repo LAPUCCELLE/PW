@@ -1,243 +1,284 @@
-const productosMujer = [
-    {
-        id: "PROD-1001",
+'use strict';
+
+/** @type {import('sequelize-cli').Migration} */
+module.exports = {
+  async up (queryInterface, Sequelize) {
+    /**
+     * Add seed commands here.
+     *
+     * Example:
+     * await queryInterface.bulkInsert('People', [{
+     *   name: 'John Doe',
+     *   isBetaMember: false
+     * }], {});
+    */
+    await queryInterface.bulkInsert('Productos', [
+      {
         nombre: "Polera con motivo de texto",
         precio: 89.95,
         categoria: "mujer",
         color: "Gris oscuro/Blanco",
         talla: ["XS","S","M","L","XL"],
         tipo: "camisas",
+        stock: 20,
         imagenMain: "https://hmperu.vtexassets.com/unsafe/768x0/center/middle/https%3A%2F%2Fhmperu.vtexassets.com%2Farquivos%2Fids%2F5456979%2FPolera-con-motivo-de-texto---Gris-oscuro-Paris---H-M-PE.jpg%3Fv%3D638845832144100000",
         imagen1: "https://hmperu.vtexassets.com/unsafe/1280x0/center/middle/https%3A%2F%2Fhmperu.vtexassets.com%2Farquivos%2Fids%2F5456977%2FPolera-con-motivo-de-texto---Gris-oscuro-Paris---H-M-PE.jpg%3Fv%3D638845832060800000",
-        imagen2: "https://hmperu.vtexassets.com/unsafe/768x0/center/middle/https%3A%2F%2Fhmperu.vtexassets.com%2Farquivos%2Fids%2F5456978%2FPolera-con-motivo-de-texto---Gris-oscuro-Paris---H-M-PE.jpg%3Fv%3D638845832130100000" ,
-        imagen3: "https://hmperu.vtexassets.com/unsafe/1280x0/center/middle/https%3A%2F%2Fhmperu.vtexassets.com%2Farquivos%2Fids%2F5456980%2FPolera-con-motivo-de-texto---Gris-oscuro-Paris---H-M-PE.jpg%3Fv%3D638845832156330000" ,
-        descripcion: "Polera oversize con interior cepillado suave. Modelo con hombros caídos y motivo de texto en el pecho. Ribete acanalado en cuello, puños y bajo."
-    },
-    
-    {
-        id: "PROD-1002",
+        imagen2: "https://hmperu.vtexassets.com/unsafe/768x0/center/middle/https%3A%2F%2Fhmperu.vtexassets.com%2Farquivos%2Fids%2F5456978%2FPolera-con-motivo-de-texto---Gris-oscuro-Paris---H-M-PE.jpg%3Fv%3D638845832130100000",
+        imagen3: "https://hmperu.vtexassets.com/unsafe/1280x0/center/middle/https%3A%2F%2Fhmperu.vtexassets.com%2Farquivos%2Fids%2F5456980%2FPolera-con-motivo-de-texto---Gris-oscuro-Paris---H-M-PE.jpg%3Fv%3D638845832156330000",
+        descripcion: "Polera oversize con interior cepillado suave. Modelo con hombros caídos y motivo de texto en el pecho. Ribete acanalado en cuello, puños y bajo.",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
         nombre: "Polo acalanado",
         precio: 39.95,
         categoria: "mujer",
         color: "Celeste/Azul marino",
         talla: ["XXS","XS","S","M","L"],
         tipo: "camisas",
+        stock: 10,
         imagenMain: "https://hmperu.vtexassets.com/unsafe/540x0/center/middle/https%3A%2F%2Fhmperu.vtexassets.com%2Farquivos%2Fids%2F5591545%2FPolo-acanalado---Celeste-L-amour---H-M-PE.jpg%3Fv%3D638851561724830000",
         imagen1: "https://hmperu.vtexassets.com/unsafe/1280x0/center/middle/https%3A%2F%2Fhmperu.vtexassets.com%2Farquivos%2Fids%2F5591542%2FPolo-acanalado---Celeste-L-amour---H-M-PE.jpg%3Fv%3D638851561683100000",
         imagen2: "https://hmperu.vtexassets.com/unsafe/540x0/center/middle/https%3A%2F%2Fhmperu.vtexassets.com%2Farquivos%2Fids%2F5591543%2FPolo-acanalado---Celeste-L-amour---H-M-PE.jpg%3Fv%3D638851561698730000",
         imagen3: "https://hmperu.vtexassets.com/unsafe/540x0/center/middle/https%3A%2F%2Fhmperu.vtexassets.com%2Farquivos%2Fids%2F5591546%2FPolo-acanalado---Celeste-L-amour---H-M-PE.jpg%3Fv%3D638851561740300000",
-        descripcion: "Polo entallado corto en punto acanalado de algodón con estampado. Costuras planas para una comodidad óptima."
-    },
-
-    {
-        id: "PROD-1003",
+        descripcion: "Polo entallado corto en punto acanalado de algodón con estampado. Costuras planas para una comodidad óptima.",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
         nombre: "Cardigan tejido en punto fino",
         precio: 35,
         categoria: "mujer",
         color: "Crema",
         talla: ["XXS","XS","S","M","L"],
         tipo: "casacas",
+        stock: 30,
         imagenMain:"https://hmperu.vtexassets.com/unsafe/1280x0/center/middle/https%3A%2F%2Fhmperu.vtexassets.com%2Farquivos%2Fids%2F5837192%2FCardigan-tejido-en-punto-fino---Crema---H-M-PE.jpg%3Fv%3D638860331086870000",
         imagen1:"https://hmperu.vtexassets.com/unsafe/540x0/center/middle/https%3A%2F%2Fhmperu.vtexassets.com%2Farquivos%2Fids%2F5837193%2FCardigan-tejido-en-punto-fino---Crema---H-M-PE.jpg%3Fv%3D638860331093100000",
         imagen2:"",
         imagen3:"",
-        descripcion: "Cardigan tejido en punto fino suave de mezcla de viscosa con cuello redondo y botones. Remate acanalado en cuello, puños y bajo."
-    },
-
-    {
-        id: "PROD-1004",
+        descripcion: "Cardigan tejido en punto fino suave de mezcla de viscosa con cuello redondo y botones. Remate acanalado en cuello, puños y bajo.",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
         nombre: "Chompa",
         precio: 32,
         categoria: "mujer",
         color: "Negro/Blanco",
         talla: ["XXS","XS","S","M","L"],
         tipo: "casacas",
-        imagenMain: "https://hmperu.vtexassets.com/unsafe/540x0/center/middle/https%3A%2F%2Fhmperu.vtexassets.com%2Farquivos%2Fids%2F5793416%2FChompa---Negro-Rayas---H-M-PE.jpg%3Fv%3D638859426517030000",
+        stock: 5,
+        imagenMain:"https://hmperu.vtexassets.com/unsafe/540x0/center/middle/https%3A%2F%2Fhmperu.vtexassets.com%2Farquivos%2Fids%2F5793416%2FChompa---Negro-Rayas---H-M-PE.jpg%3Fv%3D638859426517030000",
         imagen1:"https://hmperu.vtexassets.com/unsafe/1280x0/center/middle/https%3A%2F%2Fhmperu.vtexassets.com%2Farquivos%2Fids%2F5793413%2FChompa---Negro-Rayas---H-M-PE.jpg%3Fv%3D638859426467530000",
         imagen2:"https://hmperu.vtexassets.com/unsafe/540x0/center/middle/https%3A%2F%2Fhmperu.vtexassets.com%2Farquivos%2Fids%2F5793414%2FChompa---Negro-Rayas---H-M-PE.jpg%3Fv%3D638859426482200000",
         imagen3:"https://hmperu.vtexassets.com/unsafe/1280x0/center/middle/https%3A%2F%2Fhmperu.vtexassets.com%2Farquivos%2Fids%2F5793415%2FChompa---Negro-Rayas---H-M-PE.jpg%3Fv%3D638859426500630000",
-        descripcion: "Chompa en punto suave. Modelo de corte holgado con cuello redondo ribeteado acanalado y hombros caídos. Puños y bajo acanalado."
-    },
-
-    {
-        id: "PROD-1005",
+        descripcion: "Chompa en punto suave. Modelo de corte holgado con cuello redondo ribeteado acanalado y hombros caídos. Puños y bajo acanalado.",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
         nombre: "Casaca Acolchada Corta",
         precio: 103,
         categoria: "mujer",
         color: "Negro",
         talla: ["XXS","XS","S","M","L"],
         tipo: "casacas",
+        stock: 20,
         imagenMain: "https://hmperu.vtexassets.com/unsafe/540x0/center/middle/https%3A%2F%2Fhmperu.vtexassets.com%2Farquivos%2Fids%2F5694016%2FCasaca-acolchada-corta---Negro---H-M-PE.jpg%3Fv%3D638857646588430000",
         imagen1:"https://hmperu.vtexassets.com/unsafe/1280x0/center/middle/https%3A%2F%2Fhmperu.vtexassets.com%2Farquivos%2Fids%2F5694012%2FCasaca-acolchada-corta---Negro---H-M-PE.jpg%3Fv%3D638857646522500000",
         imagen2:"https://hmperu.vtexassets.com/unsafe/1280x0/center/middle/https%3A%2F%2Fhmperu.vtexassets.com%2Farquivos%2Fids%2F5694012%2FCasaca-acolchada-corta---Negro---H-M-PE.jpg%3Fv%3D638857646522500000",
         imagen3:"https://hmperu.vtexassets.com/unsafe/1280x0/center/middle/https%3A%2F%2Fhmperu.vtexassets.com%2Farquivos%2Fids%2F5694014%2FCasaca-acolchada-corta---Negro---H-M-PE.jpg%3Fv%3D638857646557470000",
-        descripcion: "Casaca corta en tejido acolchado con cuello elevado y cierre. Bolsillos delanteros insertados y elástico oculto en puños y bajo. Con forro."
-    },
-
-    {
-        id: "PROD-1006",
+        descripcion: "Casaca corta en tejido acolchado con cuello elevado y cierre. Bolsillos delanteros insertados y elástico oculto en puños y bajo. Con forro.",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
         nombre: "Saco de doble botonadura",
         precio: 169,
         categoria: "mujer",
         color: "Azul marino",
         talla: ["XS","S","M","L","XL"],
         tipo: "casacas",
+        stock: 20,
         imagenMain: "https://hmperu.vtexassets.com/unsafe/540x0/center/middle/https%3A%2F%2Fhmperu.vtexassets.com%2Farquivos%2Fids%2F5757175%2FSaco-de-doble-botonadura---Azul-marino---H-M-PE.jpg%3Fv%3D638858682887670000",
-        imagen1: "https://hmperu.vtexassets.com/unsafe/1280x0/center/middle/https%3A%2F%2Fhmperu.vtexassets.com%2Farquivos%2Fids%2F5757173%2FSaco-de-doble-botonadura---Azul-marino---H-M-PE.jpg%3Fv%3D638858682853870000",
+        imagen1:"https://hmperu.vtexassets.com/unsafe/1280x0/center/middle/https%3A%2F%2Fhmperu.vtexassets.com%2Farquivos%2Fids%2F5757173%2FSaco-de-doble-botonadura---Azul-marino---H-M-PE.jpg%3Fv%3D638858682853870000",
         imagen2:"https://hmperu.vtexassets.com/unsafe/540x0/center/middle/https%3A%2F%2Fhmperu.vtexassets.com%2Farquivos%2Fids%2F5757174%2FSaco-de-doble-botonadura---Azul-marino---H-M-PE.jpg%3Fv%3D638858682873670000",
         imagen3:"https://hmperu.vtexassets.com/unsafe/1280x0/center/middle/https%3A%2F%2Fhmperu.vtexassets.com%2Farquivos%2Fids%2F5757176%2FSaco-de-doble-botonadura---Azul-marino---H-M-PE.jpg%3Fv%3D638858682909970000",
-        descripcion: "Saco cruzado corto con cuello y botones adelante. Modelo de corte holgado con bolsillos laterales discretos. Con forro."
-    },
-
-    {
-        id: "PROD-1007",
+        descripcion: "Saco cruzado corto con cuello y botones adelante. Modelo de corte holgado con bolsillos laterales discretos. Con forro.",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
         nombre: "Top tejido con cuello",
         precio: 109,
         categoria: "mujer",
         color: "Negro/Blanco",
         talla: ["XS","S","M","L","XL"],
         tipo: "camisas",
-        imagenMain: "https://hmperu.vtexassets.com/unsafe/540x0/center/middle/https%3A%2F%2Fhmperu.vtexassets.com%2Farquivos%2Fids%2F5660308%2FTop-tejido-con-cuello---Negro---H-M-PE.jpg%3Fv%3D638853311293170000",
-        imagen1:"https://hmperu.vtexassets.com/unsafe/1280x0/center/middle/https%3A%2F%2Fhmperu.vtexassets.com%2Farquivos%2Fids%2F5660306%2FTop-tejido-con-cuello---Negro---H-M-PE.jpg%3Fv%3D638853311259770000",
-        imagen2: "https://hmperu.vtexassets.com/unsafe/540x0/center/middle/https%3A%2F%2Fhmperu.vtexassets.com%2Farquivos%2Fids%2F5660307%2FTop-tejido-con-cuello---Negro---H-M-PE.jpg%3Fv%3D638853311278430000",
-        imagen3:"https://hmperu.vtexassets.com/unsafe/1280x0/center/middle/https%3A%2F%2Fhmperu.vtexassets.com%2Farquivos%2Fids%2F5660309%2FTop-tejido-con-cuello---Negro---H-M-PE.jpg%3Fv%3D638853311312330000",
-        descripcion: "Top corto en punto tupido con ribetes a contraste. Modelo de manga corta con cuello, tapeta con botones esféricos de metal, bolsillo superior decorativo con botón y bajo recto."
-    },
-
-    {
-        id: "PROD-1008",
+        stock: 20,
+        imagenMain: "https://hmperu.vtexassets.com/unsafe/540x0/center/middle/https%3A%2F%2Fhmperu.vtexassets.com%2Farquivos%2Fids%2F5705001%2FCamisa-denim---Azul-denim-oscuro---H-M-PE.jpg%3Fv%3D638857742304370000",
+        imagen1:"https://hmperu.vtexassets.com/unsafe/1280x0/center/middle/https%3A%2F%2Fhmperu.vtexassets.com%2Farquivos%2Fids%2F5704999%2FCamisa-denim---Azul-denim-oscuro---H-M-PE.jpg%3Fv%3D638857742296400000",
+        imagen2:"https://hmperu.vtexassets.com/unsafe/540x0/center/middle/https%3A%2F%2Fhmperu.vtexassets.com%2Farquivos%2Fids%2F5705000%2FCamisa-denim---Azul-denim-oscuro---H-M-PE.jpg%3Fv%3D638857742300870000",
+        imagen3:"https://hmperu.vtexassets.com/unsafe/1280x0/center/middle/https%3A%2F%2Fhmperu.vtexassets.com%2Farquivos%2Fids%2F5705002%2FCamisa-denim---Azul-denim-oscuro---H-M-PE.jpg%3Fv%3D638857742307970000",
+        descripcion: "Camisa en denim con cuello y botones a presión delante. Bolsillos superiores de parche con solapa y botón a presión, canesú en V en la espalda y mangas largas con botones a presión en los puños. Bajo ligeramente redondeado.",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
         nombre: "Camisa denim",
         precio: 109,
         categoria: "mujer",
         color: "Azul denim oscuro",
         talla: ["XS","S","M","L","XL"],
         tipo: "camisas",
+        stock: 20,
         imagenMain: "https://hmperu.vtexassets.com/unsafe/540x0/center/middle/https%3A%2F%2Fhmperu.vtexassets.com%2Farquivos%2Fids%2F5705001%2FCamisa-denim---Azul-denim-oscuro---H-M-PE.jpg%3Fv%3D638857742304370000",
         imagen1:"https://hmperu.vtexassets.com/unsafe/1280x0/center/middle/https%3A%2F%2Fhmperu.vtexassets.com%2Farquivos%2Fids%2F5704999%2FCamisa-denim---Azul-denim-oscuro---H-M-PE.jpg%3Fv%3D638857742296400000",
         imagen2:"https://hmperu.vtexassets.com/unsafe/540x0/center/middle/https%3A%2F%2Fhmperu.vtexassets.com%2Farquivos%2Fids%2F5705000%2FCamisa-denim---Azul-denim-oscuro---H-M-PE.jpg%3Fv%3D638857742300870000",
         imagen3:"https://hmperu.vtexassets.com/unsafe/1280x0/center/middle/https%3A%2F%2Fhmperu.vtexassets.com%2Farquivos%2Fids%2F5705002%2FCamisa-denim---Azul-denim-oscuro---H-M-PE.jpg%3Fv%3D638857742307970000",
-        descripcion: "Camisa en denim con cuello y botones a presión delante. Bolsillos superiores de parche con solapa y botón a presión, canesú en V en la espalda y mangas largas con botones a presión en los puños. Bajo ligeramente redondeado."
-    },
-
-    {
-        id: "PROD-1009",
+        descripcion: "Camisa en denim con cuello y botones a presión delante. Bolsillos superiores de parche con solapa y botón a presión, canesú en V en la espalda y mangas largas con botones a presión en los puños. Bajo ligeramente redondeado.",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
         nombre: "Pantalon sastre amplio",
         precio: 89.95,
         categoria: "mujer",
         color: "Negro",
-        talla: [34,36,38,40,42,44,46],
+        talla: ["34","36","38","40","42","44","46"],
         tipo: "pantalones",
+        stock: 20,
         imagenMain: "https://hmperu.vtexassets.com/unsafe/540x0/center/middle/https%3A%2F%2Fhmperu.vtexassets.com%2Farquivos%2Fids%2F5710771%2FPantalon-sastre-amplio---Negro---H-M-PE.jpg%3Fv%3D638857792981530000",
         imagen1:"https://hmperu.vtexassets.com/unsafe/1280x0/center/middle/https%3A%2F%2Fhmperu.vtexassets.com%2Farquivos%2Fids%2F5710766%2FPantalon-sastre-amplio---Negro---H-M-PE.jpg%3Fv%3D638857792922300000",
         imagen2:"https://hmperu.vtexassets.com/unsafe/540x0/center/middle/https%3A%2F%2Fhmperu.vtexassets.com%2Farquivos%2Fids%2F5710767%2FPantalon-sastre-amplio---Negro---H-M-PE.jpg%3Fv%3D638857792936270000",
-        imagen3: "https://hmperu.vtexassets.com/unsafe/1280x0/center/middle/https%3A%2F%2Fhmperu.vtexassets.com%2Farquivos%2Fids%2F5710768%2FPantalon-sastre-amplio---Negro---H-M-PE.jpg%3Fv%3D638857792946000000",
-        descripcion: "Polo de manga larga en punto elástico. Modelo ajustado con cuello redondo. Con forro parcial."
-    },
-
-    {
-        id: "PROD-1010",
+        imagen3:"https://hmperu.vtexassets.com/unsafe/1280x0/center/middle/https%3A%2F%2Fhmperu.vtexassets.com%2Farquivos%2Fids%2F5710768%2FPantalon-sastre-amplio---Negro---H-M-PE.jpg%3Fv%3D638857792946000000",
+        descripcion: "Polo de manga larga en punto elástico. Modelo ajustado con cuello redondo. Con forro parcial.",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
         nombre: "Joggers amplios",
         precio: 59.95,
         categoria: "mujer",
         color: "Marrón oscuro",
         talla: ["XXS","XS","S","M","L"],
         tipo: "pantalones",
+        stock: 20,
         imagenMain: "https://hmperu.vtexassets.com/unsafe/540x0/center/middle/https%3A%2F%2Fhmperu.vtexassets.com%2Farquivos%2Fids%2F5434632%2FJoggers-amplios---Marron-oscuro---H-M-PE.jpg%3Fv%3D638845677111770000",
         imagen1:"https://hmperu.vtexassets.com/unsafe/1280x0/center/middle/https%3A%2F%2Fhmperu.vtexassets.com%2Farquivos%2Fids%2F5434628%2FJoggers-amplios---Marron-oscuro---H-M-PE.jpg%3Fv%3D638845677071570000",
         imagen2:"https://hmperu.vtexassets.com/unsafe/540x0/center/middle/https%3A%2F%2Fhmperu.vtexassets.com%2Farquivos%2Fids%2F5434629%2FJoggers-amplios---Marron-oscuro---H-M-PE.jpg%3Fv%3D638845677080830000",
         imagen3:"https://hmperu.vtexassets.com/unsafe/1280x0/center/middle/https%3A%2F%2Fhmperu.vtexassets.com%2Farquivos%2Fids%2F5434630%2FJoggers-amplios---Marron-oscuro---H-M-PE.jpg%3Fv%3D638845677088500000",
-        descripcion: "Joggers en tejido polera con cintura elástica y cordón de ajuste. Modelo de corte holgado con bolsillos discretos en las costuras laterales y piernas amplias."
-    },
-
-    {
-        id: "PROD-1011",
+        descripcion: "Joggers en tejido polera con cintura elástica y cordón de ajuste. Modelo de corte holgado con bolsillos discretos en las costuras laterales y piernas amplias.",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
         nombre: "Pantalon de buzo en mezcla de algodón",
         precio: 69.95,
         categoria: "mujer",
         color: "Negro",
         talla: ["XS","S","M","L","XL"],
         tipo: "pantalones",
+        stock: 20,
         imagenMain: "https://hmperu.vtexassets.com/unsafe/540x0/center/middle/https%3A%2F%2Fhmperu.vtexassets.com%2Farquivos%2Fids%2F5406942%2FPantalon-de-buzo-en-mezcla-de-algodon---Negro---H-M-PE.jpg%3Fv%3D638845478056000000",
         imagen1:"https://hmperu.vtexassets.com/unsafe/1280x0/center/middle/https%3A%2F%2Fhmperu.vtexassets.com%2Farquivos%2Fids%2F5406938%2FPantalon-de-buzo-en-mezcla-de-algodon---Negro---H-M-PE.jpg%3Fv%3D638845478039870000",
         imagen2:"https://hmperu.vtexassets.com/unsafe/540x0/center/middle/https%3A%2F%2Fhmperu.vtexassets.com%2Farquivos%2Fids%2F5406939%2FPantalon-de-buzo-en-mezcla-de-algodon---Negro---H-M-PE.jpg%3Fv%3D638845478043770000",
         imagen3:"https://hmperu.vtexassets.com/unsafe/1280x0/center/middle/https%3A%2F%2Fhmperu.vtexassets.com%2Farquivos%2Fids%2F5406940%2FPantalon-de-buzo-en-mezcla-de-algodon---Negro---H-M-PE.jpg%3Fv%3D638845478048770000",
-        descripcion: "Pantalón de buzo suave de mezcla de algodón. Modelo de talle alto con cordón de ajuste y bolsillos laterales. Elástico revestido en cintura y bajos. Interior cepillado suave."
-    },
-
-    {
-        id: "PROD-1012",
+        descripcion: "Pantalón de buzo suave de mezcla de algodón. Modelo de talle alto con cordón de ajuste y bolsillos laterales. Elástico revestido en cintura y bajos. Interior cepillado suave.",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
         nombre: "Pantalon amplio con correa",
         precio: 79.95,
         categoria: "mujer",
         color: "Azul marino",
         talla: ["XS","S","M","L","XL"],
         tipo: "pantalones",
+        stock: 20,
         imagenMain: "https://hmperu.vtexassets.com/unsafe/540x0/center/middle/https%3A%2F%2Fhmperu.vtexassets.com%2Farquivos%2Fids%2F5715050%2FPantalon-amplio-con-correa---Azul-marino---H-M-PE.jpg%3Fv%3D638857831572800000",
-        imagen1: "https://hmperu.vtexassets.com/unsafe/1280x0/center/middle/https%3A%2F%2Fhmperu.vtexassets.com%2Farquivos%2Fids%2F5715046%2FPantalon-amplio-con-correa---Azul-marino---H-M-PE.jpg%3Fv%3D638857831539100000",
-        imagen2: "https://hmperu.vtexassets.com/unsafe/540x0/center/middle/https%3A%2F%2Fhmperu.vtexassets.com%2Farquivos%2Fids%2F5715047%2FPantalon-amplio-con-correa---Azul-marino---H-M-PE.jpg%3Fv%3D638857831550000000",
-        imagen3: "https://hmperu.vtexassets.com/unsafe/1280x0/center/middle/https%3A%2F%2Fhmperu.vtexassets.com%2Farquivos%2Fids%2F5715048%2FPantalon-amplio-con-correa---Azul-marino---H-M-PE.jpg%3Fv%3D638857831558870000",
-        descripcion: "Pantalón de corte holgado en punto pesado de crepé. Modelo de talle alto con elástico oculto en la cintura, pinzas detrás y cinturón cosido con hebilla rectangular. Piernas amplias con pliegues adelante."
-    },
-
-    {
-        id: "PROD-1013",
+        imagen1:"https://hmperu.vtexassets.com/unsafe/1280x0/center/middle/https%3A%2F%2Fhmperu.vtexassets.com%2Farquivos%2Fids%2F5715046%2FPantalon-amplio-con-correa---Azul-marino---H-M-PE.jpg%3Fv%3D638857831539100000",
+        imagen2:"https://hmperu.vtexassets.com/unsafe/540x0/center/middle/https%3A%2F%2Fhmperu.vtexassets.com%2Farquivos%2Fids%2F5715047%2FPantalon-amplio-con-correa---Azul-marino---H-M-PE.jpg%3Fv%3D638857831550000000",
+        imagen3:"https://hmperu.vtexassets.com/unsafe/1280x0/center/middle/https%3A%2F%2Fhmperu.vtexassets.com%2Farquivos%2Fids%2F5715048%2FPantalon-amplio-con-correa---Azul-marino---H-M-PE.jpg%3Fv%3D638857831558870000",
+        descripcion: "Pantalón de corte holgado en punto pesado de crepé. Modelo de talle alto con elástico oculto en la cintura, pinzas detrás y cinturón cosido con hebilla rectangular. Piernas amplias con pliegues adelante.",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
         nombre: "Zapatos de vestir destalonados de velour con lazo",
         precio: 109,
         categoria: "mujer",
         color: "Negro",
-        talla: [36,37,38,39,40,41],
+        talla: ["36","37","38","39","40","41"],
         tipo: "zapatos",
+        stock: 20,
         imagenMain: "https://hmperu.vtexassets.com/unsafe/540x0/center/middle/https%3A%2F%2Fhmperu.vtexassets.com%2Farquivos%2Fids%2F5632404%2FZapatos-de-vestir-destalonados-de-velour-con-lazo---Negro---H-M-PE.jpg%3Fv%3D638852559005200000",
-        imagen1: "https://hmperu.vtexassets.com/unsafe/1280x0/center/middle/https%3A%2F%2Fhmperu.vtexassets.com%2Farquivos%2Fids%2F5632403%2FZapatos-de-vestir-destalonados-de-velour-con-lazo---Negro---H-M-PE.jpg%3Fv%3D638852559000830000",
-        imagen2: "https://hmperu.vtexassets.com/unsafe/540x0/center/middle/https%3A%2F%2Fhmperu.vtexassets.com%2Farquivos%2Fids%2F5632405%2FZapatos-de-vestir-destalonados-de-velour-con-lazo---Negro---H-M-PE.jpg%3Fv%3D638852559009000000",
-        imagen3: "",
-        descripcion: "Zapatos de vestir destalonados en velour brillante con puntera fina y lazo decorativo adelante. Tira ajustable en el talón con hebilla ovalada de metal. Forro de satín."
-    },
-
-    {
-        id: "PROD-1014",
+        imagen1:"https://hmperu.vtexassets.com/unsafe/1280x0/center/middle/https%3A%2F%2Fhmperu.vtexassets.com%2Farquivos%2Fids%2F5632403%2FZapatos-de-vestir-destalonados-de-velour-con-lazo---Negro---H-M-PE.jpg%3Fv%3D638852559000830000",
+        imagen2:"https://hmperu.vtexassets.com/unsafe/540x0/center/middle/https%3A%2F%2Fhmperu.vtexassets.com%2Farquivos%2Fids%2F5632405%2FZapatos-de-vestir-destalonados-de-velour-con-lazo---Negro---H-M-PE.jpg%3Fv%3D638852559009000000",
+        imagen3:"",
+        descripcion: "Zapatos de vestir destalonados en velour brillante con puntera fina y lazo decorativo adelante. Tira ajustable en el talón con hebilla ovalada de metal. Forro de satín.",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
         nombre: "Zapatos destalonados",
         precio: 159,
         categoria: "mujer",
         color: "Negro",
-        talla: [36,37,38,39,40,41],
+        talla: ["36","37","38","39","40","41"],
         tipo: "zapatos",
+        stock: 20,
         imagenMain: "https://hmperu.vtexassets.com/unsafe/540x0/center/middle/https%3A%2F%2Fhmperu.vtexassets.com%2Farquivos%2Fids%2F5745599%2FZapatos-destalonados---Negro---H-M-PE.jpg%3Fv%3D638858585947530000",
-        imagen1: "https://hmperu.vtexassets.com/unsafe/1280x0/center/middle/https%3A%2F%2Fhmperu.vtexassets.com%2Farquivos%2Fids%2F5745598%2FZapatos-destalonados---Negro---H-M-PE.jpg%3Fv%3D638858585940300000",
-        imagen2: "https://hmperu.vtexassets.com/unsafe/540x0/center/middle/https%3A%2F%2Fhmperu.vtexassets.com%2Farquivos%2Fids%2F5745600%2FZapatos-destalonados---Negro---H-M-PE.jpg%3Fv%3D638858585952200000",
-        imagen3: "",
-        descripcion: "Zapatos estilo Mary Jane en tejido revestido con puntera redondeada. Tiras delgadas ajustables sobre el empeine y tira ajustable en el talón con hebilla de metal."
-    },
-
-    {
-        id: "PROD-1015",
+        imagen1:"https://hmperu.vtexassets.com/unsafe/1280x0/center/middle/https%3A%2F%2Fhmperu.vtexassets.com%2Farquivos%2Fids%2F5745598%2FZapatos-destalonados---Negro---H-M-PE.jpg%3Fv%3D638858585940300000",
+        imagen2:"https://hmperu.vtexassets.com/unsafe/540x0/center/middle/https%3A%2F%2Fhmperu.vtexassets.com%2Farquivos%2Fids%2F5745600%2FZapatos-destalonados---Negro---H-M-PE.jpg%3Fv%3D638858585952200000",
+        imagen3:"",
+        descripcion: "Zapatos estilo Mary Jane en tejido revestido con puntera redondeada. Tiras delgadas ajustables sobre el empeine y tira ajustable en el talón con hebilla de metal.",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
         nombre: "Botas con puntera fina",
         precio: 109,
         categoria: "mujer",
         color: "Beige oscuro",
-        talla: [36,37,38,39,40,41],
+        talla: ["36","37","38","39","40","41"],
         tipo: "zapatos",
+        stock: 20,
         imagenMain: "https://hmperu.vtexassets.com/unsafe/540x0/center/middle/https%3A%2F%2Fhmperu.vtexassets.com%2Farquivos%2Fids%2F5844916%2FBotas-con-puntera-fina---Beige-oscuro---H-M-PE.jpg%3Fv%3D638860396233670000",
-        imagen1: "https://hmperu.vtexassets.com/unsafe/1280x0/center/middle/https%3A%2F%2Fhmperu.vtexassets.com%2Farquivos%2Fids%2F5844913%2FBotas-con-puntera-fina---Beige-oscuro---H-M-PE.jpg%3Fv%3D638860396222730000",
-        imagen2: "https://hmperu.vtexassets.com/unsafe/540x0/center/middle/https%3A%2F%2Fhmperu.vtexassets.com%2Farquivos%2Fids%2F5844914%2FBotas-con-puntera-fina---Beige-oscuro---H-M-PE.jpg%3Fv%3D638860396226000000",
-        imagen3: "https://hmperu.vtexassets.com/unsafe/1280x0/center/middle/https%3A%2F%2Fhmperu.vtexassets.com%2Farquivos%2Fids%2F5844915%2FBotas-con-puntera-fina---Beige-oscuro---H-M-PE.jpg%3Fv%3D638860396230300000",
-        descripcion: "Botines con puntera fina, cierre oculto a un lado y taco cuadrado de diseño inclinado. Forro y plantillas de satín. Taco 6 cm."
-    },
-
-    {
-        id: "PROD-1016",
+        imagen1:"https://hmperu.vtexassets.com/unsafe/1280x0/center/middle/https%3A%2F%2Fhmperu.vtexassets.com%2Farquivos%2Fids%2F5844913%2FBotas-con-puntera-fina---Beige-oscuro---H-M-PE.jpg%3Fv%3D638860396222730000",
+        imagen2:"https://hmperu.vtexassets.com/unsafe/540x0/center/middle/https%3A%2F%2Fhmperu.vtexassets.com%2Farquivos%2Fids%2F5844914%2FBotas-con-puntera-fina---Beige-oscuro---H-M-PE.jpg%3Fv%3D638860396226000000",
+        imagen3:"https://hmperu.vtexassets.com/unsafe/1280x0/center/middle/https%3A%2F%2Fhmperu.vtexassets.com%2Farquivos%2Fids%2F5844915%2FBotas-con-puntera-fina---Beige-oscuro---H-M-PE.jpg%3Fv%3D638860396230300000",
+        descripcion: "Botines con puntera fina, cierre oculto a un lado y taco cuadrado de diseño inclinado. Forro y plantillas de satín. Taco 6 cm.",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
         nombre: "Ballerinas",
         precio: 79.95,
         categoria: "mujer",
         color: "Beige/Negro",
-        talla: [36,37,38,39,40,41],
+        talla: ["36","37","38","39","40","41"],
         tipo: "zapatos",
+        stock: 20,
         imagenMain: "https://hmperu.vtexassets.com/unsafe/540x0/center/middle/https%3A%2F%2Fhmperu.vtexassets.com%2Farquivos%2Fids%2F5438436%2FBallerinas---Beige-Negro---H-M-PE.jpg%3Fv%3D638845702892100000",
-        imagen1: "https://hmperu.vtexassets.com/unsafe/1280x0/center/middle/https%3A%2F%2Fhmperu.vtexassets.com%2Farquivos%2Fids%2F5438435%2FBallerinas---Beige-Negro---H-M-PE.jpg%3Fv%3D638845702882000000",
-        imagen2: "https://hmperu.vtexassets.com/unsafe/540x0/center/middle/https%3A%2F%2Fhmperu.vtexassets.com%2Farquivos%2Fids%2F5438437%2FBallerinas---Beige-Negro---H-M-PE.jpg%3Fv%3D638845702895400000",
-        imagen3: "https://hmperu.vtexassets.com/unsafe/1280x0/center/middle/https%3A%2F%2Fhmperu.vtexassets.com%2Farquivos%2Fids%2F5438438%2FBallerinas---Beige-Negro---H-M-PE.jpg%3Fv%3D638845702898670000",
-        descripcion: "Ballerinas clásicas con lazo decorativo adelante. Forro de satín."
-    },
-]
+        imagen1:"https://hmperu.vtexassets.com/unsafe/1280x0/center/middle/https%3A%2F%2Fhmperu.vtexassets.com%2Farquivos%2Fids%2F5438435%2FBallerinas---Beige-Negro---H-M-PE.jpg%3Fv%3D638845702882000000",
+        imagen2:"https://hmperu.vtexassets.com/unsafe/540x0/center/middle/https%3A%2F%2Fhmperu.vtexassets.com%2Farquivos%2Fids%2F5438437%2FBallerinas---Beige-Negro---H-M-PE.jpg%3Fv%3D638845702895400000",
+        imagen3:"https://hmperu.vtexassets.com/unsafe/1280x0/center/middle/https%3A%2F%2Fhmperu.vtexassets.com%2Farquivos%2Fids%2F5438438%2FBallerinas---Beige-Negro---H-M-PE.jpg%3Fv%3D638845702898670000",
+        descripcion: "Ballerinas clásicas con lazo decorativo adelante. Forro de satín.",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      
+    ], {});
+  },
 
-export default productosMujer;
+  async down (queryInterface, Sequelize) {
+    /**
+     * Add commands to revert seed here.
+     *
+     * Example:
+     * await queryInterface.bulkDelete('People', null, {});
+     */
+  }
+};
