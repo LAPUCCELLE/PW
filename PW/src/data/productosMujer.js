@@ -59,7 +59,6 @@ const productosMujer = [
         descripcion: "Chompa en punto suave. Modelo de corte holgado con cuello redondo ribeteado acanalado y hombros caídos. Puños y bajo acanalado."
     },
 
-    
     {
         id: "PROD-1005",
         nombre: "Casaca Acolchada Corta",

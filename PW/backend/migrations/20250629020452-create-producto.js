@@ -45,14 +45,6 @@ module.exports = {
       descripcion: {
         type: Sequelize.STRING
       },
-      usuarioId: {
-        type: Sequelize.INTEGER,
-        references : {
-          model: 'Usuarios',
-          key:'id'
-        },
-        onDelete: 'CASCADE'
-      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
