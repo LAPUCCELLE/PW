@@ -1,20 +1,28 @@
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import orders from "../data/orders";
-import usuarios from "../data/usuarios";
-import productosMujer from "../data/productosMujer";
+import axios from "axios";
+//import orders from "../data/orders";
+//import usuarios from "../data/usuarios";
 import "./orders/OrderAdmin.css";
 
 export default function OrderDetail() {
   const { id } = useParams();
-  const order = orders.find(o => o.id === id);
-  if (!order) return <p className="order-detail-container">Orden no encontrada</p>;
+  //const [productosBD, setProductosBD] = useState([]);
+  const [orden, setOrden] = useState(null);
 
-  const user = usuarios.find(u => u.id === order.userId);
+  useEffect(() => {
+    axios.get(`http://localhost:3000/api/orders/${id}`).then(res => setOrden(res.data)).catch(error => console.error("Error al cargar la orden:", error));
+  }, [id]);
+
+  //const order = orders.find(o => o.id === id);
+  if (!orden) return <p className="order-detail-container">Orden no encontrada</p>;
+
+  //const user = usuarios.find(u => u.id === order.userId);
 
   // Buscar productos comprados usando los IDs
-  const productosComprados = order.productos?.map(pid =>
-    productosMujer.find(p => p.id === pid)
-  ).filter(Boolean);
+  /*const productosComprados = order.productos?.map(pid =>
+    productosBD.find(p => p.id === pid)
+  ).filter(Boolean);*/
 
   return (
     <div className="order-detail-container">
@@ -23,26 +31,26 @@ export default function OrderDetail() {
         <tbody>
           <tr>
             <th>ID</th>
-            <td>{order.id}</td>
+            <td>{orden.id}</td>
           </tr>
           <tr>
             <th>Usuario</th>
-            <td>{user ? user.nombre : "Usuario no encontrado"}</td>
+            <td>{orden.usuario?.nombre || "Usuario desconocido"}</td>
           </tr>
           <tr>
             <th>Fecha</th>
-            <td>{order.date}</td>
+            <td>{orden.fecha}</td>
           </tr>
           <tr>
             <th>Productos</th>
             <td>
-              {productosComprados && productosComprados.length > 0 ? (
+              {orden.items && orden.items.length > 0 ? (
                 <ul style={{listStyle: "none", paddingLeft: 0, margin: 0}}>
-                  {productosComprados.map(prod => (
-                    <li key={prod.id} style={{ display: "flex", alignItems: "center", marginBottom: 8 }}>
+                  {orden.items.map(item => (
+                    <li key={item.id} style={{ display: "flex", alignItems: "center", marginBottom: 8 }}>
                       <img
-                        src={prod.imagenMain}
-                        alt={prod.nombre}
+                        src={item.producto?.imagenMain}
+                        alt={item.producto?.nombre}
                         style={{
                           width: 36,
                           height: 36,
@@ -52,7 +60,7 @@ export default function OrderDetail() {
                           border: "1px solid #eee"
                         }}
                       />
-                      <span>{prod.nombre}</span>
+                      <span>{item.producto?.nombre} (x{item.cantidad}) - Talla: {item.talla}</span>
                     </li>
                   ))}
                 </ul>
@@ -64,7 +72,7 @@ export default function OrderDetail() {
           <tr>
             <th>Total</th>
             <td style={{ background: "#f3fcf5", color: "#16a34a", fontWeight: "bold", fontSize: "1.2rem" }}>
-              S/. {order.total.toFixed(2)}
+              S/. {orden.monto?.toFixed(2)}
             </td>
           </tr>
         </tbody>

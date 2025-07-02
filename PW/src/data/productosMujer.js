@@ -1,4 +1,4 @@
-const productosMujer = [
+/*const productosMujer = [
     {
         id: "PROD-1001",
         nombre: "Polera con motivo de texto",
@@ -240,4 +240,4 @@ const productosMujer = [
     },
 ]
 
-export default productosMujer;
+export default productosMujer;*/

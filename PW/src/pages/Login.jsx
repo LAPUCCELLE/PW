@@ -1,22 +1,44 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from 'react-router-dom';
+import axios from "axios";
 import "../login.css";
-import usuariosPredefinidos from "../data/usuarios";
+//import usuariosPredefinidos from "../data/usuarios";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  const manejarLogin = (e) => {
+  const manejarLogin = async (e) => {
     e.preventDefault();
 
-    const usuariosRegistrados = JSON.parse(localStorage.getItem("usuariosRegistrados")) || [];
-    const historialUsuarios = JSON.parse(localStorage.getItem("HistorialdeUsuarios")) || [];
+    try {
+      const response = await axios.post("http://localhost:3000/api/usuarios/login", {
+        correo: email, 
+        password: password
+      });
 
-    const mapUsuarios = new Map();
+      const usuario = response.data;
+      localStorage.setItem("usuarioLogueado", JSON.stringify(usuario));
+      window.dispatchEvent(new Event("storage")); // Notificacion al navbar
 
-      usuariosPredefinidos.forEach(u => {
+      // Redireaccionar segùn el rol
+      if (usuario.rol == "admin") {
+        navigate("/admin");
+      } else {
+        navigate("/");
+      }
+
+    } catch (error) {
+      alert("Correo o contraseña incorrectos");
+    }
+        
+    //const usuariosRegistrados = JSON.parse(localStorage.getItem("usuariosRegistrados")) || [];
+    //const historialUsuarios = JSON.parse(localStorage.getItem("HistorialdeUsuarios")) || [];
+
+    //const mapUsuarios = new Map();
+
+      /*usuariosPredefinidos.forEach(u => {
         mapUsuarios.set(u.correo, u);
       });
 
@@ -59,7 +81,7 @@ const todosLosUsuarios = Array.from(mapUsuarios.values());
       }
     } else {
       alert("Correo o contraseña incorrectos");
-    }
+    }*/
   };
 
   return (
