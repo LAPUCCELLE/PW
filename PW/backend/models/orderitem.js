@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       this.belongsTo(models.Order, {
-        foreignKey: 'OrderId',
+        foreignKey: 'orderId',
         as: 'orden'
       });
 
@@ -23,11 +23,38 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   OrderItem.init({
-    orderId: DataTypes.INTEGER,
-    productoId: DataTypes.INTEGER,
-    cantidad: DataTypes.INTEGER,
-    precioUnit: DataTypes.FLOAT,
-    talla: DataTypes.STRING
+    orderId: { 
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
+    productoId: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
+    cantidad: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      validate: { 
+        min: 1, 
+        isInt: true
+      }
+    },
+    precioUnit: {
+      type: DataTypes.FLOAT,
+      allowNull: false,
+      validate: {
+        min: 0,
+        isFloat: true
+      }
+    },
+    talla: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: true,
+        len: [1,10]
+      }
+    } 
   }, {
     sequelize,
     modelName: 'OrderItem',

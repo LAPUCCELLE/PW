@@ -31,6 +31,7 @@ app.get('/api/usuarios', async (req,res) => {
     }
 })
 
+//CREAR UNA NUEVA CUENTA
 app.post("/api/usuarios", async (req, res) => {
     const { nombre,correo,password, rol = "usuario", genero} = req.body;
     try {
@@ -86,6 +87,30 @@ app.post("/api/usuarios/login", async (req,res) => {
     }
 });
 
+//CAMBIAR CONTRASEÑA
+app.put("/api/usuarios/:id/cambiar-password", async (req,res) => {
+    const {id} = req.params;    
+    const {nuevoPassword} = req.body;
+
+    if (!nuevoPassword) {
+        return res.status(400).json({error: "La nueva contraseña es requerida" });
+    } 
+    
+    try {
+        const usuario = await Usuario.findByPk(id);
+        if(!usuario) {
+            return res.status(404).json({ error: "Usuario no encontrado"});
+        }
+
+        usuario.password = nuevoPassword;
+        await usuario.save();
+
+        res.json({ mensaje: "Contraseña actualizada correctamente" });        
+    } catch (error) {
+        res.status(500).json({ error: "Error al cambiar la contraseña", detalle: error.message });
+    }
+});
+
 //CREAR UNA NUEVA ORDEN
 app.post("/api/orders", async (req,res) => {
     const { userId,productos,total,fecha,estado } = req.body;
@@ -129,7 +154,6 @@ app.get("/api/orders", async (req,res) => {
 });
 
 // VER UNA ORDEN ESPECIFICA
-
 app.get("/api/orders/:id", async (req,res) => {
     try {
         const orden = await Order.findByPk(req.params.id, {
@@ -145,6 +169,37 @@ app.get("/api/orders/:id", async (req,res) => {
         res.status(500).json({ error: "Error al obtener la orden", detalle: error.message });
     }
 });
+
+// VER EL HISTORIAL DE ORDENES POR USUARIO 
+app.get("/api/usuarios/:id/orders", async (req,res) => {
+    const {id} = req.params;
+
+    try {
+        const usuario = await Usuario.findByPk(id);
+        if (!usuario) {
+            return res.status(404).json({ error: "Usuario no encontrado" });
+        }
+
+        const ordenes = await Order.findAll({
+            where: { userId: id},
+            include: [
+                {
+                    model: OrderItem,
+                    as: "items",
+                    include: [{ model: Producto, as: "producto"}]
+                }
+            ],
+            order: [["fecha", "DESC"]]
+        });
+
+        res.json(ordenes);
+    } catch (error) {
+        res.status(500).json({
+            error: "Error al obtener órdenes del usuario",
+            detalle: error.mensaje
+        });
+    }
+}); 
 
 
 //Iniciar el servidor
