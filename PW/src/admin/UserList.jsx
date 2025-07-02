@@ -1,8 +1,16 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import usuarios from "../data/usuarios";
+import axios from "axios";
+//import usuarios from "../data/usuarios";
 import './users/UserAdmin.css';
 
 export default function UserList() {
+  const [usuarios, setUsuarios] = useState([]);
+
+  useEffect(() => {
+    axios.get("http://localhost:3000/api/usuarios").then(res => setUsuarios(res.data)).catch(error => console.error("Error al obtener usuarios:", error));
+  },[]); 
+  
   return (
     <div>
       <h2>Lista de Usuarios</h2>

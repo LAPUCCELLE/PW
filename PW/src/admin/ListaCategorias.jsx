@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import productos from "../data/productosMujer";
+import axios from "axios";
+//import productos from "../data/productosMujer";
 import './ListaCategorias.css'
 
 const ListaCategorias = () => {
@@ -7,14 +8,16 @@ const ListaCategorias = () => {
     const [nuevaCategoria, setNuevaCategoria] = useState("");
 
 useEffect(() => {
-    const tiposProductos = [...new Set(productos.map(p => p.tipo))];
-
-    const almacenadas = JSON.parse(localStorage.getItem("categorias")) || [];
-    const unificadas = [...new Set([...tiposProductos, ...almacenadas])];
-
-    setCategorias(unificadas);
-    localStorage.setItem("categorias", JSON.stringify(unificadas));
-    }, []);
+    axios.get("http://localhost:3000/api/productos").then((res) => {
+        const productos = res.data;
+        const tiposProductos = [...new Set(productos.map(p => p.tipo))];
+        const almacenadas = JSON.parse(localStorage.getItem("categorias")) || [];
+        const unificadas = [...new Set([...tiposProductos, ...almacenadas])];
+        setCategorias(unificadas);
+        localStorage.setItem("categorias", JSON.stringify(unificadas));
+    })
+    .catch((err) => console.error("Error cargando productos: ", err));
+}, []);
 
 const agregarCategoria = () => {
     const nombre = nuevaCategoria.trim().toLowerCase();

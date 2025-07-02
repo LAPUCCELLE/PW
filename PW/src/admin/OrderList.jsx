@@ -1,13 +1,21 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import orders from "../data/orders";
-import usuarios from "../data/usuarios";
+//import orders from "../data/orders";
+//import usuarios from "../data/usuarios";
 import "./orders/OrderAdmin.css";
 
 export default function OrderList() {
   const [searchId, setSearchId] = useState("");
+  const [ordenes, setOrdenes] = useState([]);
 
-  // Relaciona cada orden con el nombre del usuario
+  useEffect(() => {
+    axios.get("http://localhost:3000/api/orders").then(res => setOrdenes(res.data)).catch(error => console.error("Error al obtener órdenes:", error));
+  },[]);
+
+  // Filtrar por ID
+  const ordenesFiltradas = ordenes.filter(order => String(order.Id).includes(searchId.trim()));
+
+  /* Relaciona cada orden con el nombre del usuario
   const ordersWithUser = orders.map(order => {
     const user = usuarios.find(u => u.id === order.userId);
     return {
@@ -19,7 +27,7 @@ export default function OrderList() {
   // Filtra por el texto en la barra de búsqueda
   const ordersFiltradas = ordersWithUser.filter(order =>
     order.id.includes(searchId.trim())
-  );
+  );*/
 
   return (
     <div>
@@ -62,11 +70,11 @@ export default function OrderList() {
             ordersFiltradas.map(order => (
               <tr key={order.id}>
                 <td>{order.id}</td>
-                <td>{order.userName}</td>
-                <td>{order.date}</td>
-                <td>S/. {order.total.toFixed(2)}</td>
+                <td>{order.usuario?.nombre || "Desconocido"}</td>
+                <td>{order.fecha}</td>
+                <td>S/. {order.monto?.toFixed(2)}</td>
                 <td>
-                  {order.entregada
+                  {order.estado === "entregada"
                     ? <span className="estado-entregada">Entregada</span>
                     : <span className="estado-pendiente">Por entregar</span>
                   }

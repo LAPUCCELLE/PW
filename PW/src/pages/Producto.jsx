@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import useProductos from "../hooks/useProductos";
+import useProductos from "../hooks/UseProductos";
 import { useCarrito } from "../components/CarritoContext";
 import { useState } from "react";
 import '../producto.css';

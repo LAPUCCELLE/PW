@@ -1,19 +1,40 @@
 import React, { useState } from "react";
 import "../login.css";
 import { Outlet, Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Register = () => {
   const [nombre, setNombre] = useState("");
   const [correo, setCorreo] = useState("");
   const [password, setPassword] = useState("");
+  const [genero, setGenero] = useState("desconocido");
   const navigate = useNavigate();
 
-  const manejarRegistro = (e) => {
+  const manejarRegistro = async (e) => {
     e.preventDefault();
 
-    const usuariosGuardados = JSON.parse(localStorage.getItem("usuariosRegistrados")) || [];
+    try{
+      const response = await axios.post("http://localhost:3000/api/usuarios", {
+        nombre,
+        correo,
+        password,
+        rol: "usuario",
+        genero: "sin especificar"
+      });
 
-    const yaExiste = usuariosGuardados.some((u) => u.correo === correo);
+      alert("Usuario registrado con éxito");
+      navigate("/login");
+    } catch (error) {
+      if (error.response?.status === 409) {
+        alert("Este correo ya está registrado.");
+      } else {
+        console.error("Error al registrar:", error);
+        alert("Ocurrió un error al registrar el usuario.");
+      }
+    }
+    //const usuariosGuardados = JSON.parse(localStorage.getItem("usuariosRegistrados")) || [];
+    
+    /*const yaExiste = usuariosGuardados.some((u) => u.correo === correo);
     if (yaExiste) {
       alert("Este correo ya está registrado.");
       return;
@@ -37,8 +58,8 @@ const Register = () => {
       localStorage.setItem("HistorialdeUsuarios", JSON.stringify(historial));
     }
 
-    // ✅ Redirigir a /login
-    navigate("/login");
+    // Redirigir a /login
+    navigate("/login");*/
   };
 
   return (
@@ -84,6 +105,15 @@ const Register = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             /><br />
+            <label htmlFor="genero">Género</label><br/>
+            <select
+              id="genero"
+              value={genero}
+              onChange={(e) => setGenero(e.target.value)}
+              required>
+                <option value="hombre">Hombre</option>
+                <option value="mujer">Mujer</option>
+              </select><br /><br />
             <button id="submit" type="submit">Crear cuenta</button>
             <hr className="footer-linea" />
             <div className="link-register">

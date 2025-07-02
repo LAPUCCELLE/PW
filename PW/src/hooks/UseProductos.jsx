@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
-import productosMujer from "../data/productosMujer";
+//import productosMujer from "../data/productosMujer";
+import axios from "axios";
 
-const productosBase = [...productosMujer];
+//const productosBase = [...productosMujer];
 
 const UseProductos = (categoria) => {
     const [productos, setProductos] = useState([]);
@@ -10,12 +11,24 @@ const UseProductos = (categoria) => {
         if (categoria) {
             localStorage.setItem("categoriaSeleccionada", categoria);
         }
+        //Llamando a la API
+        axios.get("http://localhost:3000/api/productos").then((res) => {
+            let data = res.data;
 
-        let data = [...productosBase];
+            if (categoria) {
+                data = data.filter(p => p.categoria === categoria);
+            }
 
-        const datos = localStorage.getItem("productos");
+            setProductos(data);  
+        })
+        .catch((error) => {
+            console.error("Error al obtener productos desde la API:", error);
+        });
+        //let data = [...productosBase];
 
-        if (datos) {
+        //const datos = localStorage.getItem("productos");
+
+        /*if (datos) {
             try {
                 const dataParseada = JSON.parse(datos);
 
@@ -38,7 +51,7 @@ const UseProductos = (categoria) => {
             ? data.filter(p => p.categoria === categoria)
             : data;
 
-        setProductos(filtrados);
+        setProductos(filtrados);*/
     }, [categoria]);
 
     return productos;
