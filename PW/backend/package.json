@@ -2,6 +2,12 @@
   "name": "backend",
   "version": "1.0.0",
   "description": "Backend de h&m",
+  "keywords": [
+    "PW",
+    "bika",
+    "trika",
+    "vasAcaerRiccio"
+  ],
   "license": "ISC",
   "author": "LAPUCCELLE",
   "type": "commonjs",
@@ -19,11 +25,5 @@
     "pg": "^8.16.3",
     "pg-hstore": "^2.3.4",
     "sequelize": "^6.37.7"
-  },
-  "keywords": [
-    "PW",
-    "bika",
-    "trika",
-    "vasAcaerRiccio"
-  ]
+  }
 }

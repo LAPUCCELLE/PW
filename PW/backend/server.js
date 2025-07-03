@@ -112,29 +112,47 @@ app.put("/api/usuarios/:id/cambiar-password", async (req,res) => {
 });
 
 //CREAR UNA NUEVA ORDEN
-app.post("/api/orders", async (req,res) => {
-    const { userId,productos,total,fecha,estado } = req.body;
-    
+// En el backend (POST /api/orders)
+app.post("/api/orders", async (req, res) => {
+    const { userId, productos, total, direccion, metodoPago, metodoEnvio } = req.body;
     try {
-        //Orden principal
-        const nuevaOrden = await Order.create({ userId, monto: total,fecha,estado })
+        const nuevaOrden = await Order.create({
+        userId,
+        monto: total,
+        fecha: new Date().toISOString(),
+        estado: "pendiente", 
+        });
 
-        //Crear los items de la orden
-        const items = await Promise.all(productos.map(async (prod) => {
-            return await OrderItem.create({
-                orderId: nuevaOrden.id,
-                productoId: prod.id,
-                cantidad: prod.cantidad,
-                precioUnit: prod.precio,
-                talla: prod.talla || null
+        // Crear los items de la orden
+        await Promise.all(
+        productos.map(async (prod) => {
+            await OrderItem.create({
+            orderId: nuevaOrden.id,
+            productoId: prod.id,
+            cantidad: prod.cantidad,
+            precioUnit: prod.precio,
+            talla: prod.talla || null,
             });
-        }));
+        })
+        );
 
-        res.status(201).json({ orden: nuevaOrden, items });
+        // Crear la dirección de envío
+        const direccionEnvio = await OrderShipping.create({
+        orderId: nuevaOrden.id,
+        departamento: direccion.departamento,
+        provincia: direccion.provincia,
+        distrito: direccion.distrito,
+        direccion: direccion.direccion,
+        metodoEnvio: metodoEnvio,
+        });
+
+        // Devolver el ID de la orden creada
+        res.status(201).json({ id: nuevaOrden.id, direccionEnvio });
     } catch (error) {
         res.status(500).json({ error: "No se pudo crear la orden", detalle: error.message });
     }
 });
+
 
 // OBTENER TODAS LAS ORDENES CON SUS PRODUCTOS
 app.get("/api/orders", async (req,res) => {
@@ -154,17 +172,20 @@ app.get("/api/orders", async (req,res) => {
 });
 
 // VER UNA ORDEN ESPECIFICA
-app.get("/api/orders/:id", async (req,res) => {
+app.get("/api/orders/:id", async (req, res) => {
     try {
         const orden = await Order.findByPk(req.params.id, {
             include: [
-                { model: OrderItem, as: "items", include: [{ model: Producto, as: "producto" }]},
+                { model: OrderItem, as: "items", include: [{ model: Producto, as: "producto" }] },
                 { model: Usuario, as: "usuario" }
             ]
         });
 
-        if (!orden) return res.status(404).json({ error: "Orden no encontrada "});
-        res.json(orden);
+        if (!orden) {
+            return res.status(404).json({ error: "Orden no encontrada" });
+        }
+
+        res.json(orden); // Esta línea debe devolver los datos en formato JSON
     } catch (error) {
         res.status(500).json({ error: "Error al obtener la orden", detalle: error.message });
     }
@@ -196,10 +217,120 @@ app.get("/api/usuarios/:id/orders", async (req,res) => {
     } catch (error) {
         res.status(500).json({
             error: "Error al obtener órdenes del usuario",
-            detalle: error.mensaje
+            detalle: error.message
         });
     }
 }); 
+
+/// ********************** CARRITO RUTAS *****************************
+
+// Obtener el carrito de un usuario
+app.get('/api/carrito/:usuarioId', async (req, res) => {
+    const { usuarioId } = req.params;
+    try {
+        // Encontrar todos los carritos asociados con el usuario
+        const carrito = await Carrito.findAll({
+            where: { usuarioId },
+            include: [
+                {
+                model: Producto,
+                as: 'producto',  // Alias definido en el modelo
+                }
+            ]
+        });
+
+        if (carrito.length === 0) {
+        return res.status(404).json({ error: 'El carrito está vacío.' });
+        }
+
+        res.json(carrito);
+    } catch (error) {
+        res.status(500).json({ error: 'Error al obtener el carrito', detalle: error.message });
+    }
+});
+
+// Agregar producto al carrito
+app.post('/api/carrito/:usuarioId', async (req, res) => {
+    const { usuarioId } = req.params;
+    const { productoId, cantidad, talla } = req.body;
+
+    try {
+        // Verificar si el producto ya está en el carrito
+        const productoEnCarrito = await Carrito.findOne({
+        where: { usuarioId, productoId, talla }
+        });
+
+        if (productoEnCarrito) {
+        // Si el producto ya existe en el carrito, actualizamos la cantidad
+        productoEnCarrito.cantidad += cantidad;
+        await productoEnCarrito.save();
+        return res.json({ mensaje: 'Producto actualizado en el carrito' });
+        }
+
+        // Si no está en el carrito, agregamos el producto
+        await Carrito.create({
+        usuarioId,
+        productoId,
+        cantidad,
+        talla,
+        });
+
+        res.status(201).json({ mensaje: 'Producto agregado al carrito' });
+    } catch (error) {
+        res.status(500).json({ error: 'Error al agregar el producto al carrito', detalle: error.message });
+    }
+});
+
+
+// Actualizar cantidad de un producto en el carrito
+app.put('/api/carrito/:usuarioId', async (req, res) => {
+    const { usuarioId } = req.params;
+    const { productoId, cantidad } = req.body;
+
+    try {
+        const productoEnCarrito = await Carrito.findOne({
+        where: { usuarioId, productoId }
+        });
+
+        if (!productoEnCarrito) {
+        return res.status(404).json({ error: 'El producto no está en el carrito' });
+        }
+
+        // Actualizar la cantidad
+        productoEnCarrito.cantidad = cantidad;
+        await productoEnCarrito.save();
+
+        res.json({ mensaje: 'Cantidad actualizada correctamente' });
+    } catch (error) {
+        res.status(500).json({ error: 'Error al actualizar la cantidad', detalle: error.message });
+    }
+});
+
+
+// Eliminar producto del carrito
+app.delete('/api/carrito/:usuarioId/:productoId', async (req, res) => {
+    const { usuarioId, productoId } = req.params;
+
+    try {
+        const productoEnCarrito = await Carrito.findOne({
+        where: { usuarioId, productoId }
+        });
+
+        if (!productoEnCarrito) {
+        return res.status(404).json({ error: 'El producto no está en el carrito' });
+        }
+
+        // Eliminar el producto del carrito
+        await productoEnCarrito.destroy();
+
+        res.json({ mensaje: 'Producto eliminado del carrito' });
+    } catch (error) {
+        res.status(500).json({ error: 'Error al eliminar el producto', detalle: error.message });
+    }
+});
+
+
+//***************************************************************************************************** */
 
 
 //Iniciar el servidor
