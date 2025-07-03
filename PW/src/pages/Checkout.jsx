@@ -72,37 +72,62 @@ const Checkout = () => {
     }
   }, [provinciaSeleccionada]);
 
-  const handleFinalizarCompra = () => {
-    const direccionEnvio = {
-      departamento: departamentos.find(dep => dep.id === departamentoSeleccionado)?.name || "",
-      provincia: provincias.find(prov => prov.id === provinciaSeleccionada)?.name || "",
-      distrito: distritos.find(dist => dist.id === distritoSeleccionado)?.name || "",
-      direccion,
-      metodoEnvio,
+  const handleFinalizarCompra = async () => {
+  const direccionEnvio = {
+    departamento: departamentos.find(dep => dep.id === departamentoSeleccionado)?.name || "",
+    provincia: provincias.find(prov => prov.id === provinciaSeleccionada)?.name || "",
+    distrito: distritos.find(dist => dist.id === distritoSeleccionado)?.name || "",
+    direccion,
+    metodoEnvio,
+  };
+
+  // Guardar en localStorage
+  localStorage.setItem("productosPedido", JSON.stringify(carrito));
+  localStorage.setItem("totalPedido", total);
+  localStorage.setItem("metodoEnvio", metodoEnvio);
+  localStorage.setItem("direccionEnvio", JSON.stringify(direccionEnvio));
+
+  const usuario = JSON.parse(localStorage.getItem("usuarioLogueado"));
+  if (usuario) {
+    const pedidos = JSON.parse(localStorage.getItem("pedidos")) || [];
+    const nuevoPedido = {
+      usuarioId: usuario.id,
+      fecha: new Date().toISOString(),
+      productos: cartItems,
+      total: total,
+      direccion: direccionEnvio,
+      metodoPago,
     };
 
-    localStorage.setItem("productosPedido", JSON.stringify(carrito));
-    localStorage.setItem("totalPedido", total);
-    localStorage.setItem("metodoEnvio", metodoEnvio);
-    localStorage.setItem("direccionEnvio", JSON.stringify(direccionEnvio));
-
-    const usuario = JSON.parse(localStorage.getItem("usuarioLogueado"));
-    if (usuario) {
-      const pedidos = JSON.parse(localStorage.getItem("pedidos")) || [];
-      const nuevoPedido = {
-        usuarioId: usuario.id,
-        fecha: new Date().toISOString(),
+    try {
+      // Hacer la solicitud POST para crear la orden en el backend
+      const response = await axios.post('http://localhost:3000/api/orders', {
+        userId: usuario.id,
         productos: cartItems,
         total: total,
-        direccion: direccionEnvio,
+        direccion: direccionEnvio,  // Enviar dirección
         metodoPago,
-      };
-      pedidos.push(nuevoPedido);
-      localStorage.setItem("pedidos", JSON.stringify(pedidos));
+        metodoEnvio,
+      });
+
+      // Obtener el ID de la respuesta de la API
+      const id = response.data.id;
+      console.log("ID de la orden:", id); // Verifica que el backend devuelve el id de la orden
+
+      // Redirigir al usuario a la página de detalles del pedido
+      navigate(`/pedido-completo/${id}`);
+    } catch (error) {
+      setError("Hubo un problema al crear la orden");
     }
 
-    navigate("/pedido-completo");
-  };
+    // Añadir la orden a los pedidos locales (esto es opcional, depende de tus necesidades)
+    pedidos.push(nuevoPedido);
+    localStorage.setItem("pedidos", JSON.stringify(pedidos));
+  }
+};
+
+
+
 
   const handleCompletar = (e) => {
     e.preventDefault();

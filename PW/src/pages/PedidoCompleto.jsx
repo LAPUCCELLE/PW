@@ -1,6 +1,7 @@
-import React, { useEffect } from "react";
-import { useCarrito } from "../components/CarritoContext";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+//import { useCarrito } from "../components/CarritoContext";
+import { useNavigate, useParams } from "react-router-dom";
+import axios from "axios";
 import "../pedidoCompleto.css";
 
 // Suma días hábiles (sin contar sábados ni domingos)
@@ -17,15 +18,43 @@ function sumarDiasHabiles(fecha, dias) {
 }
 
 const PedidoCompleto = () => {
-  const { setCarrito } = useCarrito();
+  const { id } = useParams();
+  const [pedido, setPedido] = useState(null);
+  const [error, setError] = useState(null);
+  //const { setCarrito } = useCarrito();
   const navigate = useNavigate();
 
   useEffect(() => {
-    setCarrito([]);
-    localStorage.removeItem("carrito");
-  }, [setCarrito]);
+    const obtenerPedido = async () => {
+      try {
+        const response = await axios.get(`http://localhost:3000/api/orders/${id}`);
+        console.log("Respuesta de la API:",response.data);
+        setPedido(response.data);
+      } catch (error) {
+        setError("Hubo un problema al obtener los detalles del pedido");
+      }
+    };
 
-  const direccionEnvio = JSON.parse(localStorage.getItem("direccionEnvio")) || {};
+    obtenerPedido();
+    /*setCarrito([]);
+    localStorage.removeItem("carrito");*/
+  }, [id]);
+
+  if (error) return <div>{error}</div>;
+  if (!pedido) return <div>Cargando...</div>;
+  if (!pedido.items) return <div>No hay productos en el pedido.</div>
+
+  console.log("Items del pedido:", pedido.items);
+
+  const {items, direccion, monto, estado, envio } = pedido;
+
+  let fechaEntrega;
+  if (!fechaEntrega) {
+    const fecha = sumarDiasHabiles(new Date(),10);
+    fechaEntrega = fecha.toLocaleDateString();
+  }
+
+  /*const direccionEnvio = JSON.parse(localStorage.getItem("direccionEnvio")) || {};
   const productos = JSON.parse(localStorage.getItem("productosPedido")) || [];
   const metodoEnvio = localStorage.getItem("metodoEnvio") || "normal";
   const total = Number(localStorage.getItem("totalPedido")) || 0;
@@ -36,7 +65,7 @@ const PedidoCompleto = () => {
     fechaEntrega = fecha.toLocaleDateString();
   }
 
-  const envio = metodoEnvio === "express" ? 15 : 5;
+  const envio = metodoEnvio === "express" ? 15 : 5;*/
 
   return (
     <div className="pedido-completo-main">
@@ -47,40 +76,37 @@ const PedidoCompleto = () => {
       <div className="pedido-completo-content">
         <div className="pedido-completo-card">
           <h3>Resumen de la compra</h3>
-          {productos.length === 0 && <p>No hay productos en el pedido.</p>}
-          {productos.map((prod, idx) => (
+          {items.length === 0 && <p>No hay productos en el pedido.</p>}
+          {items.map((prod, idx) => (
             <div className="pedido-completo-producto" key={idx}>
               <img
                 src={
-                  prod.imagen ||
-                  prod.imagenMain ||
-                  prod.img ||
-                  "https://via.placeholder.com/50"
+                  prod.producto.imagen || "https://via.placeholder.com/50"
                 }
-                alt={prod.nombre || prod.name || "Producto"}
+                alt={prod.producto.nombre || "Producto"}
                 style={{ width: 50, height: 50, objectFit: "cover", marginRight: 10 }}
               />
               <div>
                 <p className="producto-nombre" style={{ fontWeight: "bold" }}>
-                  {prod.nombre || prod.name || "Sin nombre"}
+                  {prod.producto.nombre || "Sin nombre"}
                 </p>
                 <p className="producto-detalle">Cantidad: {prod.cantidad || 1}</p>
                 {prod.talla && <p className="producto-detalle">Talla: {prod.talla}</p>}
               </div>
               <div className="producto-precio">
-                S/ {(prod.precio * (prod.cantidad || 1)).toFixed(2)}
+                S/ {(prod.precioUnit * (prod.cantidad || 1)).toFixed(2)}
               </div>
             </div>
           ))}
         </div>
         <div className="pedido-completo-card resumen">
           <div className="resumen-row">
-            <span>PRODUCTOS ({productos.length})</span>
-            <span>S/ {total.toFixed(2)}</span>
+            <span>PRODUCTOS ({items.length})</span>
+            <span>S/ {monto.toFixed(2)}</span>
           </div>
           <div className="resumen-row green">
-            <span>ENTREGA ({metodoEnvio === "express" ? "Express" : "Normal"})</span>
-            <span>S/ {envio.toFixed(2)}</span>
+            <span>ENTREGA ({envio === "express" ? "Express" : "Normal"})</span>
+            <span>S/ {envio === "express" ? 15 : 5}</span>
           </div>
           <div className="resumen-row red">
             <span>DESCUENTOS</span>
@@ -89,14 +115,14 @@ const PedidoCompleto = () => {
           <hr />
           <div className="resumen-row total">
             <span>TOTAL</span>
-            <span>S/ {(total + envio).toFixed(2)}</span>
+            <span>S/ {(monto + (envio === "express" ? 15 : 5)).toFixed(2)}</span>
           </div>
           <div className="direccion-envio">
             <h4>Dirección de envío</h4>
             <p>
-              {direccionEnvio.direccion || "Dirección no disponible"}<br />
-              {direccionEnvio.departamento || ""} - {direccionEnvio.provincia || ""} - {direccionEnvio.distrito || ""}<br />
-              Celular: {direccionEnvio.celular || ""}
+              {direccion.direccion || "Dirección no disponible"}<br />
+              {direccion.departamento || ""} - {direccion.provincia || ""} - {direccion.distrito || ""}<br />
+              Celular: {direccion.celular || ""}
             </p>
             <p>
               Fecha de entrega: <b>{fechaEntrega}</b>

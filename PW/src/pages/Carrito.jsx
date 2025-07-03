@@ -24,29 +24,45 @@
     const { carrito, setCarrito } = useCarrito();
     const navigate = useNavigate();
     const [guardados, setGuardados] = useState(
-      JSON.parse(localStorage.getItem("guardadosDespues")) || []
-    );
+      //JSON.parse(localStorage.getItem("guardadosDespues")) || []
+    []);
 
     // Cargar carrito desde localStorage al iniciar
     useEffect(() => {
-      const carritoGuardado = JSON.parse(localStorage.getItem("carrito")) || [];
-      if (carritoGuardado.length > 0) {
-        setCarrito(carritoGuardado);
-      }
-      // eslint-disable-next-line
-    }, []);
+      const fetchCarrito = async () => {
+        const usuario = JSON.parse(localStorage.getItem("usuarioLogueado"));
+        if (usuario) {
+          try {
+            const response = await axios.get(`http://localhost:3000/api/users/${usuario.id}/cart`);
+            setCarrito(response.data); // Actualiza el carrito con los datos de la base de datos
+          } catch (error) {
+            console.error("Error al obtener el carrito:", error);
+          }
+        } else {
+          navigate("/login");
+        }
+      };
 
-    // Guardar carrito en localStorage cada vez que cambie
+      fetchCarrito();
+  }, [setCarrito, navigate]);
+
     useEffect(() => {
-      localStorage.setItem("carrito", JSON.stringify(carrito));
+      if (carrito.length > 0) {
+        const saveCarritoToDB = async () => {
+          const usuario = JSON.parse(localStorage.getItem("usuarioLogueado"));
+          if (usuario) {
+            try {
+              await axios.put(`http://localhost:3000/api/users/${usuario.id}/cart`, {
+                productos: carrito
+              });
+            } catch (error) {
+              console.error("Error al guardar el carrito:", error);
+            }
+          }
+        };
+        saveCarritoToDB();
+      }
     }, [carrito]);
-
-    // Guardar cambios en localStorage para los guardados
-    const syncGuardados = (items) => {
-      setGuardados(items);
-      localStorage.setItem("guardadosDespues", JSON.stringify(items));
-    };
-
     // Calcula productos agrupados en cada render
     const productosAgrupados = agruparProductos(carrito);
 
@@ -136,6 +152,7 @@
         return;
       }
 
+
       try {
         const fechaActual = new Date().toISOString();
         const productos = productosAgrupados.map(p => ({
@@ -156,7 +173,7 @@
         alert("Orden realizada exitosamente");
         setCarrito([]);
         localStorage.removeItem("carrito");
-        navigate("/orden-exitosa");
+        navigate("/checkout");
       } catch (error) {
         console.error("Error al crear la orden", error);
         alert("Error al crear la orden. Intenta nuevamente.");
