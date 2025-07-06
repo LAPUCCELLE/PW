@@ -1,29 +1,36 @@
-
 import React, { useState, useEffect } from "react";
-import orders from "../data/orders";
-import usuarios from "../data/usuarios";
+import axios from "axios";
+//import orders from "../data/orders";
+//import usuarios from "../data/usuarios";
 
 const Dashboard = () => {
-  
-  const obtenerHoyInput = () => {
-    const hoy = new Date();
+  /*const obtenerHoyInput = () => {
+    const hoy = new Date()  ;
     const anio = hoy.getFullYear();
     const mes = String(hoy.getMonth() + 1).padStart(2, '0');
     const dia = String(hoy.getDate()).padStart(2, '0');
     return `${anio}-${mes}-${dia}`;
-  };
-  
+  };*/
+
+  const [ordenes, setOrdenes] = useState([]);
+  const [ordenesFiltradas, setOrdenesFiltradas] = useState([]);
+  const [fechaInput, setFechaInput] = useState(() => {
+    const hoy = new Date()  ;
+    const anio = hoy.getFullYear();
+    const mes = String(hoy.getMonth() + 1).padStart(2, '0');
+    const dia = String(hoy.getDate()).padStart(2, '0');
+    return `${anio}-${mes}-${dia}`;
+  });
+
   const convertirAFormatoOrden = (fechaISO) => {
     const [anio, mes, dia] = fechaISO.split('-');
     return `${dia}/${mes}/${anio}`;
   };
+  // const [usuariosUnicos, setUsuariosUnicos] = useState(0);
+  //const [montoTotal, setMontoTotal] = useState(0);
+  
 
-  const [fechaInput, setFechaInput] = useState(obtenerHoyInput());
-  const [ordenes, setOrdenes] = useState(0);
-  const [usuariosUnicos, setUsuariosUnicos] = useState(0);
-  const [montoTotal, setMontoTotal] = useState(0);
-
-  const buscarRegistros = () => {
+  /*const buscarRegistros = () => {
     const fechaBusqueda = convertirAFormatoOrden(fechaInput);
     const ordenesFiltradas = orders.filter(order => order.date === fechaBusqueda);
 
@@ -31,51 +38,33 @@ const Dashboard = () => {
     const usuariosSet = new Set(ordenesFiltradas.map(order => order.userId));
     setUsuariosUnicos(usuariosSet.size);
     setMontoTotal(ordenesFiltradas.reduce((sum, o) => sum + (o.total || 0), 0));
-  };
+  };*/
 
   useEffect(() => {
-    buscarRegistros();
-  }, [fechaInput]);
+    axios.get("http://localhost:3000/api/orders").then(res => setOrdenes(res.data)).catch(error => console.error("Error al cargar ordenes:", error));
 
-  const totalOrdenesGlobal = orders.length;
-  const userIdsUnicosGlobal = Array.from(new Set(orders.map(order => order.userId)));
-  const totalUsuariosUnicosGlobal = userIdsUnicosGlobal.length;
-  const montoTotalGlobal = orders.reduce((sum, o) => sum + (o.total || 0), 0);
+  },[]);
+
+  useEffect(() => {
+    //buscarRegistros();
+    const fechaBusqueda = convertirAFormatoOrden(fechaInput);
+    const filtradas = ordenes.filter(o => o.fecha === fechaBusqueda);
+    setOrdenesFiltradas(filtradas);
+  }, [fechaInput, ordenes]);
+  
+  const usuariosUnicosHoy = new Set(ordenesFiltradas.map(o => o.userId)).size;
+  const montoTotalHoy = ordenesFiltradas.reduce((sum, o) => sum + (o.monto || 0), 0);
+
+  const usuariosUnicosTotales = new Set(ordenes.map(o => o.userId)).size;
+  const montoTotalGlobal = ordenes.reduce((sum, o) => sum + (o.monto || 0), 0);
+
+  //const totalOrdenesGlobal = orders.length;
+  //const userIdsUnicosGlobal = Array.from(new Set(orders.map(order => order.userId)));
+  //const totalUsuariosUnicosGlobal = userIdsUnicosGlobal.length;
+  
 
   return (
     <div style={{ padding: '2rem', fontFamily: 'Arial, sans-serif', maxWidth: '410px', margin: 'auto' }}>
-    
-  const buscarRegistros = () => {
-    const registros = JSON.parse(localStorage.getItem('registroDiario')) || [];
-    const fechaBusqueda = formatearFecha(fechaInput);
-    const registrosFiltrados = registros.filter(r => r.fecha === fechaBusqueda);
-
-    let totalOrdenes = 0;
-    let usuariosSet = new Set();
-    let totalMonto = 0;
-
-    registrosFiltrados.forEach(r => {
-      totalOrdenes += r.ordenes;
-      if (Array.isArray(r.usuarios)) {
-        r.usuarios.forEach(u => usuariosSet.add(u));
-      } else {
-        usuariosSet.add(r.usuarios);
-      }
-      totalMonto += r.monto;
-    });
-
-    setOrdenes(totalOrdenes);
-    setUsuariosUnicos(usuariosSet.size);
-    setMontoTotal(totalMonto);
-  };
-
-  useEffect(() => {
-    buscarRegistros();
-  }, []);
-
-  return (
-    <div style={{ padding: '2rem', fontFamily: 'Arial, sans-serif', maxWidth: '400px', margin: 'auto' }}>
-    
       <h2>Bienvenido ADMIN</h2>
       <p>Registro diario de las órdenes, usuarios y montos</p>
 
@@ -88,7 +77,7 @@ const Dashboard = () => {
           onChange={e => setFechaInput(e.target.value)}
           style={{ padding: '0.5rem', fontSize: '1rem', marginTop: '0.3rem' }}
         />
-        <button
+        {/*<button
           onClick={buscarRegistros}
           style={{
             marginLeft: '0.5rem',
@@ -102,22 +91,21 @@ const Dashboard = () => {
           }}
         >
           Buscar
-        </button>
+        </button>*/}
       </div>
 
       <div style={{ fontSize: '1.1rem' }}>
-        <p><strong>Órdenes (por fecha):</strong> {ordenes}</p>
-        <p><strong>Usuarios únicos (por fecha):</strong> {usuariosUnicos}</p>
-        <p><strong>Monto total (por fecha):</strong> S/ {montoTotal.toFixed(2)}</p>
+        <p><strong>Órdenes (por fecha):</strong> {ordenesFiltradas.length}</p>
+        <p><strong>Usuarios únicos (por fecha):</strong> {usuariosUnicosHoy}</p>
+        <p><strong>Monto total (por fecha):</strong> S/ {montoTotalHoy.toFixed(2)}</p>
       </div>
 
       <hr style={{margin: "1.5rem 0"}} />
 
       <div style={{ fontSize: '1.13rem' }}>
-        <p><strong>Órdenes totales:</strong> {totalOrdenesGlobal}</p>
-        <p><strong>Usuarios únicos totales:</strong> {totalUsuariosUnicosGlobal}</p>
+        <p><strong>Órdenes totales:</strong> {ordenes.length}</p>
+        <p><strong>Usuarios únicos totales:</strong> {usuariosUnicosTotales}</p>
         <p><strong>Monto total global:</strong> <span style={{color: "#16a34a", fontWeight: 600}}>S/ {montoTotalGlobal.toFixed(2)}</span></p>
-          
       </div>
     </div>
   );

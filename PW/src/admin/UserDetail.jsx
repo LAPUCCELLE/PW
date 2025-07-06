@@ -1,16 +1,35 @@
+import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
-import usuarios from "../data/usuarios";
-import orders from "../data/orders";
-import "./users/UserAdmin.css";
+import axios from "axios";
+import './users/UserAdmin.css';
+
+const API_URL = "http://localhost:3000/api/usuarios"; // Cambia si tu backend está en otro lugar
+const API_ORDERS = "http://localhost:3000/api/orders"; // Cambia si tu backend está en otro lugar
 
 export default function UserDetail() {
   const { id } = useParams();
-  const user = usuarios.find(u => u.id === id);
+  const [user, setUser] = useState(null);
+  const [userOrders, setUserOrders] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
+  useEffect(() => {
+    setLoading(true);
+    axios.get(`${API_URL}/${id}`)
+      .then(res => setUser(res.data))
+      .catch(() => setError("Usuario no encontrado"));
+
+    axios.get(API_ORDERS)
+      .then(res => setUserOrders(res.data.filter(o => o.userId === id)))
+      .catch(() => {});
+
+    setLoading(false);
+  }, [id]);
+
+  if (loading) return <p>Cargando...</p>;
   if (!user) return <p className="user-detail-container">Usuario no encontrado</p>;
 
   const avatarURL = `https://randomuser.me/api/portraits/${user.genero === "mujer" ? "women" : "men"}/${parseInt(user.id) % 100}.jpg`;
-  const userOrders = orders.filter(order => order.userId === user.id);
 
   return (
     <div className="user-detail-main-container">

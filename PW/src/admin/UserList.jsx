@@ -1,8 +1,25 @@
+import { useState, useEffect } from "react";
+import axios from "axios";
 import { Link } from "react-router-dom";
-import usuarios from "../data/usuarios";
 import './users/UserAdmin.css';
 
+const API_URL = "http://localhost:3000/api/usuarios"; // Cambia si tu backend está en otro lugar
+
 export default function UserList() {
+  const [usuarios, setUsuarios] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    axios.get(API_URL)
+      .then(res => setUsuarios(res.data))
+      .catch(err => setError("Error al cargar usuarios"))
+      .finally(() => setLoading(false));
+  }, []);
+
+  if (loading) return <p>Cargando usuarios...</p>;
+  if (error) return <p>{error}</p>;
+
   return (
     <div>
       <h2>Lista de Usuarios</h2>

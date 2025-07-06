@@ -1,11 +1,36 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
 import { Link } from "react-router-dom";
-import orders from "../data/orders";
-import usuarios from "../data/usuarios";
-import "./orders/OrderAdmin.css";
+import './orders/OrderAdmin.css';
+
+const API_ORDERS = "http://localhost:3000/api/orders";
+const API_USERS = "http://localhost:3000/api/usuarios";
 
 export default function OrderList() {
+  const [orders, setOrders] = useState([]);
+  const [usuarios, setUsuarios] = useState([]);
   const [searchId, setSearchId] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    Promise.all([
+      axios.get(API_ORDERS),
+      axios.get(API_USERS)
+    ])
+      .then(([ordersRes, usersRes]) => {
+        setOrders(ordersRes.data);
+        setUsuarios(usersRes.data);
+        setLoading(false);
+      })
+      .catch(() => {
+        setError("Error al cargar datos");
+        setLoading(false);
+      });
+  }, []);
+
+  if (loading) return <p>Cargando órdenes...</p>;
+  if (error) return <p>{error}</p>;
 
   // Relaciona cada orden con el nombre del usuario
   const ordersWithUser = orders.map(order => {
