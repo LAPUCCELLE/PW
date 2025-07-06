@@ -31,6 +31,20 @@ app.get('/api/usuarios', async (req,res) => {
     }
 })
 
+
+// DETALLE DE USUARIO POR ID
+app.get('/api/usuarios/:id', async (req, res) => {
+    try {
+        const usuario = await Usuario.findByPk(req.params.id);
+        if (!usuario) {
+            return res.status(404).json({ error: "Usuario no encontrado" });
+        }
+        res.json(usuario);
+    } catch (error) {
+        res.status(500).json({ error: "Error al obtener usuario", detalle: error.message });
+    }
+});
+
 //CREAR UNA NUEVA CUENTA
 app.post("/api/usuarios", async (req, res) => {
     const { nombre,correo,password, rol = "usuario", genero} = req.body;

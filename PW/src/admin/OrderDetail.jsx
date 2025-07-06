@@ -1,29 +1,52 @@
-import { useEffect, useState } from "react";
+
+import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-//import orders from "../data/orders";
-//import usuarios from "../data/usuarios";
-import "./orders/OrderAdmin.css";
+import './orders/OrderAdmin.css';
+
+const API_ORDERS = "http://localhost:3000/api/orders";
+const API_USERS = "http://localhost:3000/api/usuarios";
+const API_PRODUCTS = "http://localhost:3000/api/productosMujer"; // Cambia por el endpoint real de tus productos
 
 export default function OrderDetail() {
   const { id } = useParams();
-  //const [productosBD, setProductosBD] = useState([]);
-  const [orden, setOrden] = useState(null);
+  const [order, setOrder] = useState(null);
+  const [user, setUser] = useState(null);
+  const [productos, setProductos] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    axios.get(`http://localhost:3000/api/orders/${id}`).then(res => setOrden(res.data)).catch(error => console.error("Error al cargar la orden:", error));
+    Promise.all([
+      axios.get(`${API_ORDERS}/${id}`),
+      axios.get(API_USERS),
+      axios.get(API_PRODUCTS)
+    ])
+      .then(([orderRes, usersRes, productsRes]) => {
+        const foundOrder = orderRes.data;
+        setOrder(foundOrder);
+
+        const usuario = usersRes.data.find(u => u.id === foundOrder.userId);
+        setUser(usuario);
+
+        if (foundOrder && Array.isArray(foundOrder.productos)) {
+          const productosComprados = foundOrder.productos.map(pid =>
+            productsRes.data.find(p => p.id === pid)
+          ).filter(Boolean);
+          setProductos(productosComprados);
+        }
+        setLoading(false);
+      })
+      .catch(() => {
+        setError("Orden no encontrada");
+        setLoading(false);
+      });
   }, [id]);
 
-  //const order = orders.find(o => o.id === id);
-  if (!orden) return <p className="order-detail-container">Orden no encontrada</p>;
-
-  //const user = usuarios.find(u => u.id === order.userId);
-
-  // Buscar productos comprados usando los IDs
-  /*const productosComprados = order.productos?.map(pid =>
-    productosBD.find(p => p.id === pid)
-  ).filter(Boolean);*/
-
+  if (loading) return <p>Cargando orden...</p>;
+  if (error) return <p className="order-detail-container">{error}</p>;
+  if (!order) return <p className="order-detail-container">Orden no encontrada</p>;
+  
   return (
     <div className="order-detail-container">
       <div className="order-detail-title">Detalle de Orden</div>
@@ -35,7 +58,7 @@ export default function OrderDetail() {
           </tr>
           <tr>
             <th>Usuario</th>
-            <td>{orden.usuario?.nombre || "Usuario desconocido"}</td>
+            <td>{orden.usuario?.nombre : "Usuario desconocido"}</td>
           </tr>
           <tr>
             <th>Fecha</th>
@@ -44,10 +67,16 @@ export default function OrderDetail() {
           <tr>
             <th>Productos</th>
             <td>
+              {productos && productos.length > 0 ? (
+                <ul style={{listStyle: "none", paddingLeft: 0, margin: 0}}>
+                  {productos.map(prod => (
+                    <li key={prod.id} style={{ display: "flex", alignItems: "center", marginBottom: 8 }}>
+
               {orden.items && orden.items.length > 0 ? (
                 <ul style={{listStyle: "none", paddingLeft: 0, margin: 0}}>
                   {orden.items.map(item => (
                     <li key={item.id} style={{ display: "flex", alignItems: "center", marginBottom: 8 }}>
+
                       <img
                         src={item.producto?.imagenMain}
                         alt={item.producto?.nombre}
@@ -60,7 +89,7 @@ export default function OrderDetail() {
                           border: "1px solid #eee"
                         }}
                       />
-                      <span>{item.producto?.nombre} (x{item.cantidad}) - Talla: {item.talla}</span>
+                      <span>{prod.nombre}</span>
                     </li>
                   ))}
                 </ul>
@@ -72,7 +101,7 @@ export default function OrderDetail() {
           <tr>
             <th>Total</th>
             <td style={{ background: "#f3fcf5", color: "#16a34a", fontWeight: "bold", fontSize: "1.2rem" }}>
-              S/. {orden.monto?.toFixed(2)}
+              S/. {order.total?.toFixed(2) || "0.00"}
             </td>
           </tr>
         </tbody>

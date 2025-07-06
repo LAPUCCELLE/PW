@@ -1,21 +1,41 @@
-import { useEffect, useState } from "react";
+
+import { useState, useEffect } from "react";
+import axios from "axios";
 import { Link } from "react-router-dom";
-//import orders from "../data/orders";
-//import usuarios from "../data/usuarios";
-import "./orders/OrderAdmin.css";
+import './orders/OrderAdmin.css';
+
+const API_ORDERS = "http://localhost:3000/api/orders";
+const API_USERS = "http://localhost:3000/api/usuarios";
 
 export default function OrderList() {
+  const [orders, setOrders] = useState([]);
+  const [usuarios, setUsuarios] = useState([]);
   const [searchId, setSearchId] = useState("");
-  const [ordenes, setOrdenes] = useState([]);
+
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    axios.get("http://localhost:3000/api/orders").then(res => setOrdenes(res.data)).catch(error => console.error("Error al obtener órdenes:", error));
-  },[]);
+    Promise.all([
+      axios.get(API_ORDERS),
+      axios.get(API_USERS)
+    ])
+      .then(([ordersRes, usersRes]) => {
+        setOrders(ordersRes.data);
+        setUsuarios(usersRes.data);
+        setLoading(false);
+      })
+      .catch(() => {
+        setError("Error al cargar datos");
+        setLoading(false);
+      });
+  }, []);
 
-  // Filtrar por ID
-  const ordenesFiltradas = ordenes.filter(order => String(order.Id).includes(searchId.trim()));
+  if (loading) return <p>Cargando órdenes...</p>;
+  if (error) return <p>{error}</p>;
 
-  /* Relaciona cada orden con el nombre del usuario
+
+  //Relaciona cada orden con el nombre del usuario
   const ordersWithUser = orders.map(order => {
     const user = usuarios.find(u => u.id === order.userId);
     return {
@@ -27,7 +47,7 @@ export default function OrderList() {
   // Filtra por el texto en la barra de búsqueda
   const ordersFiltradas = ordersWithUser.filter(order =>
     order.id.includes(searchId.trim())
-  );*/
+  );
 
   return (
     <div>
@@ -70,11 +90,11 @@ export default function OrderList() {
             ordersFiltradas.map(order => (
               <tr key={order.id}>
                 <td>{order.id}</td>
-                <td>{order.usuario?.nombre || "Desconocido"}</td>
-                <td>{order.fecha}</td>
-                <td>S/. {order.monto?.toFixed(2)}</td>
+                <td>{order.userName}</td>
+                <td>{order.date></td>
+                <td>S/. {order.total.toFixed(2)}</td>
                 <td>
-                  {order.estado === "entregada"
+                  {order.entregada
                     ? <span className="estado-entregada">Entregada</span>
                     : <span className="estado-pendiente">Por entregar</span>
                   }
