@@ -19,10 +19,12 @@ module.exports = (sequelize, DataTypes) => {
     orderId: {
       type: DataTypes.INTEGER,
       allowNull: false,
+      field: "orderId",
       references: {
         model: "Orders", // Relacionado con la tabla Orders
         key: 'id',
       },
+
     },
     departamento: {
       type: DataTypes.STRING,
@@ -47,6 +49,8 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'OrderShipping',
+    tableName: 'OrderShippings',
+    freezeTableName: true 
   });
   return OrderShipping;
 };

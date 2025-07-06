@@ -1,6 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const { Producto, Usuario, Order, OrderItem} = require('./models');
+const { Carrito, Producto, Usuario, Order, OrderItem, OrderShipping} = require('./models');
 const cors = require('cors');
 
 //Instanciar el motor
@@ -114,42 +114,66 @@ app.put("/api/usuarios/:id/cambiar-password", async (req,res) => {
 //CREAR UNA NUEVA ORDEN
 // En el backend (POST /api/orders)
 app.post("/api/orders", async (req, res) => {
-    const { userId, productos, total, direccion, metodoPago, metodoEnvio } = req.body;
+    const { userId, total, direccion, metodoPago, metodoEnvio } = req.body;
+
+    const carrito = await Carrito.findAll({
+        where: { usuarioId: userId },
+        include: [{ model: Producto, as: "producto" }]
+    });
+
+    if (!carrito || carrito.length === 0) {
+        return res.status(400).json({ error: "El carrito está vacío" });
+    }
+
     try {
+        let subtotal = 0;
+        for (const item of carrito) {
+            subtotal += item.cantidad * item.producto.precio;
+        }
+
+        const costoEnvio = metodoEnvio === "express" ? 15 : 5;
+
+        const totalCalculado = subtotal + costoEnvio;
+
         const nuevaOrden = await Order.create({
-        userId,
-        monto: total,
-        fecha: new Date().toISOString(),
-        estado: "pendiente", 
+            userId,
+            monto: totalCalculado,
+            fecha: new Date().toISOString(),
+            estado: "pendiente", 
         });
 
         // Crear los items de la orden
         await Promise.all(
-        productos.map(async (prod) => {
-            await OrderItem.create({
-            orderId: nuevaOrden.id,
-            productoId: prod.id,
-            cantidad: prod.cantidad,
-            precioUnit: prod.precio,
-            talla: prod.talla || null,
-            });
-        })
+            carrito.map(async (item) => {
+                await OrderItem.create({
+                    orderId: nuevaOrden.id,
+                    productoId: item.productoId,
+                    cantidad: item.cantidad,
+                    precioUnit: item.producto.precio, // si lo quieres usar del producto
+                    talla: item.talla || null
+                });
+            })
         );
 
         // Crear la dirección de envío
         const direccionEnvio = await OrderShipping.create({
-        orderId: nuevaOrden.id,
-        departamento: direccion.departamento,
-        provincia: direccion.provincia,
-        distrito: direccion.distrito,
-        direccion: direccion.direccion,
-        metodoEnvio: metodoEnvio,
+            orderId: nuevaOrden.id,
+            departamento: direccion?.departamento || "No especificado",
+            provincia: direccion?.provincia || "No especificado",
+            distrito: direccion?.distrito || "No especificado",
+            direccion: direccion?.direccion || "No especificado",
+            metodoEnvio: direccion?.metodoEnvio || metodoEnvio || "normal",
         });
+
+        await Carrito.destroy({ where: { usuarioId: userId } });
 
         // Devolver el ID de la orden creada
         res.status(201).json({ id: nuevaOrden.id, direccionEnvio });
     } catch (error) {
-        res.status(500).json({ error: "No se pudo crear la orden", detalle: error.message });
+        res.status(500).json({  
+            error: 'Error al crear la orden',
+            detalle: error.message,
+            stack: error.stack});
     }
 });
 
@@ -177,7 +201,8 @@ app.get("/api/orders/:id", async (req, res) => {
         const orden = await Order.findByPk(req.params.id, {
             include: [
                 { model: OrderItem, as: "items", include: [{ model: Producto, as: "producto" }] },
-                { model: Usuario, as: "usuario" }
+                { model: Usuario, as: "usuario" },
+                { model: OrderShipping, as: "shipping" }
             ]
         });
 
@@ -233,19 +258,25 @@ app.get('/api/carrito/:usuarioId', async (req, res) => {
             where: { usuarioId },
             include: [
                 {
-                model: Producto,
-                as: 'producto',  // Alias definido en el modelo
+                    model: Producto,
+                    as: 'producto',  // Alias definido en el modelo
+                    required: false,
                 }
             ]
         });
 
-        if (carrito.length === 0) {
-        return res.status(404).json({ error: 'El carrito está vacío.' });
+        console.log("📦 Carrito encontrado:", carrito);
+
+        if (!carrito || carrito.length === 0) {
+            return res.status(200).json([]); // <- responde con array vacío y status 200
         }
 
         res.json(carrito);
     } catch (error) {
-        res.status(500).json({ error: 'Error al obtener el carrito', detalle: error.message });
+        res.status(500).json({ 
+            error: 'Error al crear la orden',
+            detalle: error.message,
+            stack: error.stack });
     }
 });
 
@@ -277,7 +308,10 @@ app.post('/api/carrito/:usuarioId', async (req, res) => {
 
         res.status(201).json({ mensaje: 'Producto agregado al carrito' });
     } catch (error) {
-        res.status(500).json({ error: 'Error al agregar el producto al carrito', detalle: error.message });
+        res.status(500).json({ 
+            error: 'Error al obtener el carrito',
+            detalle: error.message,
+            stack: error.stack });
     }
 });
 
@@ -285,24 +319,26 @@ app.post('/api/carrito/:usuarioId', async (req, res) => {
 // Actualizar cantidad de un producto en el carrito
 app.put('/api/carrito/:usuarioId', async (req, res) => {
     const { usuarioId } = req.params;
-    const { productoId, cantidad } = req.body;
-
+    const { productos } = req.body;
     try {
-        const productoEnCarrito = await Carrito.findOne({
-        where: { usuarioId, productoId }
-        });
+        // Eliminar todo el carrito del usuario antes de actualizar
+        await Carrito.destroy({ where: { usuarioId } });
 
-        if (!productoEnCarrito) {
-        return res.status(404).json({ error: 'El producto no está en el carrito' });
+        // Agregar los nuevos productos
+        for (const prod of productos) {
+            await Carrito.create({
+                usuarioId,
+                productoId: prod.id,
+                cantidad: prod.cantidad,
+                talla: prod.tallaSeleccionada || null
+            });
         }
-
-        // Actualizar la cantidad
-        productoEnCarrito.cantidad = cantidad;
-        await productoEnCarrito.save();
-
-        res.json({ mensaje: 'Cantidad actualizada correctamente' });
-    } catch (error) {
-        res.status(500).json({ error: 'Error al actualizar la cantidad', detalle: error.message });
+        res.json({ mensaje: 'Carrito actualizado correctamente' });
+    }   catch (error) {
+        res.status(500).json({ 
+            error: 'Error al guardar el carrito',
+            detalle: error.message,
+            stack: error.stack });
     }
 });
 
@@ -310,14 +346,15 @@ app.put('/api/carrito/:usuarioId', async (req, res) => {
 // Eliminar producto del carrito
 app.delete('/api/carrito/:usuarioId/:productoId', async (req, res) => {
     const { usuarioId, productoId } = req.params;
+    const { talla } = req.body;
 
     try {
         const productoEnCarrito = await Carrito.findOne({
-        where: { usuarioId, productoId }
+            where: { usuarioId, productoId, talla }
         });
 
         if (!productoEnCarrito) {
-        return res.status(404).json({ error: 'El producto no está en el carrito' });
+            return res.status(404).json({ error: 'El producto no está en el carrito' });
         }
 
         // Eliminar el producto del carrito
@@ -325,7 +362,10 @@ app.delete('/api/carrito/:usuarioId/:productoId', async (req, res) => {
 
         res.json({ mensaje: 'Producto eliminado del carrito' });
     } catch (error) {
-        res.status(500).json({ error: 'Error al eliminar el producto', detalle: error.message });
+        res.status(500).json({ 
+            error: 'Error al crear la orden',
+            detalle: error.message,
+            stack: error.stack });
     }
 });
 

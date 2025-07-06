@@ -25,7 +25,12 @@ module.exports = (sequelize, DataTypes) => {
   OrderItem.init({
     orderId: { 
       type: DataTypes.INTEGER,
-      allowNull: false
+      allowNull: false,
+      field: 'orderId',
+      references: {
+        model: 'Orders',
+        key: 'id'
+      }
     },
     productoId: {
       type: DataTypes.INTEGER,
@@ -58,6 +63,8 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'OrderItem',
+    tableName: 'OrderItems',
+    freezeTableName: true 
   });
   return OrderItem;
 };

@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, useEffect } from "react";
+import axios from "axios";
 
 const CarritoContext = createContext();
 
@@ -7,16 +8,25 @@ export function useCarrito() {
 }
 
 export function CarritoProvider({ children }) {
-  // Inicializa el carrito desde localStorage si existe
-  const [carrito, setCarrito] = useState(() => {
-    const guardado = localStorage.getItem("carrito");
-    return guardado ? JSON.parse(guardado) : [];
-  });
+  const [carrito, setCarrito] = useState([]);
 
-  // Sincroniza el carrito con localStorage cada vez que cambie
   useEffect(() => {
     localStorage.setItem("carrito", JSON.stringify(carrito));
   }, [carrito]);
+
+  async function guardarCarritoEnBD(carritoActualizado) {
+    const usuario = JSON.parse(localStorage.getItem("usuarioLogueado"));
+    if (!usuario || carritoActualizado.length === 0) return;
+
+    try {
+      await axios.put(`http://localhost:3000/api/carrito/${usuario.id}`, {
+        productos: carritoActualizado
+      });
+      console.log("Carrito guardado en BD:", carritoActualizado);
+    } catch (error) {
+      console.error("Error al guardar el carrito en la BD:", error);
+    }
+  }
 
   function agregarAlCarrito(producto, talla) {
     if (!producto?.id) return;
@@ -28,30 +38,31 @@ export function CarritoProvider({ children }) {
         item => item.id === producto.id && item.tallaSeleccionada === talla
       );
 
-      if (index !== -1) {
-        // Producto ya existe: actualiza solo la cantidad, sin duplicar lógica
-        return prev.map((item, i) =>
-          i === index
-            ? { ...item, cantidad: item.cantidad + cantidadAgregar }
-            : item
-        );
-      }
+      const actualizado = index !== -1
+        ? prev.map((item, i) =>
+            i === index
+              ? { ...item, cantidad: item.cantidad + cantidadAgregar }
+              : item
+          )
+        : [
+            ...prev,
+            {
+              ...producto,
+              tallaSeleccionada: talla,
+              cantidad: cantidadAgregar,
+            },
+          ];
 
-      // Producto nuevo: agregarlo con la cantidad especificada
-      return [
-        ...prev,
-        {
-          ...producto,
-          tallaSeleccionada: talla,
-          cantidad: cantidadAgregar,
-        },
-      ];
+      guardarCarritoEnBD(actualizado); 
+
+      return actualizado;
     });
   }
+
   function eliminarDelCarrito(id, talla) {
-    setCarrito(prev =>
-      prev.filter(item => !(item.id === id && item.tallaSeleccionada === talla))
-    );
+    const actualizado = carrito.filter(item => !(item.id === id && item.tallaSeleccionada === talla));
+    setCarrito(actualizado);
+    guardarCarritoEnBD(actualizado); 
   }
 
   return (

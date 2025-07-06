@@ -21,6 +21,7 @@
   };
 
   const Carrito = () => {
+    const [hasFetched, setHasFetched] = useState(false);
     const { carrito, setCarrito } = useCarrito();
     const navigate = useNavigate();
     const [guardados, setGuardados] = useState(
@@ -33,10 +34,24 @@
         const usuario = JSON.parse(localStorage.getItem("usuarioLogueado"));
         if (usuario) {
           try {
-            const response = await axios.get(`http://localhost:3000/api/users/${usuario.id}/cart`);
-            setCarrito(response.data); // Actualiza el carrito con los datos de la base de datos
-          } catch (error) {
-            console.error("Error al obtener el carrito:", error);
+            const response = await axios.get(`http://localhost:3000/api/carrito/${usuario.id}`);
+            setCarrito(response.data.map(item => ({
+              id: item.productoId,
+              nombre: item.producto.nombre  ,
+              imagen: item.producto.imagenMain || item.producto.imagen1,
+              precio: item.producto.precio,
+              cantidad: item.cantidad,
+              tallaSeleccionada: item.talla
+            })));
+            } catch (error) {
+              if (error.response && error.response.status === 404) {
+                console.warn("No existe carrito aún para este usuario. Se creará cuando agregue productos.");
+                setCarrito([]);
+              } else {
+                console.error("Error al obtener el carrito:", error);
+              }
+          } finally {
+            setHasFetched(true);
           }
         } else {
           navigate("/login");
@@ -46,23 +61,31 @@
       fetchCarrito();
   }, [setCarrito, navigate]);
 
-    useEffect(() => {
-      if (carrito.length > 0) {
-        const saveCarritoToDB = async () => {
-          const usuario = JSON.parse(localStorage.getItem("usuarioLogueado"));
-          if (usuario) {
-            try {
-              await axios.put(`http://localhost:3000/api/users/${usuario.id}/cart`, {
-                productos: carrito
-              });
-            } catch (error) {
-              console.error("Error al guardar el carrito:", error);
-            }
-          }
-        };
-        saveCarritoToDB();
-      }
-    }, [carrito]);
+  useEffect(() => {
+
+    if (!hasFetched) return;
+
+  const usuario = JSON.parse(localStorage.getItem("usuarioLogueado"));
+  if (!usuario) return;
+
+  if (carrito.length === 0) {
+    console.log(" Carrito vacío, no se sincroniza con DB.");
+    return;
+  }
+
+  const saveCarritoToDB = async () => {
+    try {
+      console.log(" Sincronizando carrito con DB:", carrito);
+      await axios.put(`http://localhost:3000/api/carrito/${usuario.id}`, {
+        productos: carrito,
+      });
+    } catch (error) {
+      console.error(" Error al guardar el carrito:", error);
+    }
+  };
+
+  saveCarritoToDB();
+  }, [carrito, hasFetched]);
     // Calcula productos agrupados en cada render
     const productosAgrupados = agruparProductos(carrito);
 
@@ -152,7 +175,6 @@
         return;
       }
 
-
       try {
         const fechaActual = new Date().toISOString();
         const productos = productosAgrupados.map(p => ({
@@ -162,14 +184,6 @@
           talla: p.tallaSeleccionada || null
         }));
 
-        const response = await axios.post("http://localhost:3000/api/orders", {
-          userId: usuario.id,
-          productos,
-          total: totalPrecio,
-          fecha: fechaActual,
-          estado: "pendiente"
-        });
-
         alert("Orden realizada exitosamente");
         setCarrito([]);
         localStorage.removeItem("carrito");
@@ -178,7 +192,30 @@
         console.error("Error al crear la orden", error);
         alert("Error al crear la orden. Intenta nuevamente.");
       }
+
+      navigate("/checkout");
     };  
+
+    const handleEliminarProducto = async (id, tallaSeleccionada) => {
+      const usuario = JSON.parse(localStorage.getItem("usuarioLogueado"));
+      if (!usuario) return;
+
+      const confirmar = window.confirm("¿Estás seguro de que deseas eliminar este producto?");
+      if (!confirmar) return;
+
+      try {
+        await axios.delete(`http://localhost:3000/api/carrito/${usuario.id}/${id}`, {
+          data: { talla: tallaSeleccionada }
+        });
+
+        setCarrito(prev =>
+          prev.filter(item => !(item.id === id && item.tallaSeleccionada === tallaSeleccionada))
+        );
+      } catch (error) {
+        console.error("Error al eliminar el producto del carrito:", error);
+        alert("No se pudo eliminar el producto");
+      }
+    };
 
     return (
       <div className="carrito-page">
@@ -243,7 +280,7 @@
                     <div style={{ display: "flex", gap: 8 }}>
                       <button
                         className="carrito-eliminar-btn"
-                        onClick={() => eliminarCantidad(prod.id, prod.tallaSeleccionada, prod.cantidad)}
+                        onClick={() => handleEliminarProducto(prod.id, prod.tallaSeleccionada)}
                       >
                         Eliminar
                       </button>
