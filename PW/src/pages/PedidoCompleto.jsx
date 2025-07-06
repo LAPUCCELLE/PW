@@ -46,7 +46,10 @@ const PedidoCompleto = () => {
 
   console.log("Items del pedido:", pedido.items);
 
-  const {items, direccion, monto, estado, envio } = pedido;
+  const { items, monto, estado, envio, shipping } = pedido;
+  const envioCosto = shipping?.metodoEnvio === "express" ? 15 : 5;
+  const subtotal = items.reduce((acc, item) => acc + item.precioUnit * item.cantidad, 0);
+  const total = subtotal + envioCosto;
 
   let fechaEntrega;
   if (!fechaEntrega) {
@@ -81,7 +84,7 @@ const PedidoCompleto = () => {
             <div className="pedido-completo-producto" key={idx}>
               <img
                 src={
-                  prod.producto.imagen || "https://via.placeholder.com/50"
+                  prod.producto.imagenMain || "https://via.placeholder.com/50"
                 }
                 alt={prod.producto.nombre || "Producto"}
                 style={{ width: 50, height: 50, objectFit: "cover", marginRight: 10 }}
@@ -102,11 +105,11 @@ const PedidoCompleto = () => {
         <div className="pedido-completo-card resumen">
           <div className="resumen-row">
             <span>PRODUCTOS ({items.length})</span>
-            <span>S/ {monto.toFixed(2)}</span>
+            <span>S/ {subtotal.toFixed(2)}</span>
           </div>
           <div className="resumen-row green">
-            <span>ENTREGA ({envio === "express" ? "Express" : "Normal"})</span>
-            <span>S/ {envio === "express" ? 15 : 5}</span>
+            <span>ENTREGA ({shipping?.metodoEnvio === "express" ? "Express" : "Normal"})</span>
+            <span>S/ {envioCosto.toFixed(2)}</span>
           </div>
           <div className="resumen-row red">
             <span>DESCUENTOS</span>
@@ -115,14 +118,14 @@ const PedidoCompleto = () => {
           <hr />
           <div className="resumen-row total">
             <span>TOTAL</span>
-            <span>S/ {(monto + (envio === "express" ? 15 : 5)).toFixed(2)}</span>
+            <span>S/ {total.toFixed(2)}</span>
           </div>
           <div className="direccion-envio">
             <h4>Dirección de envío</h4>
             <p>
-              {direccion.direccion || "Dirección no disponible"}<br />
-              {direccion.departamento || ""} - {direccion.provincia || ""} - {direccion.distrito || ""}<br />
-              Celular: {direccion.celular || ""}
+              {shipping?.direccion || "Dirección no disponible"}<br />
+              {shipping?.departamento || ""} - {shipping?.provincia || ""} - {shipping?.distrito || ""}<br />
+              
             </p>
             <p>
               Fecha de entrega: <b>{fechaEntrega}</b>

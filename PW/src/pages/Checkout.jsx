@@ -4,6 +4,7 @@ import departamentos from "../data/ubigeo_peru_2016_departamentos.json";
 import provincias from "../data/ubigeo_peru_2016_provincias.json";
 import distritos from "../data/ubigeo_peru_2016_distritos.json";
 import { useCarrito } from "../components/CarritoContext";
+import axios from "axios";  
 import "../checkout.css";
 
 const Checkout = () => {
@@ -41,6 +42,8 @@ const Checkout = () => {
   const subtotal = cartItems.reduce((acc, item) => acc + item.precio * item.cantidad, 0);
   const envio = metodoEnvio === "express" ? 15 : 5;
   const total = subtotal + envio;
+
+
 
   useEffect(() => {
     if (departamentoSeleccionado) {
@@ -100,10 +103,18 @@ const Checkout = () => {
     };
 
     try {
+
+      console.log("Datos enviados al backend:", {
+        userId: usuario.id,
+        productos: cartItems,
+        total,
+        direccion: direccionEnvio,
+        metodoPago,
+        metodoEnvio
+      });
       // Hacer la solicitud POST para crear la orden en el backend
       const response = await axios.post('http://localhost:3000/api/orders', {
         userId: usuario.id,
-        productos: cartItems,
         total: total,
         direccion: direccionEnvio,  // Enviar dirección
         metodoPago,
@@ -117,6 +128,7 @@ const Checkout = () => {
       // Redirigir al usuario a la página de detalles del pedido
       navigate(`/pedido-completo/${id}`);
     } catch (error) {
+      console.error("Error al crear orden:", error.response?.data || error.message);
       setError("Hubo un problema al crear la orden");
     }
 
