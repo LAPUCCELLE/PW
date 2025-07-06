@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
@@ -35,6 +34,7 @@ export default function OrderDetail() {
           ).filter(Boolean);
           setProductos(productosComprados);
         }
+
         setLoading(false);
       })
       .catch(() => {
@@ -46,7 +46,7 @@ export default function OrderDetail() {
   if (loading) return <p>Cargando orden...</p>;
   if (error) return <p className="order-detail-container">{error}</p>;
   if (!order) return <p className="order-detail-container">Orden no encontrada</p>;
-  
+
   return (
     <div className="order-detail-container">
       <div className="order-detail-title">Detalle de Orden</div>
@@ -54,32 +54,26 @@ export default function OrderDetail() {
         <tbody>
           <tr>
             <th>ID</th>
-            <td>{orden.id}</td>
+            <td>{order.id}</td>
           </tr>
           <tr>
             <th>Usuario</th>
-            <td>{orden.usuario?.nombre : "Usuario desconocido"}</td>
+            <td>{user?.nombre || "Usuario desconocido"}</td>
           </tr>
           <tr>
             <th>Fecha</th>
-            <td>{orden.fecha}</td>
+            <td>{order.fecha}</td>
           </tr>
           <tr>
             <th>Productos</th>
             <td>
-              {productos && productos.length > 0 ? (
-                <ul style={{listStyle: "none", paddingLeft: 0, margin: 0}}>
+              {productos.length > 0 ? (
+                <ul style={{ listStyle: "none", paddingLeft: 0, margin: 0 }}>
                   {productos.map(prod => (
                     <li key={prod.id} style={{ display: "flex", alignItems: "center", marginBottom: 8 }}>
-
-              {orden.items && orden.items.length > 0 ? (
-                <ul style={{listStyle: "none", paddingLeft: 0, margin: 0}}>
-                  {orden.items.map(item => (
-                    <li key={item.id} style={{ display: "flex", alignItems: "center", marginBottom: 8 }}>
-
                       <img
-                        src={item.producto?.imagenMain}
-                        alt={item.producto?.nombre}
+                        src={prod.imagenMain}
+                        alt={prod.nombre}
                         style={{
                           width: 36,
                           height: 36,
@@ -100,7 +94,12 @@ export default function OrderDetail() {
           </tr>
           <tr>
             <th>Total</th>
-            <td style={{ background: "#f3fcf5", color: "#16a34a", fontWeight: "bold", fontSize: "1.2rem" }}>
+            <td style={{
+              background: "#f3fcf5",
+              color: "#16a34a",
+              fontWeight: "bold",
+              fontSize: "1.2rem"
+            }}>
               S/. {order.total?.toFixed(2) || "0.00"}
             </td>
           </tr>

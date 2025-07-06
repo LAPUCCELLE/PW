@@ -91,7 +91,7 @@ export default function OrderList() {
               <tr key={order.id}>
                 <td>{order.id}</td>
                 <td>{order.userName}</td>
-                <td>{order.date></td>
+                <td>{order.date}</td>
                 <td>S/. {order.total.toFixed(2)}</td>
                 <td>
                   {order.entregada
