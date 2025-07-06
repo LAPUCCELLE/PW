@@ -1,10 +1,10 @@
 import React from "react";
 import {Outlet, Link } from 'react-router-dom';
-import productos from "../data/productosMujer";
+import UseProductos from "../hooks/UseProductos";
 import "../casacas.css";
 
 const Casacas = () => {
-
+    const productos = UseProductos("mujer");
     const casacas = productos.filter(p => p.tipo === "casacas");
 
     return (

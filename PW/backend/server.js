@@ -31,6 +31,7 @@ app.get('/api/usuarios', async (req,res) => {
     }
 })
 
+
 // DETALLE DE USUARIO POR ID
 app.get('/api/usuarios/:id', async (req, res) => {
     try {

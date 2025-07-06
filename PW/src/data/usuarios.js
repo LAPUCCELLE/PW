@@ -1,4 +1,4 @@
-const usuarios = [
+/*const usuarios = [
   {
     id: "1",
     nombre: "Admin Master",
@@ -108,4 +108,4 @@ const usuarios = [
   }
 ];
 
-export default usuarios;
+export default usuarios;*/

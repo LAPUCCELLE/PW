@@ -1,4 +1,4 @@
-const orders = [
+/*const orders = [
   {
     id: "101",
     userId: "1",
@@ -49,4 +49,4 @@ const orders = [
   }
 ];
 
-export default orders;
+export default orders;*/

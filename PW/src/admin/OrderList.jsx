@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
@@ -10,6 +11,7 @@ export default function OrderList() {
   const [orders, setOrders] = useState([]);
   const [usuarios, setUsuarios] = useState([]);
   const [searchId, setSearchId] = useState("");
+
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -32,7 +34,8 @@ export default function OrderList() {
   if (loading) return <p>Cargando órdenes...</p>;
   if (error) return <p>{error}</p>;
 
-  // Relaciona cada orden con el nombre del usuario
+
+  //Relaciona cada orden con el nombre del usuario
   const ordersWithUser = orders.map(order => {
     const user = usuarios.find(u => u.id === order.userId);
     return {
@@ -88,7 +91,7 @@ export default function OrderList() {
               <tr key={order.id}>
                 <td>{order.id}</td>
                 <td>{order.userName}</td>
-                <td>{order.date}</td>
+                <td>{order.date></td>
                 <td>S/. {order.total.toFixed(2)}</td>
                 <td>
                   {order.entregada
