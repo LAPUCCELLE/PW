@@ -46,7 +46,7 @@ export default function OrderList() {
 
   // Filtra por el texto en la barra de búsqueda
   const ordersFiltradas = ordersWithUser.filter(order =>
-    order.id.includes(searchId.trim())
+    order.id.toString().includes(searchId.trim())
   );
 
   return (
@@ -91,8 +91,14 @@ export default function OrderList() {
               <tr key={order.id}>
                 <td>{order.id}</td>
                 <td>{order.userName}</td>
-                <td>{order.date}</td>
-                <td>S/. {order.total.toFixed(2)}</td>
+                <td>{new Date(order.fecha).toLocaleDateString("es-PE", {
+                  day: "2-digit",
+                  month: "2-digit",
+                  year: "numeric",
+                  hour: "2-digit",
+                  minute: "2-digit"
+                })}</td>
+                <td>S/. {(Number(order.monto) || 0).toFixed(2)}</td>
                 <td>
                   {order.entregada
                     ? <span className="estado-entregada">Entregada</span>

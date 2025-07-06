@@ -125,6 +125,76 @@ app.put("/api/usuarios/:id/cambiar-password", async (req,res) => {
     }
 });
 
+//CREAR UN PRODUCTO
+app.post('/api/productos', async (req, res) => {
+    try {
+        const {
+            nombre,
+            precio,
+            categoria,
+            color,
+            talla,
+            tipo,
+            stock,
+            imagenMain,
+            imagen1,
+            imagen2,
+            imagen3,
+            descripcion
+        } = req.body;
+
+        const nuevo = await Producto.create({
+            nombre,
+            precio,
+            categoria,
+            color,
+            talla,
+            tipo,
+            stock,
+            imagenMain,
+            imagen1,
+            imagen2,
+            imagen3,
+            descripcion
+        });
+
+        res.status(201).json(nuevo);
+    } catch (error) {
+        res.status(500).json({ error: "Error al crear producto", detalle: error.message });
+    }
+});
+//ELIMINAR UN PRODUCTO
+app.delete('/api/productos/:id', async (req, res) => {
+    try {
+        const producto = await Producto.findByPk(req.params.id);
+        if (!producto) return res.status(404).json({ error: "Producto no encontrado" });
+        await producto.destroy();
+        res.json({ mensaje: "Producto eliminado" });
+    } catch (error) {
+        res.status(500).json({ error: "Error al eliminar producto", detalle: error.message });
+    }
+});
+
+//EDITAR UN PRODUCTO
+app.put('/api/productos/:id', async (req, res) => {
+    try {
+        const producto = await Producto.findByPk(req.params.id);
+        if (!producto) return res.status(404).json({ error: "Producto no encontrado" });
+
+        const { nombre, precio, imagenMain, categoria } = req.body;
+        producto.nombre = nombre;
+        producto.precio = precio;
+        producto.imagenMain = imagenMain;
+        producto.categoria = categoria;
+        await producto.save();
+
+        res.json(producto);
+    } catch (error) {
+        res.status(500).json({ error: "Error al actualizar producto", detalle: error.message });
+    }
+});
+
+
 //CREAR UNA NUEVA ORDEN
 // En el backend (POST /api/orders)
 app.post("/api/orders", async (req, res) => {
