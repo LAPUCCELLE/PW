@@ -1,6 +1,7 @@
   import React, { useState, useEffect } from 'react';
   import {Link, useNavigate } from 'react-router-dom';
   import { useCarrito } from '../components/CarritoContext';
+
   import axios from "axios";
   import "../carrito.css";
 
@@ -22,7 +23,7 @@
 
   const Carrito = () => {
     const [hasFetched, setHasFetched] = useState(false);
-    const { carrito, setCarrito } = useCarrito();
+    const { carrito, setCarrito, eliminarDelCarrito, agregarAlCarrito } = useCarrito();
     const navigate = useNavigate();
     const [guardados, setGuardados] = useState(
       //JSON.parse(localStorage.getItem("guardadosDespues")) || []
@@ -61,7 +62,7 @@
       fetchCarrito();
   }, [setCarrito, navigate]);
 
-  useEffect(() => {
+  /*useEffect(() => {
 
     if (!hasFetched) return;
 
@@ -85,7 +86,7 @@
   };
 
   saveCarritoToDB();
-  }, [carrito, hasFetched]);
+  }, [carrito, hasFetched]);*/
     // Calcula productos agrupados en cada render
     const productosAgrupados = agruparProductos(carrito);
 
@@ -147,9 +148,10 @@
     // Mover a guardados
     const moverAGuardados = (prod) => {
       syncGuardados([...guardados, prod]);
-      setCarrito(prev =>
+      /*setCarrito(prev =>
         prev.filter(item => !(item.id === prod.id && item.tallaSeleccionada === prod.tallaSeleccionada))
-      );
+      );*/
+      eliminarDelCarrito(id, tallaSeleccionada);
     };
 
     // Regresar del guardado
@@ -208,9 +210,10 @@
           data: { talla: tallaSeleccionada }
         });
 
-        setCarrito(prev =>
+        /*setCarrito(prev =>
           prev.filter(item => !(item.id === id && item.tallaSeleccionada === tallaSeleccionada))
-        );
+        );*/
+        eliminarDelCarrito(id,tallaSeleccionada);
       } catch (error) {
         console.error("Error al eliminar el producto del carrito:", error);
         alert("No se pudo eliminar el producto");
