@@ -16,27 +16,18 @@ export default function OrderDetail() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    Promise.all([
-      axios.get(`${API_ORDERS}/${id}`),
-      axios.get(API_USERS),
-      axios.get(API_PRODUCTS)
-    ])
-      .then(([orderRes, usersRes, productsRes]) => {
-        const foundOrder = orderRes.data;
-        setOrder(foundOrder);
-
-        const usuario = usersRes.data.find(u => u.id === foundOrder.userId);
-        setUser(usuario);
-
-        if (foundOrder && Array.isArray(foundOrder.productos)) {
-          const productosComprados = foundOrder.productos.map(pid =>
-            productsRes.data.find(p => p.id === pid)
-          ).filter(Boolean);
-          setProductos(productosComprados);
-        }
-
-        setLoading(false);
-      })
+    axios.get(`${API_ORDERS}/${id}`).then(res => {
+      const foundOrder = res.data;
+      setOrder(foundOrder);
+      setUser(foundOrder.usuario);
+      const productos = foundOrder.items.map(item => ({
+        ...item.producto,
+        cantidad: item.cantidad,
+        precioUnit: item.precioUnit
+      }));
+      setProductos(productos);
+      setLoading(false);
+    })
       .catch(() => {
         setError("Orden no encontrada");
         setLoading(false);
@@ -100,7 +91,7 @@ export default function OrderDetail() {
               fontWeight: "bold",
               fontSize: "1.2rem"
             }}>
-              S/. {order.total?.toFixed(2) || "0.00"}
+              S/. {order.monto?.toFixed(2) || "0.00"}
             </td>
           </tr>
         </tbody>

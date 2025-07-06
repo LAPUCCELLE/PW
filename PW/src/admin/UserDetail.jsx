@@ -21,7 +21,7 @@ export default function UserDetail() {
       .catch(() => setError("Usuario no encontrado"));
 
     axios.get(API_ORDERS)
-      .then(res => setUserOrders(res.data.filter(o => o.userId === id)))
+      .then(res => setUserOrders(res.data.filter(o => o.userId === Number(id))))
       .catch(() => {});
 
     setLoading(false);
@@ -41,7 +41,7 @@ export default function UserDetail() {
           <h1 className="user-detail-name">{user.nombre}</h1>
           <p>
             <b>Correo:</b>{" "}
-            <a href={`mailto:${user.correo}`}>{usuario.correo}</a>
+            <a href={`mailto:${user.correo}`}>{user.correo}</a>
           </p>
           <p><b>Rol:</b> {user.rol}</p>
           <p><b>Fecha de registro:</b> {new Date(user.fechaRegistro).toLocaleDateString()}</p>
@@ -64,7 +64,7 @@ export default function UserDetail() {
           </tr>
         </thead>
         <tbody>
-          {ordenes.length === 0 && (
+          {userOrders.length === 0 && (
             <tr>
               <td colSpan={4} style={{ textAlign: "center", color: "#888" }}>
                 No hay órdenes recientes
@@ -78,8 +78,8 @@ export default function UserDetail() {
                     #{order.id}
                   </Link>
                 </td>
-                <td>{order.date}</td>
-                <td>S/.{order.total?.toFixed(2) || "0.00"}</td>
+                <td>{new Date(order.fecha).toLocaleDateString()}</td>
+                <td>S/.{order.monto?.toFixed(2) || "0.00"}</td>
                 <td>
                   <Link to={`/admin/orders/${order.id}`} className="user-order-btn">
                     Ver detalle
